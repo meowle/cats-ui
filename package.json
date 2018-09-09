@@ -7,14 +7,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon index.js"
+    "start-ui": "nodemon ui.js",
+    "start-api": "nodemon api.js",
+    "start": "concurrently \"npm:start-ui\" \"npm:start-api\""
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "node-fetch": "^2.2.0",
+    "pug": "^2.0.3"
   },
   "devDependencies": {
+    "concurrently": "^4.0.1",
     "nodemon": "^1.18.4"
   }
 }

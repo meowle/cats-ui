@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Document
+    link(rel='stylesheet', href='/css/bulma.min.css')
+    link(rel='stylesheet', href='/css/fontawesome.all.min.css')
+    style.
+      html, body {
+      height: 100%;
+      }
+  body
+    section.section(style='height: 100%')
+      .container(style='height: 100%')
+        p.title.has-text-centered
+          | Подберите имя котику!
+        .columns.is-desktop.is-vcentered(style='height: 100%')
+          .column
+            form.field.has-addons(method='POST', action='/search')
+              .control(style='width: 100%')
+                input.input(type='text', placeholder='Введите часть имени кота', name='needle')
+              .control
+                button.button.is-info(type='submit')
+                  span.icon
+                    i.fas.fa-search
