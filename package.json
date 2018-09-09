@@ -1,0 +1,19 @@
+{
+  "name": "cat-names",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Nasyalnik/cat-names.git",
+  "author": "Aseeva Nastya <aaseeva@alfabank.ru>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
