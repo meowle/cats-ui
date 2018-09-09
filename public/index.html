@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/css/bulma.min.css" />
+    <link rel="stylesheet" href="/css/fontawesome.all.min.css" />
 </head>
+
 <body>
-    Привет!
+    <section class="section">
+        <div class="container">
+            <form method="POST" action="/api/search">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Введите часть имени кота">
+                    </div>
+                    <div class="control">
+                        <a class="button is-info">
+                            <span class="icon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
+
 </html>
