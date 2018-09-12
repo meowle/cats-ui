@@ -25,4 +25,17 @@ app.post('/api/search', function (req, res) {
     });
 })
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+app.post('/api/add', function (req, res) {
+    db.insert({
+        _id: req.body.needle.toLowerCase(),
+        name: capitalizeFirstLetter(req.body.needle)
+    }, function (err, newDoc) {
+        res.json(newDoc);
+    });
+});
+
 app.listen(3001);

@@ -31,14 +31,41 @@ app.post('/search', function (req, res) {
       return res.json();
     })
     .then(function (json) {
+      if (json.names.length == 0) {
+        res.render('no-result', {
+          needle
+        });
+      } else {
+        res.render('results', {
+          names: json.names,
+          needle
+        });
+      }
+
+    });
+});
+
+
+app.post('/add', function (req, res) {
+  const needle = req.body.needle;
+
+  fetch('http://localhost:3001/api/add', {
+      method: 'post',
+      body: JSON.stringify({
+        needle
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(function() {
       res.render('results', {
-        names: json.names,
+        names: [needle],
         needle
       });
     });
-
-  // get search result
-  // render pge
 });
+
+
 
 app.listen(3000);
