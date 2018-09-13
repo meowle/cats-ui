@@ -19,8 +19,32 @@ app.post('/api/search', function (req, res) {
         const names = docs.map(function (doc) {
             return doc.name;
         });
+        const groups = {};
+        for (let i = 0; i < names.length; i++) {
+            const name = names[i];
+            const title = name.charAt(0);
+            if (groups[title] == null) {
+                groups[title] = [name];
+            } else {
+                groups[title].push(name);
+            }
+        }
+        const keys = Array.from(Object.keys(groups)).sort();
+        const sorterGroups = [];
+        let count = 0;
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            const group = {
+                title: key,
+                names: groups[key].sort(),
+                count: groups[key].length
+            };
+            sorterGroups.push(group);
+            count = count + group.count;
+        }
         res.json({
-            names
+            groups: sorterGroups,
+            count
         });
     });
 })

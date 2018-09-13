@@ -10,7 +10,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
 app.get('/', function (req, res) {
   res.render('index');
 });
@@ -31,13 +30,14 @@ app.post('/search', function (req, res) {
       return res.json();
     })
     .then(function (json) {
-      if (json.names.length == 0) {
+      if (json.groups.length == 0) {
         res.render('no-result', {
           needle
         });
       } else {
         res.render('results', {
-          names: json.names,
+          groups: json.groups,
+          count: json.count,
           needle
         });
       }
@@ -60,7 +60,12 @@ app.post('/add', function (req, res) {
     })
     .then(function() {
       res.render('results', {
-        names: [needle],
+        groups: [{
+          title: needle.charAt(0),
+          names: [needle],
+          count: 1
+        }],
+        count: 1,
         needle
       });
     });

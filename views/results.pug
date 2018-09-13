@@ -21,7 +21,17 @@ html(lang='en')
                     i.fas.fa-search
       br
       .container
-        .tags
-          each val in names
-            span.tag.is-size-5= val
+        .control
+          .h2.subtitle= count
+      br
+      each group in groups
+        .container
+          .control
+            .h2.subtitle= group.title
+            .h2.subtitle= group.count
+          br  
+          .tags
+            each name in group.names
+              span.tag.is-size-5= name
+
                           
