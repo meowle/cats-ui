@@ -15,6 +15,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/search', function (req, res) {
+
   const needle = req.body.needle;
 
   fetch('http://localhost:3001/api/search', {
@@ -70,7 +71,5 @@ app.post('/add', function (req, res) {
       });
     });
 });
-
-
 
 app.listen(3000);
