@@ -25,10 +25,11 @@ html(lang='en')
     section.section
       .container
         .columns
-          .column.is-2
-            figure.image.is-64x64.is-pulled-right
-              img(src='/img/cat.png')
           .column
+            .level
+              .level-item
+                figure.image.is-64x64
+                  img(src='/img/weary-cat.png')
             form.field(method='POST', action='/add')
               .control.has-text-centered
                 .h2.subtitle
@@ -36,4 +37,7 @@ html(lang='en')
               br
               input(type='hidden', name='needle', value=needle)
               .control.has-text-centered
-                input.button.is-primary.is-medium(type='submit', value='Добавить ' + needle + ' в базу?')               
+                button.button.is-warning.is-medium(type='submit')               
+                  span Добавить&nbsp;
+                  span.has-text-weight-bold= needle
+                  span &nbsp;в базу?
