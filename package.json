@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start-ui": "nodemon ui.js",
-    "start-api": "nodemon api.js",
+    "start-ui": "nodemon src/ui/ui.js",
+    "start-api": "nodemon src/api/api.js",
     "start": "concurrently \"npm:start-ui\" \"npm:start-api\""
   },
   "dependencies": {

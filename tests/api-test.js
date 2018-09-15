@@ -1,12 +1,11 @@
+const names = require('../src/api/names');
+const namesDb = names('test.db');
 
 describe("searchPattern", () => {
-    test("should not search if the request is empty", () => {
+    test("should search if the query contains 1 char", () => {
       
     });
-    test("should search if the query contains 1 character", () => {
-      
-    });
-    test("should search if there are many characters in the request", () => {
+    test("should search if there are many chars in the request", () => {
       
     });
     test("should search if the query contains the numbers", () => {
