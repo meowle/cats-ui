@@ -9,10 +9,12 @@
   "scripts": {
     "start-ui": "nodemon src/ui/ui.js",
     "start-api": "nodemon src/api/api.js",
-    "start": "concurrently \"npm:start-ui\" \"npm:start-api\""
+    "start": "concurrently \"npm:start-ui\" \"npm:start-api\"",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "escape-regex-string": "^1.0.6",
     "express": "^4.16.3",
     "nedb": "^1.8.0",
     "node-fetch": "^2.2.0",

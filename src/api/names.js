@@ -1,4 +1,5 @@
 const Datastore = require('nedb');
+const escapeRegexString = require('escape-regex-string');
 
 function connectDb(dbPath) {
     const db = new Datastore({
@@ -9,7 +10,7 @@ function connectDb(dbPath) {
     return {
         searchNames(needle, callback) {
             const searchPattern = {
-                _id: new RegExp(needle.toLowerCase())
+                name: new RegExp(escapeRegexString(needle), 'i')
             };
         
             db.find(searchPattern, function (err, namesFound) {
@@ -41,6 +42,28 @@ function connectDb(dbPath) {
             };
         }
     };
+}
+
+function trimSymbols(name) {
+    let startIndex = 0;
+    for (let i = 0; i < name.length; i++) {
+        const symbol = name[i];
+        if (/[a - zA - Z]/.test(symbol)) {
+            startIndex = i;
+            break;
+        }
+    }
+
+    let endIndex = 0;
+    for (let i = name.length - 1; i >= 0; i--) {
+        const symbol = name[i];
+        if (/[a - zA - Z1-9]/.test(symbol)) {
+            endIndex = i;
+            break;
+        }
+    }
+
+    return name.substring(startIndex, endIndex + 1);
 }
 
 function groupByFirstLetter(names) {
@@ -87,4 +110,8 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-module.exports = connectDb;
+module.exports = {
+    connectDb,
+    trimSymbols,
+    capitalizeFirstLetter
+};

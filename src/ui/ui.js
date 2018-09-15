@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
+const names = require('../api/names');
 
 const app = express();
 
@@ -59,17 +60,23 @@ app.post('/add', function (req, res) {
         'Content-Type': 'application/json'
       },
     })
-    .then(function() {
-      res.render('results', {
-        groups: [{
-          title: needle.charAt(0),
-          names: [needle],
-          count: 1
-        }],
-        count: 1,
-        needle
-      });
+    .then(function () {
+      res.render('results', makeSingleResult(needle));
     });
 });
+
+function makeSingleResult(needle) {
+  const needleCap = names.capitalizeFirstLetter(needle);
+
+  return {
+    groups: [{
+      title: needleCap.charAt(0),
+      names: [needleCap],
+      count: 1
+    }],
+    count: 1,
+    needleCap
+  };
+}
 
 app.listen(3000);
