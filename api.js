@@ -13,37 +13,38 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/api/search', function (req, res) {
-    const searchPattern = {
-        _id: new RegExp(req.body.needle.toLowerCase())
-    };
-
-    db.find(searchPattern, function (err, namesFound) {
-        const names = namesFound.map(nameFound => nameFound.name);
-        const groups = groupByFirstLetter(names);
-        const keysSortedAlphabetically = Array.from(Object.keys(groups)).sort();
-        const sorterGroup = sortGroupAlphabetically(groups, keysSortedAlphabetically);
-        const count = countNames(sorterGroup);
-
-        res.json({
-            groups: sorterGroup,
-            count
-        });
+    searchNames(req.body.needle, function (namesFound) {
+        res.json(groupNamesAndSort(namesFound));
     });
 });
 
 app.post('/api/add', function (req, res) {
-    const newName = {
-        _id: req.body.needle.toLowerCase(),
-        name: capitalizeFirstLetter(req.body.needle)
-    };
-
-    db.insert(newName, function (err, insertedName) {
+    createNewName(req.body.needle, function (insertedName) {
         res.json(insertedName);
     });
 });
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+function searchNames(needle, callback) {
+    const searchPattern = {
+        _id: new RegExp(needle.toLowerCase())
+    };
+
+    db.find(searchPattern, function (err, namesFound) {
+        callback(namesFound);
+    });
+}
+
+function groupNamesAndSort(namesFound) {
+    const names = namesFound.map(nameFound => nameFound.name);
+    const groups = groupByFirstLetter(names);
+    const keysSortedAlphabetically = Array.from(Object.keys(groups)).sort();
+    const sorterGroup = sortGroupAlphabetically(groups, keysSortedAlphabetically);
+    const count = countNames(sorterGroup);
+
+    return {
+        groups: sorterGroup,
+        count
+    };
 }
 
 function groupByFirstLetter(names) {
@@ -84,6 +85,22 @@ function countNames(groups) {
         count = count + group.count;
     }
     return count;
+}
+
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function createNewName(needle, callback) {
+    const newName = {
+        _id: needle.toLowerCase(),
+        name: capitalizeFirstLetter(needle)
+    };
+
+    db.insert(newName, function (err, insertedName) {
+        callback(insertedName);
+    });
 }
 
 app.listen(3001);
