@@ -4,34 +4,40 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
-    title Document
+    title Meowle - #{needle}
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
   body
+    section.section.has-background-light
+      .container
+        .columns
+          .column.is-2
+            h1.is-size-3 meowle
+          .column
+            form.field.has-addons(method='POST', action='/search')
+              .control.is-expanded
+                input.input(type='text', placeholder='Введите часть имени кота', name='needle', value=needle, autocomplete='off')
+              .control
+                button.button(type='submit')
+                  span.icon
+                    i.fas.fa-search
+            p.is-size-7 Найдено имён: #{count}
+
     section.section
       .container
         .columns
+          .column.is-2
+            figure.image.is-64x64.is-pulled-right
+              img(src='/img/cat.png')
           .column
-            form.field.has-addons(method='POST', action='/search')
-              .control(style='width: 100%')
-                input.input(type='text', placeholder='Введите часть имени кота', name='needle', value=needle, autocomplete='off')
-              .control
-                button.button.is-info(type='submit')
-                  span.icon
-                    i.fas.fa-search
-      br
-      .container
-        .control
-          .h2.subtitle= count
-      br
-      each group in groups
-        .container
-          .control
-            .h2.subtitle= group.title
-            .h2.subtitle= group.count
-          br  
-          .tags
-            each name in group.names
-              span.tag.is-size-5= name
-
-                          
+            each group in groups
+              div
+                span.title.is-4 #{group.title}
+                span.is-pulled-right.has-text-grey.is-size-7 #{group.count}
+              br
+              div
+                .tags
+                  each name in group.names
+                    span.tag.is-size-5= name
+              hr
+                            
