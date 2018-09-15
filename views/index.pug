@@ -4,7 +4,7 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
-    title Document
+    title Meowle
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
     style.
@@ -14,14 +14,18 @@ html(lang='en')
   body
     section.section(style='height: 100%')
       .container(style='height: 100%')
-        p.title.has-text-centered
-          | Подберите имя котику!
-        .columns.is-desktop.is-vcentered(style='height: 100%')
-          .column
-            form.field.has-addons(method='POST', action='/search')
-              .control(style='width: 100%')
-                input.input(type='text', placeholder='Введите часть имени кота', name='needle')
-              .control
-                button.button.is-info(type='submit')
-                  span.icon
-                    i.fas.fa-search
+        .columns.is-mobile.is-vcentered(style='height: 100%')
+          .column.is-8.is-offset-2
+            .has-text-centered
+              h1(style='font-size: 8rem') meowle
+
+            form(method='POST', action='/search')
+              .field
+                .control(style='width: 100%')
+                  input.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
+              .field
+                .control.has-text-centered
+                  button.button.is-light(type='submit')
+                    span.icon
+                      i.fas.fa-search
+                    span Найти имя коту
