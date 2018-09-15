@@ -14,7 +14,7 @@ html(lang='en')
           .column
             form.field.has-addons(method='POST', action='/search')
               .control(style='width: 100%')
-                input.input(type='text', placeholder='Введите часть имени кота', name='needle', value=needle)
+                input.input(type='text', placeholder='Введите часть имени кота', name='needle', value=needle, autocomplete='off')
               .control
                 button.button.is-info(type='submit')
                   span.icon

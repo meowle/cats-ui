@@ -16,8 +16,12 @@ html(lang='en')
       .container(style='height: 100%')
         .columns.is-mobile.is-vcentered(style='height: 100%')
           .column.is-8.is-offset-2
-            .has-text-centered
-              h1(style='font-size: 8rem') meowle
+            .columns(style='margin-bottom: -1.5rem')
+              .column
+                h1(style='font-size: 6rem') meowle
+              .column
+                figure.image.is-128x128.is-pulled-right
+                  img(src='/img/cat.png')
 
             form(method='POST', action='/search')
               .field
