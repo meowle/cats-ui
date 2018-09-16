@@ -8,12 +8,13 @@
   "private": true,
   "scripts": {
     "start-ui": "nodemon src/ui/ui.js",
-    "start-api": "nodemon src/api/api.js",
+    "start-api": "nodemon src/api/start.js",
     "start": "concurrently \"npm:start-ui\" \"npm:start-api\"",
     "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "boom": "^7.2.0",
     "escape-regex-string": "^1.0.6",
     "express": "^4.16.3",
     "nedb": "^1.8.0",
@@ -24,6 +25,7 @@
     "concurrently": "^4.0.1",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4",
+    "supertest": "^3.3.0",
     "tmp": "^0.0.33"
   }
 }
