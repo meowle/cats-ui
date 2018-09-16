@@ -13,9 +13,7 @@ app.post('/api/search', function (req, res) {
 });
 
 app.post('/api/add', function (req, res) {
-    const trimmedName = req.body.needle.trim();
-    const trimmedSymbolName = names.trimSymbols(trimmedName);
-
+    
     namesDb.createNewName(trimmedSymbolName, function (insertedName) {
         res.json(insertedName);
     });

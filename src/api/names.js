@@ -19,9 +19,11 @@ function connectDb(dbPath) {
         },
 
         createNewName(needle, callback) {
+            const trimmedName = trimSymbols(needle);
+
             const newName = {
-                _id: needle.toLowerCase(),
-                name: capitalizeFirstLetter(needle)
+                _id: trimmedName.toLowerCase(),
+                name: capitalizeFirstLetter(trimmedName)
             };
         
             db.insert(newName, function (err, insertedName) {
@@ -48,7 +50,7 @@ function trimSymbols(name) {
     let startIndex = 0;
     for (let i = 0; i < name.length; i++) {
         const symbol = name[i];
-        if (/[a - zA - Z]/.test(symbol)) {
+        if (/[a-zA-Z]/.test(symbol)) {
             startIndex = i;
             break;
         }
@@ -57,7 +59,7 @@ function trimSymbols(name) {
     let endIndex = 0;
     for (let i = name.length - 1; i >= 0; i--) {
         const symbol = name[i];
-        if (/[a - zA - Z1-9]/.test(symbol)) {
+        if (/[a-zA-Z1-9]/.test(symbol)) {
             endIndex = i;
             break;
         }

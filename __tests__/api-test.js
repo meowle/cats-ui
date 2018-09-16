@@ -1,5 +1,19 @@
 const names = require('../src/api/names');
-const namesDb = names.connectDb('__tests__/test.db');
+const tmp = require('tmp');
+const path = require('path');
+const fs = require('fs');
+
+// const namesDb = names.connectDb('__tests__/test.db');
+
+let namesDb;
+
+beforeEach(() => {
+  const tmpdir = tmp.dirSync();
+  const dbPath = path.join(tmpdir.name, 'names.db');
+
+  fs.createReadStream('__tests__/test.db').pipe(fs.createWriteStream(dbPath));
+  namesDb = names.connectDb(dbPath);
+});
 
 describe("names search", () => {
 
@@ -67,75 +81,68 @@ describe("names search", () => {
   });
 });
 
+describe("trim symbols", () => {
+  test("should delete spaces", () => {
+    expect(names.trimSymbols('   abc   ')).toBe('abc');
+  });
+});
+
 describe("new name creation", () => {
 
   test("should capitalize first letter", (done) => {
-    namesDb.createNewName('assert', function () {
-      namesDb.searchNames('assert', function (names) {
-        expect(names[0].name).toBe('Assert');
+    namesDb.createNewName('reset', function () {
+      namesDb.searchNames('reset', function (names) {
+        expect(names[0].name).toBe('Reset');
         done();
       });
     });
   });
 
   test("should trim special chars surrounding name", (done) => {
-    namesDb.createNewName('&*assert///', function () {
-      namesDb.searchNames('assert', function (names) {
-        expect(names[0].name).toBe('Assert');
+    namesDb.createNewName('&*bnbn///', function () {
+      namesDb.searchNames('bnbn', function (names) {
+        expect(names[0].name).toBe('Bnbn');
         done();
       });
     });
   });
 
-  test("should remove the spaces surrounding name", () => {
-  });
+  test("should remove the spaces surrounding name", () => {});
 
-  test("should remove numbers only at beginning of names", () => {
-  });
+  test("should remove numbers only at beginning of names", () => {});
 
 });
 
 describe("names grouping by first letter", () => {
 
-  test("should use for the group title only 1 capitalized first letter of names", () => {
-  });
+  test("should use for the group title only 1 capitalized first letter of names", () => {});
 
-  test("should return an empty array of groups if nothing was found", () => {
-  });  
+  test("should return an empty array of groups if nothing was found", () => {});
 
-  test("should return non-empty groups in an array", () => {
-  });  
-  
-  test("groups must contain all elements from the search result", () => {
-  });  
+  test("should return non-empty groups in an array", () => {});
+
+  test("groups must contain all elements from the search result", () => {});
 
 });
 
 describe("groups and names sorting", () => {
 
-  test("should sort the groups alphabetically", () => {
-  });
+  test("should sort the groups alphabetically", () => {});
 
-  test("should firstly sort by numbers then by letters", () => {
-  });  
+  test("should firstly sort by numbers then by letters", () => {});
 
-  test("should firstly sort by Latin letters then by Cyrillic", () => {
-  });  
-  
-  test("groups sort names alphabetically in the group", () => {
-  });  
+  test("should firstly sort by Latin letters then by Cyrillic", () => {});
+
+  test("groups sort names alphabetically in the group", () => {});
 
 });
 
 describe("names counting", () => {
 
-  test("should return the count of names in groups", () => {
-  });
+  test("should return the count of names in groups", () => {});
 
-  test("should return the overall count of names in search result", () => {
-  });
+  test("should return the overall count of names in search result", () => {});
 
-  test("should not return the count of names if the group is empty", () => {
-  });
+  test("should not return the count of names if the group is empty", () => {});
 
 });
