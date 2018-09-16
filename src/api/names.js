@@ -34,8 +34,7 @@ function connectDb(dbPath) {
         groupNamesAndSort(namesFound) {
             const names = namesFound.map(nameFound => nameFound.name);
             const groups = groupByFirstLetter(names);
-            const keysSortedAlphabetically = Array.from(Object.keys(groups)).sort();
-            const sorterGroup = sortGroupAlphabetically(groups, keysSortedAlphabetically);
+            const sorterGroup = sortGroupAlphabetically(groups);
             const count = countNames(sorterGroup);
         
             return {
@@ -72,7 +71,7 @@ function groupByFirstLetter(names) {
     const groups = {};
 
     for (let i = 0; i < names.length; i++) {
-        const name = names[i];
+        const name = capitalizeFirstLetter(names[i]);
         const title = name.charAt(0);
 
         if (groups[title] == null) {
@@ -85,8 +84,10 @@ function groupByFirstLetter(names) {
     return groups;
 }
 
-function sortGroupAlphabetically(groups, keysSortedAlphabetically) {
+function sortGroupAlphabetically(groups) {
+    const keysSortedAlphabetically = Array.from(Object.keys(groups)).sort();
     const sorterGroup = [];
+
     for (let i = 0; i < keysSortedAlphabetically.length; i++) {
         const key = keysSortedAlphabetically[i];
         const group = {
@@ -95,6 +96,7 @@ function sortGroupAlphabetically(groups, keysSortedAlphabetically) {
         };
         sorterGroup.push(group);
     }
+    
     return sorterGroup;
 }
 
@@ -115,5 +117,6 @@ function capitalizeFirstLetter(string) {
 module.exports = {
     connectDb,
     trimSymbols,
-    capitalizeFirstLetter
+    capitalizeFirstLetter,
+    sortGroupAlphabetically
 };
