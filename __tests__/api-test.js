@@ -97,7 +97,7 @@ describe("new name creation", () => {
 
 describe("names grouping by first letter", () => {
 
-  test("group names should be first letter of all names in group", () => {
+  test("should use names capitalized first letters as group title", () => {
   });
 
   test("should return an empty array of groups if nothing was found", () => {
