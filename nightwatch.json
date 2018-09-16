@@ -1,0 +1,25 @@
+{
+    "src_folders": ["__tests__/e2e/specs"],
+    "output_folder": "reports",
+    "globals_path": "__tests__/e2e/globals.js",
+
+    "selenium": {
+        "start_process": false
+    },
+
+    "test_settings": {
+        "default": {
+            "selenium_port": 9515,
+            "selenium_host": "localhost",
+            "default_path_prefix": "",
+
+            "desiredCapabilities": {
+                "browserName": "chrome",
+                "chromeOptions": {
+                    "args": ["--window-size=640,1136"]
+                },
+                "acceptSslCerts": true
+            }
+        }
+    }
+}

@@ -10,7 +10,8 @@
     "start-ui": "nodemon src/ui/start.js",
     "start-api": "nodemon src/api/start.js",
     "start": "concurrently \"npm:start-ui\" \"npm:start-api\"",
-    "test": "jest"
+    "test": "jest",
+    "e2e": "nightwatch -c nightwatch.json"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -22,8 +23,10 @@
     "pug": "^2.0.3"
   },
   "devDependencies": {
+    "chromedriver": "^2.41.0",
     "concurrently": "^4.0.1",
     "jest": "^23.6.0",
+    "nightwatch": "^0.9.21",
     "nock": "^10.0.0",
     "nodemon": "^1.18.4",
     "supertest": "^3.3.0",
