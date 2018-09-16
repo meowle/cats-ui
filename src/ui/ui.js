@@ -16,37 +16,16 @@ app.get('/', function (req, res) {
 });
 
 app.post('/search', function (req, res) {
-
   const needle = req.body.needle;
 
-  fetch('http://localhost:3001/api/search', {
-      method: 'post',
-      body: JSON.stringify({
-        needle
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
+  searchName(needle)
+    .then(function(json) {
+      return renderSearchResult(json, needle);
     })
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (json) {
-      if (json.groups.length == 0) {
-        res.render('no-result', {
-          needle
-        });
-      } else {
-        res.render('results', {
-          groups: json.groups,
-          count: json.count,
-          needle
-        });
-      }
-
+    .then(function(renderResult) {
+      res.render(renderResult.template, renderResult.context);
     });
 });
-
 
 app.post('/add', function (req, res) {
   const needle = req.body.needle;
@@ -65,6 +44,41 @@ app.post('/add', function (req, res) {
     });
 });
 
+function searchName(needle) {
+  return fetch('http://localhost:3001/api/search', {
+      method: 'post',
+      body: JSON.stringify({
+        needle
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(function (res) {
+      return res.json();
+    });
+}
+
+function renderSearchResult(json, needle) {
+  if (json.groups.length == 0) {
+    return {
+      template: 'no-result',
+      context: {
+        needle
+      }
+    };
+  } else {
+    return {
+      template: 'results',
+      context: {
+        groups: json.groups,
+        count: json.count,
+        needle
+      }
+    };
+  }
+}
+
 function makeSingleResult(needle) {
   const needleCap = names.capitalizeFirstLetter(needle);
 
@@ -75,7 +89,7 @@ function makeSingleResult(needle) {
       count: 1
     }],
     count: 1,
-    needleCap
+    needle
   };
 }
 
