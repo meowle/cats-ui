@@ -94,3 +94,48 @@ describe("create new name", () => {
   });
 
 });
+
+describe("Grouping names by capital letter", () => {
+
+  test("should contain in the group title one capital letter of names", () => {
+  });
+
+  test("should give an empty array of groups, if nothing was found", () => {
+  });  
+
+  test("should return non-empty groups in an array", () => {
+  });  
+  
+  test("groups must contain all elements from the search result", () => {
+  });  
+
+});
+
+describe("Sorting groups and names alphabetically", () => {
+
+  test("should sort the groups alphabetically", () => {
+  });
+
+  test("must first be sorted by numbers, and followed by letters", () => {
+  });  
+
+  test("should sort the letters first Latin, then Cyrillic", () => {
+  });  
+  
+  test("groups sort alphabetically the names in the group", () => {
+  });  
+
+});
+
+describe("Counting the number of names", () => {
+
+  test("should return the count of names in the group", () => {
+  });
+
+  test("should return the count of names as a result of a search", () => {
+  });
+
+  test("do not return the count of names if the group is empty", () => {
+  });
+
+});
