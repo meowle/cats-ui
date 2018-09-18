@@ -10,7 +10,11 @@
     "start-ui": "nodemon src/ui/start.js",
     "start-api": "nodemon src/api/start.js",
     "start": "concurrently \"npm:start-ui\" \"npm:start-api\"",
-    "test": "jest"
+    "test": "jest",
+    "selenium:install": "selenium-standalone install",
+    "selenium:start": "selenium-standalone start",
+    "selenium": "npm run selenium:install && npm run selenium:start",
+    "e2e": "codeceptjs run --steps"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
