@@ -7,7 +7,10 @@ html(lang='en')
     title Meowle - #{needle}
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
+    
+    script(type='text/javascript', src='/js/popup.js')
   body
+    input(type='hidden', value=showPopup)
     section.section.has-background-light
       .container
         .columns

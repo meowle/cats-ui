@@ -5,7 +5,7 @@ const assert = require("assert");
 
 const I = actor();
 
-Given("пользователь открыл страниц {string}", url => {
+Given("пользователь открыл страницy {string}", url => {
   I.amOnPage(url);
 });
 
@@ -15,6 +15,14 @@ Given("ввёл в поле поиска {string}", needle => {
 
 When("он нажимает на кнопку поиска", () => {
   I.click("button[type=submit]");
+});
+
+When("пользователь нажмет на кнопку добавления", () => {
+  I.click("button.button-search");
+});
+
+When ("откроется страница {string}", () => {
+  I.see('Упс! Ничего не нашли');
 });
 
 Then(
@@ -53,6 +61,11 @@ Then(
     assert.deepStrictEqual(searchResult, groupsFromApi.groups);
   }
 );
+
+Then("он увидит popup-сообщение с текстом {string}", () => {
+I.waitForVisible('css=modal');
+});
+
 
 async function searchNamesByApi(needle) {
   const apiResponse = await fetch("http://localhost:3001/api/search", {
