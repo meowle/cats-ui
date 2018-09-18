@@ -9,7 +9,7 @@ Given("пользователь открыл страниц {string}", url => {
   I.amOnPage(url);
 });
 
-Given("пользователь ввёл в поле поиска {string}", needle => {
+Given("ввёл в поле поиска {string}", needle => {
   I.fillField("input[name=needle]", needle);
 });
 
