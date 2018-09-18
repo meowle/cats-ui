@@ -6,9 +6,6 @@
       "browser": "chrome"
     }
   },
-  "include": {
-    "I": "./codecept/steps.js"
-  },
   "mocha": {},
   "bootstrap": false,
   "teardown": null,
@@ -19,7 +16,6 @@
       "./codecept/step_definitions/steps.js"
     ]
   },
-  "tests": "./codecept/*test.js",
   "timeout": 10000,
   "name": "cat-names",
   "translation": "ru-RU"
