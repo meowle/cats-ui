@@ -48,7 +48,7 @@ Then(
       return {
         title: $(".title").text(),
         names: $(".tag")
-          .map(function() {
+          .map(function () {
             return $(this).text();
           })
           .get()
@@ -66,6 +66,20 @@ Then("он увидит popup-сообщение с текстом {string}", po
   I.waitForVisible(".ajs-warning");
   I.see(popupText);
 });
+
+Given("в базе нет имени {string}", async needle => {
+  await fetch("http://localhost:3001/api/delete", {
+    method: "delete",
+    body: JSON.stringify({
+      needle
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+});
+
+// -------------------------------------------------
 
 async function searchNamesByApi(needle) {
   const apiResponse = await fetch("http://localhost:3001/api/search", {
@@ -89,15 +103,3 @@ function stripCounts(apiSearchResults) {
     }))
   };
 }
-
-Given("в базе нет имени {string}", async needle => {
-  await fetch("http://localhost:3001/api/delete", {
-    method: "delete",
-    body: JSON.stringify({
-      needle
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
-});
