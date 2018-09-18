@@ -21,8 +21,8 @@ When("пользователь нажмет на кнопку добавлени
   I.click("button.button-search");
 });
 
-When ("откроется страница {string}", () => {
-  I.see('Упс! Ничего не нашли');
+When("откроется страница {string}", () => {
+  I.see("Упс! Ничего не нашли");
 });
 
 Then(
@@ -62,10 +62,10 @@ Then(
   }
 );
 
-Then("он увидит popup-сообщение с текстом {string}", () => {
-I.waitForVisible('css=modal');
+Then("он увидит popup-сообщение с текстом {string}", popupText => {
+  I.waitForVisible(".ajs-warning");
+  I.see(popupText);
 });
-
 
 async function searchNamesByApi(needle) {
   const apiResponse = await fetch("http://localhost:3001/api/search", {
@@ -89,3 +89,15 @@ function stripCounts(apiSearchResults) {
     }))
   };
 }
+
+Given("в базе нет имени {string}", async needle => {
+  await fetch("http://localhost:3001/api/delete", {
+    method: "delete",
+    body: JSON.stringify({
+      needle
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+});

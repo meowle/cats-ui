@@ -95,7 +95,8 @@ function makeSingleResult(needle) {
       }
     ],
     count: 1,
-    needle
+    needle,
+    showPopup: true
   };
 }
 

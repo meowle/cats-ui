@@ -17,7 +17,6 @@
     "e2e": "codeceptjs run --steps"
   },
   "dependencies": {
-    "alertifyjs": "^1.11.1",
     "body-parser": "^1.18.3",
     "boom": "^7.2.0",
     "escape-regex-string": "^1.0.6",

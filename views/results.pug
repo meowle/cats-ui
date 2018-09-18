@@ -4,13 +4,16 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
+
     title Meowle - #{needle}
+
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
-    
-    script(type='text/javascript', src='/js/popup.js')
+
+    script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
+    link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
+    link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
   body
-    input(type='hidden', value=showPopup)
     section.section.has-background-light
       .container
         .columns
@@ -45,4 +48,7 @@ html(lang='en')
                     each name in group.names
                       span.tag.is-size-5= name
                 hr
+
+    if showPopup
+      script(type='text/javascript', src='/js/popup.js')
                               
