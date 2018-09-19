@@ -5,12 +5,17 @@ const fs = require("fs");
 
 let namesDb;
 
-beforeEach(() => {
+beforeEach(done => {
   const tmpdir = tmp.dirSync();
   const dbPath = path.join(tmpdir.name, "names.db");
 
-  fs.createReadStream("__tests__/test.db").pipe(fs.createWriteStream(dbPath));
-  namesDb = names.connectDb(dbPath);
+  const output = fs.createWriteStream(dbPath);
+  output.on("finish", () => {
+    namesDb = names.connectDb(dbPath);
+    done();
+  });
+
+  fs.createReadStream("__tests__/test.db").pipe(output);
 });
 
 describe("names search", () => {
