@@ -76,8 +76,7 @@ function renderSearchResult(json, needle) {
       template: "results",
       context: {
         groups: json.groups,
-        count: json.count,
-        needle
+        count: json.count
       }
     };
   }
@@ -95,7 +94,6 @@ function makeSingleResult(needle) {
       }
     ],
     count: 1,
-    needle,
     showPopup: true
   };
 }

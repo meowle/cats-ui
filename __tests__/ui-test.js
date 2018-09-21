@@ -17,10 +17,6 @@ describe("add name", () => {
         expect(newName.groups[0].title).toBe('M');
     });
 
-    test("should return needle after adding", () => {
-        const newName = ui.makeSingleResult('mex');
-        expect(newName.needle).toBe('mex');
-    });
 });
 
 describe("search and add name", () => {
