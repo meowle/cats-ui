@@ -5,7 +5,7 @@ const assert = require("assert");
 
 const I = actor();
 
-Given("пользователь открыл страницy {string}", url => {
+Given("пользователь открыл страницу {string}", url => {
   I.amOnPage(url);
 });
 
@@ -48,7 +48,7 @@ Then(
       return {
         title: $(".title").text(),
         names: $(".tag")
-          .map(function () {
+          .map(function() {
             return $(this).text();
           })
           .get()
@@ -103,3 +103,11 @@ function stripCounts(apiSearchResults) {
     }))
   };
 }
+
+Then("откроется страница с результатами поиска", () => {
+  I.see("Найдено имён");
+});
+
+Then("placeholder сменился на поисковый запрос {string}", needle => {
+  I.seeInField("needle", needle);
+});

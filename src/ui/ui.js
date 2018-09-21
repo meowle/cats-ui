@@ -64,7 +64,7 @@ function createApp() {
 }
 
 function renderSearchResult(json, needle) {
-  if (json.groups.length == 0) {
+  if (json.groups == null || json.groups.length == 0) {
     return {
       template: "no-result",
       context: {
@@ -76,7 +76,8 @@ function renderSearchResult(json, needle) {
       template: "results",
       context: {
         groups: json.groups,
-        count: json.count
+        count: json.count,
+        needle
       }
     };
   }
@@ -100,5 +101,6 @@ function makeSingleResult(needle) {
 
 module.exports = {
   createApp,
-  makeSingleResult
+  makeSingleResult,
+  renderSearchResult
 };

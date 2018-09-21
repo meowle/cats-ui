@@ -23,7 +23,13 @@ html(lang='en')
           .column
             form.field.has-addons(method='POST', action='/search')
               .control.is-expanded
-                input.input(type='text', placeholder='Введите часть имени кота', autocomplete='off')
+                input.input(
+                  type='text', 
+                  placeholder='Введите часть имени кота', 
+                  autocomplete='off',
+                  name='needle',
+                  value=needle
+                )
               .control
                 button.button(type='submit')
                   span.icon
