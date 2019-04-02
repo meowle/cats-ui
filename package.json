@@ -15,7 +15,8 @@
     "selenium:start": "selenium-standalone start",
     "selenium": "npm run selenium:install && npm run selenium:start",
     "e2e": "codeceptjs run --steps",
-    "testall": "npm run test && npm run e2e"
+    "testall": "npm run test && npm run e2e",
+    "docs": "node bin/generate-docs.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -33,10 +34,12 @@
     "concurrently": "^4.0.1",
     "jest": "^23.6.0",
     "jest-html-reporter": "^2.4.2",
+    "jest-junit": "^6.3.0",
     "nightwatch": "^0.9.21",
     "nock": "^10.0.0",
     "nodemon": "^1.18.4",
     "selenium-standalone": "^6.15.3",
+    "showdown": "^1.9.0",
     "supertest": "^3.3.0",
     "tmp": "^0.0.33",
     "webdriverio": "^4.13.2"

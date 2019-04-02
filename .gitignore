@@ -4,3 +4,5 @@ yarn-error.log
 /coverage/
 /reports/
 /test-report.html
+/junit.xml
+/out
