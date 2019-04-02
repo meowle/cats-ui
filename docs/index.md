@@ -8,4 +8,6 @@ For example, this is one of Codecept features from app tests:
 
 [include ../codecept/features/search.feature]: #
 
+## Unit tests
+
 [include @jest-junit ../junit.xml]: #

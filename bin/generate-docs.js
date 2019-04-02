@@ -30,8 +30,6 @@ function generateDocs() {
     mkdir(outputDir)
   }
 
-  console.log(finalHtml)
-
   const finalHtmlPath = join(outputDir, 'index.html')
   writeFile(finalHtmlPath, finalHtml, 'utf8')
 }
@@ -70,7 +68,7 @@ function loadMetaContent(contentType, contentPath) {
     const junitReport = loadFile(splitPath(contentPath))
     const $ = cheerio.load(junitReport)
 
-    const content = $('testsuite')
+    return $('testsuite')
       .map(
         (_, testSuite) => `#### ${$(testSuite).attr('name')}\n\n${$(
           'testcase',
@@ -83,9 +81,6 @@ function loadMetaContent(contentType, contentPath) {
       )
       .get()
       .join('\n')
-
-    console.error(content)
-    return content
   }
 }
 
