@@ -33,3 +33,30 @@ html(lang='en')
                     span.icon
                       i.fas.fa-search
                     span Найти имя коту
+    button.button.is-light.has-background-warning(style={ position: 'absolute', right: '20px', bottom: '20px' }).show-add-names
+      span.icon
+        i.fas.fa-plus
+    .modal.is-clipped
+      .modal-background
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title Добавить имена в базу котиков
+          figure.image.is-64x64.modal-card-title
+            img(src='/img/cat-icon.png')
+        section.modal-card-body
+          .column
+            form
+              .field.has-addons
+                .control.is-expanded
+                  input.input(
+                    type='text', 
+                    placeholder='Введите имя',
+                    name='catName'
+                  )
+                .control
+                  button.button.is-light.add-new-name
+                    span.icon
+                      i.fas.fa-plus
+              button.button.is-warning(type='submit') Добавить
+      button.modal-close.is-large(aria-label='close')
+    script(type='text/javascript', src='/js/addnames.js')  
