@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  tc:
+    image: jetbrains/teamcity-server
+    ports:
+      - 8111:8111
+    volumes:
+      - $PWD/.data/tc/data:/data/teamcity_server/datadir
+      - $PWD/.data/tc/logs:/opt/teamcity/logs
+
+  tc-agent:
+    image: jetbrains/teamcity-agent
+    environment:
+      AGENT_NAME: agent-1
+      SERVER_URL: http://tc:8111
+    volumes:
+      - $PWD/.data/tc-agent-1/data:/data/teamcity_agent/conf
