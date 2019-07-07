@@ -5,7 +5,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
 
-    title Meowle - #{needle}
+    title Значение имени - #{name}
 
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
@@ -28,13 +28,12 @@ html(lang='en')
                   placeholder='Введите часть имени кота', 
                   autocomplete='off',
                   name='needle',
-                  value=needle
+                  value=name
                 )
               .control
                 button.button(type='submit')
                   span.icon
                     i.fas.fa-search
-            p.is-size-7 Найдено имён: #{count}
 
     section.section
       .container
@@ -43,19 +42,10 @@ html(lang='en')
             figure.image.is-64x64.is-pulled-right
               img(src='/img/cat.png')
           .column
-            each group in groups
-              .search-result-group
-                div
-                  span.title.is-4 #{group.title}
-                  span.is-pulled-right.has-text-grey.is-size-7 #{group.count}
-                br
-                div
-                  .tags
-                    each cat in group.cats
-                      span.tag.is-size-5
-                        a(href='/cats/'+cat._id, style={color: 'black'}) #{cat.name}
-                hr
-
-    if showPopup
-      script(type='text/javascript', src='/js/popup.js')
+            .name-details
+              div
+                span.title.is-4 #{name}
+              br
+              div
+                .tags #{details}
                               

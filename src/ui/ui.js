@@ -1,106 +1,118 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const fetch = require("node-fetch");
-const names = require("../api/names");
+const express = require('express')
+const bodyParser = require('body-parser')
+const fetch = require('node-fetch')
+const names = require('../api/names')
 
 function createApp() {
-  const app = express();
+  const app = express()
 
-  app.set("view engine", "pug");
-  app.use(express.static("public"));
-  app.use(bodyParser.json());
+  app.set('view engine', 'pug')
+  app.use(express.static('public'))
+  app.use(bodyParser.json())
   app.use(
     bodyParser.urlencoded({
-      extended: true
+      extended: true,
     })
-  );
-  app.get("/", function(req, res) {
-    res.render("index");
-  });
+  )
+  app.get('/', function(req, res) {
+    res.render('index')
+  })
 
-  app.post("/search", function(req, res) {
-    const needle = req.body.needle;
+  app.post('/search', function(req, res) {
+    const needle = req.body.needle
+    renderSearchName(needle, res)
+  })
 
-    searchName(needle)
-      .then(function(json) {
-        return renderSearchResult(json, needle);
-      })
-      .then(function(renderResult) {
-        res.render(renderResult.template, renderResult.context);
-      });
-  });
+  app.post('/add', function(req, res) {
+    const needle = req.body.needle
 
-  app.post("/add", function(req, res) {
-    const needle = req.body.needle;
-
-    fetch("http://localhost:3001/api/add", {
-      method: "post",
+    fetch('http://localhost:3001/api/add', {
+      method: 'post',
       body: JSON.stringify({
-        needle
+        needle,
       }),
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     }).then(function() {
-      res.render("results", makeSingleResult(needle));
-    });
-  });
+      renderSearchName(needle, res)
+    })
+  })
 
-  function searchName(needle) {
-    return fetch("http://localhost:3001/api/search", {
-      method: "post",
-      body: JSON.stringify({
-        needle
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function(res) {
-      return res.json();
-    });
-  }
+  app.get('/cats/:catId', function(req, res) {
+    const catId = req.params.catId
+    searchNameDetails(catId).then(function(json) {
+      const { template, context } = createRenderContextNameDetails(json, catId)
+      res.render(template, context)
+    })
+  })
 
-  return app;
+  return app
 }
 
-function renderSearchResult(json, needle) {
+function searchNameDetails(catId) {
+  return fetch(`http://localhost:3001/cats/${catId}`).then(function(res) {
+    return res.json()
+  })
+}
+
+
+function renderSearchName(needle, res) {
+  searchName(needle)
+  .then(function(json) {
+    return createRenderContesxtSearchResult(json, needle)
+  })
+  .then(function(renderResult) {
+    res.render(renderResult.template, renderResult.context)
+  })  
+}
+
+function searchName(needle) {
+  return fetch('http://localhost:3001/api/search', {
+    method: 'post',
+    body: JSON.stringify({
+      needle,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(function(res) {
+    return res.json()
+  })
+}
+
+function createRenderContextNameDetails(json, catId) {
+  return {
+    template: 'name-details',
+    context: {
+      name: json.name,
+      details: json.details,
+      catId,
+    },
+  }
+}
+
+function createRenderContesxtSearchResult(json, needle) {
   if (json.groups == null || json.groups.length == 0) {
     return {
-      template: "no-result",
+      template: 'no-result',
       context: {
-        needle
-      }
-    };
+        needle,
+      },
+    }
   } else {
     return {
-      template: "results",
+      template: 'results',
       context: {
         groups: json.groups,
         count: json.count,
-        needle
-      }
-    };
+        needle,
+      },
+    }
   }
-}
-
-function makeSingleResult(needle) {
-  const needleCap = names.capitalizeFirstLetter(needle);
-
-  return {
-    groups: [
-      {
-        title: needleCap.charAt(0),
-        names: [needleCap],
-        count: 1
-      }
-    ],
-    count: 1,
-    showPopup: true
-  };
 }
 
 module.exports = {
   createApp,
-  makeSingleResult,
-  renderSearchResult
-};
+  createRenderContesxtSearchResult,
+}

@@ -6,3 +6,5 @@ yarn-error.log
 /test-report.html
 /junit.xml
 /out
+/.data
+/dist

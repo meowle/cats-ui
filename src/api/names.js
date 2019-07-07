@@ -8,9 +8,11 @@ function connectDb(dbPath) {
   });
 
   return {
+
     searchNames(needle, callback) {
+      const trimmedNeedle = trimSymbols(needle);
       const searchPattern = {
-        name: new RegExp(escapeRegexString(needle), "i")
+        name: new RegExp(escapeRegexString(trimmedNeedle), "i")
       };
 
       db.find(searchPattern, function(err, namesFound) {
@@ -22,7 +24,7 @@ function connectDb(dbPath) {
       const trimmedName = trimSymbols(needle);
 
       const newName = {
-        _id: trimmedName.toLowerCase(),
+       // _id: trimmedName.toLowerCase(),
         name: capitalizeFirstLetter(trimmedName)
       };
 
@@ -31,9 +33,8 @@ function connectDb(dbPath) {
       });
     },
 
-    groupNamesAndSort(namesFound) {
-      const names = namesFound.map(nameFound => nameFound.name);
-      const groups = groupByFirstLetter(names);
+    groupNamesAndSort(cats) {
+      const groups = groupByFirstLetter(cats);
       const sorterGroup = sortGroupAlphabetically(groups);
       const count = countNames(sorterGroup);
 
@@ -41,6 +42,12 @@ function connectDb(dbPath) {
         groups: sorterGroup,
         count
       };
+    },
+
+    searchById(catId, callback) {
+      db.findOne({_id: catId}, function(err, catFound) {
+        callback(catFound);        
+      })
     },
 
     deleteByName(needle, callback) {
@@ -58,7 +65,7 @@ function trimSymbols(name) {
   let startIndex = 0;
   for (let i = 0; i < name.length; i++) {
     const symbol = name[i];
-    if (/[a-zA-Z]/.test(symbol)) {
+    if (/[a-zA-Zа-яА-Я]/.test(symbol)) {
       startIndex = i;
       break;
     }
@@ -67,7 +74,7 @@ function trimSymbols(name) {
   let endIndex = 0;
   for (let i = name.length - 1; i >= 0; i--) {
     const symbol = name[i];
-    if (/[a-zA-Z1-9]/.test(symbol)) {
+    if (/[a-zA-Z1-9а-яА-Я]/.test(symbol)) {
       endIndex = i;
       break;
     }
@@ -76,17 +83,18 @@ function trimSymbols(name) {
   return name.substring(startIndex, endIndex + 1);
 }
 
-function groupByFirstLetter(names) {
+function groupByFirstLetter(cats) {
   const groups = {};
 
-  for (let i = 0; i < names.length; i++) {
-    const name = capitalizeFirstLetter(names[i]);
+  for (let i = 0; i < cats.length; i++) {
+    const cat = cats[i];
+    const name = capitalizeFirstLetter(cat.name);
     const title = name.charAt(0);
 
     if (groups[title] == null) {
-      groups[title] = [name];
+      groups[title] = [cat];
     } else {
-      groups[title].push(name);
+      groups[title].push(cat);
     }
   }
 
@@ -101,7 +109,7 @@ function sortGroupAlphabetically(groups) {
     const key = keysSortedAlphabetically[i];
     const group = {
       title: key,
-      names: groups[key].sort()
+      cats: groups[key], //.sort()
     };
     sorterGroup.push(group);
   }
@@ -113,7 +121,7 @@ function countNames(groups) {
   let count = 0;
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
-    group["count"] = group.names.length;
+    group["count"] = group.cats.length;
     count = count + group.count;
   }
   return count;
