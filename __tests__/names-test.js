@@ -18,43 +18,43 @@ beforeEach(done => {
   fs.createReadStream("__tests__/test.db").pipe(output);
 });
 
-describe("names search", () => {
-  test("should search by 1-char query", done => {
+describe("Алгоритм поиска", () => {
+  test("Должен найти по 1-му символу", done => {
     namesDb.searchNames("k", function(namesFound) {
       expect(namesFound.length).toBeGreaterThan(0);
       done();
     });
   });
 
-  test("should search if the query is long", done => {
+  test("Должен найти, если запрос поисковый очень длинный", done => {
     namesDb.searchNames("kkkkkkkkkkkk", function(namesFound) {
       expect(namesFound.length).toBe(0);
       done();
     });
   });
 
-  test("should search if the query contains numbers", done => {
+  test("Должен найти, если запрос содержит числа", done => {
     namesDb.searchNames("1g", function(namesFound) {
       expect(namesFound.length).toBeGreaterThan(0);
       done();
     });
   });
 
-  test("should search if the query has special symbols", done => {
+  test("Должен найти, если запрос содержит специальные символы", done => {
     namesDb.searchNames("- Xl", function(namesFound) {
       expect(namesFound.length).toBe(1);
       done();
     });
   });
 
-  test("should search if the query contains Latin and Cyrillic symbols", done => {
+  test("Должен найти, если запрос содержит Латинницу и Кириллицу", done => {
     namesDb.searchNames("етvi", function(namesFound) {
       expect(namesFound.length).toBeGreaterThan(0);
       done();
     });
   });
 
-  test("should search if the query has only Latin symbols", done => {
+  test("Должен найти, если запрос содержит только Латинские символы", done => {
     namesDb.searchNames("vi", function(namesFound) {
       expect(namesFound.length).toBeGreaterThan(0);
       done();

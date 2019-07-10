@@ -44,8 +44,17 @@ html(lang='en')
           .column
             .name-details
               div
-                span.title.is-4 #{name}
-              br
+                span.title.is-3 Значение имени #{name}
+              br 
+              .block
+              
+                span.tag.is-success #{tagCats}
+                  button.delete.is-small
               div
-                .tags #{details}
-                              
+                .box
+                  .tags #{details}
+              br
+              field(method='POST', action='/edit')              
+                 a.button.is-success.is-outlined(type='submit') Редактировать имя 
+                            
+

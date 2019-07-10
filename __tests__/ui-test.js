@@ -8,9 +8,9 @@ describe("search query validation", () => {
   test("Should not search if there are no letters or numbers in the query", () => {});
 });
 
-describe("add name", () => {
-  test("should return one name and one group with a capital letter after adding", () => {
-    const newName = ui.makeSingleResult("mex");
+describe("Добавление имени", () => {
+  test("После добавления должен вернуть одно имя в одной группе, написанное с большой буквы", () => {
+    const newName = ui.addname("mex");
     expect(newName.groups[0].count).toBe(1);
     expect(newName.count).toBe(1);
     expect(newName.groups[0].names[0]).toBe("Mex");
@@ -19,7 +19,7 @@ describe("add name", () => {
 });
 
 describe("search and add name", () => {
-  test("should return page 'no-result' if groups are empty", done => {
+  test("Должен вернуть шаблон 'no-result' если список групп пустой", done => {
     nock("http://localhost:3001")
       .post("/api/search", {
         needle: "sasha"
@@ -43,7 +43,7 @@ describe("search and add name", () => {
       groups: ["Saab", "Abrams"]
     };
 
-    const renderResult = ui.renderSearchResult(searchResult, needle);
+    const renderResult = ui.createRenderContesxtSearchResult(searchResult, needle);
 
     expect(renderResult.context.needle).toBe(needle);
   });

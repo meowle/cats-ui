@@ -20,14 +20,14 @@ beforeEach(done => {
   fs.createReadStream("__tests__/test.db").pipe(output);
 });
 
-describe("add new name API", () => {
-  test("should fail add new name if no needle", done => {
+describe("API добавления новых имен в БД", () => {
+  test("Должен вернуть 400, если в запросе отсутствует обязательный параметр needle", done => {
     supertest(app)
       .post("/api/add")
       .expect(400, done);
   });
 
-  test("should add name in db", done => {
+  test("Должен добавить имя в БД", done => {
     supertest(app)
       .post("/api/add")
       .send({
@@ -43,14 +43,14 @@ describe("add new name API", () => {
   });
 });
 
-describe("name search API", () => {
-  test("should fail search if no needle", done => {
+describe("API поиска имен", () => {
+  test("Должен вернуть 400, если в запросе отсутствует обязательный параметр needle", done => {
     supertest(app)
       .post("/api/search")
       .expect(400, done);
   });
 
-  test("should search names", done => {
+  test("Должен найти подходящие имена из БД при вызове метода /search", done => {
     supertest(app)
       .post("/api/search")
       .send({
@@ -62,12 +62,12 @@ describe("name search API", () => {
             {
               title: "C",
               names: [
-                "Clemencia",
-                "Clemensia",
-                "Clement",
-                "Clementine",
-                "Clementius"
-              ],
+                {"_id":"clemencia","name":"Clemencia"},
+                {"_id":"clemensia","name":"Clemensia"},
+                {"_id":"clement","name":"Clement"},
+                {"_id":"clementine","name":"Clementine"},
+                {"_id":"clementius","name":"Clementius"}
+                      ],
               count: 5
             },
             {
@@ -82,7 +82,7 @@ describe("name search API", () => {
       .expect(200, done);
   });
 
-  test("should return empty search result", done => {
+  test("Должен ответить пустым массивом, если в БД отсутствуют совпадения", done => {
     supertest(app)
       .post("/api/search")
       .send({

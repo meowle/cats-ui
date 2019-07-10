@@ -28,18 +28,7 @@ function createApp() {
 
   app.post('/add', function(req, res) {
     const needle = req.body.needle
-
-    fetch('http://localhost:3001/api/add', {
-      method: 'post',
-      body: JSON.stringify({
-        needle,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(function() {
-      renderSearchName(needle, res)
-    })
+    addname(needle, res)
   })
 
   app.get('/cats/:catId', function(req, res) {
@@ -81,6 +70,20 @@ function searchName(needle) {
     },
   }).then(function(res) {
     return res.json()
+  })
+}
+
+function addname(needle, res) {
+  return fetch('http://localhost:3001/api/add', {
+    method: 'post',
+    body: JSON.stringify({
+      needle,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(function() {
+    renderSearchName(needle, res)
   })
 }
 
