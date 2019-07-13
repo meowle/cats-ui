@@ -1,6 +1,6 @@
 const nock = require("nock");
 const request = require("supertest");
-const ui = require("../src/ui/ui");
+const ui = require("../src/ui");
 
 describe("search query validation", () => {
   test("should not search if the query is empty", () => {});

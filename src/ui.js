@@ -10,7 +10,7 @@ function createApp() {
   app.set('view engine', 'pug')
 
   app.use(express.static('public'))
-  app.use(favicon(path.join(__dirname, '..', '..', 'public', 'img', 'favicon.ico')))
+  app.use(favicon(path.join(__dirname, '..', 'public', 'img', 'favicon.ico')))
   app.use(bodyParser.json())
   app.use(
     bodyParser.urlencoded({
