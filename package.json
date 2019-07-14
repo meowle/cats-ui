@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon src/start.js",
+    "start:local": "cross-env NODE_ENV=local nodemon src/start.js",
     "test": "jest -c jest.config.json",
     "selenium:install": "selenium-standalone install",
     "selenium:start": "selenium-standalone start",
@@ -18,6 +18,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "boom": "^7.2.0",
+    "cross-env": "^5.2.0",
+    "dotenv": "^8.0.0",
     "escape-regex-string": "^1.0.6",
     "express": "^4.16.3",
     "node-fetch": "^2.2.0",

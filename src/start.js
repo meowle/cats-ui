@@ -1,4 +1,5 @@
-const ui = require('./ui');
+const ui = require('./ui')
+const { serverPort } = require('./configs')
 
-const app = ui.createApp();
-app.listen(3000);
+const app = ui.createApp()
+app.listen(serverPort)

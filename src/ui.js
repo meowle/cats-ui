@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
 const favicon = require('serve-favicon')
 const path = require('path')
+const { apiUri } = require('./configs')
 
 function createApp() {
   const app = express()
@@ -26,9 +27,21 @@ function createApp() {
     renderSearchName(needle, res)
   })
 
-  app.post('/add', function(req, res) {
-    const needle = req.body.needle
-    addname(needle, res)
+  app.post('/cats/add', function(req, res) {
+    const { catName } = req.body
+
+    if (!Array.isArray(catName)) {
+      addCats([{ name: catName }], res)
+    } else {
+      const cats = []
+      for (let i = 0; i < catName.length; i++) {
+        cats.push({
+          name: catName[i],
+        })
+      }
+
+      addCats(cats, res)
+    }
   })
 
   app.get('/cats/:catId', function(req, res) {
@@ -48,15 +61,14 @@ function searchNameDetails(catId) {
   })
 }
 
-
 function renderSearchName(needle, res) {
   searchName(needle)
-  .then(function(json) {
-    return createRenderContesxtSearchResult(json, needle)
-  })
-  .then(function(renderResult) {
-    res.render(renderResult.template, renderResult.context)
-  })  
+    .then(function(json) {
+      return createRenderContesxtSearchResult(json, needle)
+    })
+    .then(function(renderResult) {
+      res.render(renderResult.template, renderResult.context)
+    })
 }
 
 function searchName(needle) {
@@ -73,17 +85,21 @@ function searchName(needle) {
   })
 }
 
-function addname(needle, res) {
-  return fetch('http://localhost:3001/api/add', {
+function addCats(cats, res) {
+  return fetch(`${apiUri}/cats/add`, {
     method: 'post',
     body: JSON.stringify({
-      needle,
+      cats,
     }),
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(function() {
-    renderSearchName(needle, res)
+  }).then(fetchRes => {
+    if (fetchRes.ok) {
+      res.render('index')
+    } else {
+      res.status(500).send('fail')
+    }
   })
 }
 
