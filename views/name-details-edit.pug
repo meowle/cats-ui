@@ -43,22 +43,15 @@ html(lang='en')
               img(src='/img/cat.png')
           .column
             .name-details
-              div
-                span.title.is-3 Значение имени #{name}
-              br
-              form(method='GET', action='/cats/' + id + '/edit')
-                if description
-                  div= description
-                  br
-                  button.button.is-success.is-outlined(type='submit') Редактировать описание 
-                else
-                  div
-                    | У этого кота нет описания
-                  br
-                  button.button.is-success.is-outlined(type='submit') Добавить описание 
-                
-              
-                
-              
-                            
+              form(method='POST', action='/cats/' + id + '/edit')
+                div
+                  span.title.is-3 Значение имени #{name}
+                br              
+                textarea.textarea(
+                    type='text', 
+                    placeholder='Введите описание кота',
+                    name='description'
+                )= description
+                br              
+                button.button.is-success.is-outlined(type='submit') Сохранить описание 
 

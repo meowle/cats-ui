@@ -21,7 +21,8 @@ html(lang='en')
                   type='text',
                   placeholder='Введите часть имени кота', 
                   autocomplete='off',
-                  name='needle'
+                  name='needle',
+                  value=needle
                 )
               .control
                 button.button(type='submit')
@@ -36,12 +37,12 @@ html(lang='en')
               .level-item
                 figure.image.is-64x64
                   img(src='/img/weary-cat.png')
-            form.field(method='POST', action='/add')
+            form.field(method='POST', action='/cats/add')
               .control.has-text-centered
                 .h2.subtitle
                   | Упс! Ничего не нашли
               br
-              input(type='hidden', name='needle', value=needle)
+              input(type='hidden', name='catName', value=needle)
               .control.has-text-centered
                 button.button.is-warning.is-medium.button-search(type='submit')               
                   span Добавить&nbsp;

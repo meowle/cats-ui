@@ -7,9 +7,14 @@ html(lang='en')
     title Meowle
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
+
+    script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
+    link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
+    link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
+
     style.
       html, body {
-      height: 100%;
+        height: 100%;
       }
   body
     section.section(style='height: 100%')
@@ -60,3 +65,8 @@ html(lang='en')
               button.button.is-warning(type='submit') Добавить
       button.modal-close.is-large(aria-label='close')
     script(type='text/javascript', src='/js/addnames.js')  
+
+    if showSuccessPopup
+      script(type='text/javascript', src='/js/popup.js')
+    else if showFailPopup
+      script(type='text/javascript', src='/js/popup-fail.js')

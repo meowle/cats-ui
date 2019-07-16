@@ -16,6 +16,8 @@
     const thisField = this.closest('.field')
     const newField = thisField.cloneNode(true)
 
+    newField.getElementsByTagName('input')[0].value = ''
+
     thisField.parentNode.insertBefore(newField, thisField.nextSibling)
 
     resetAddNewNameHandlers()

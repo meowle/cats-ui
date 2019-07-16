@@ -25,67 +25,124 @@ function createApp() {
   app.post('/search', function(req, res) {
     const needle = req.body.needle
     renderSearchName(needle, res)
+      .then(renderResult => {
+        const { template, context } = renderResult
+        res.render(template, context)
+      })
+      .catch(() => showFailPage(res))
   })
 
   app.post('/cats/add', function(req, res) {
     const { catName } = req.body
 
+    let catsToAdd
+
     if (!Array.isArray(catName)) {
-      addCats([{ name: catName }], res)
+      catsToAdd = [{ name: catName }]
     } else {
-      const cats = []
+      catsToAdd = []
       for (let i = 0; i < catName.length; i++) {
-        cats.push({
+        catsToAdd.push({
           name: catName[i],
         })
       }
-
-      addCats(cats, res)
     }
+
+    addCats(catsToAdd, res)
+      .then(isOk => {
+        if (isOk) {
+          res.render('index', { showSuccessPopup: true })
+        } else {
+          showFailPage(res)
+        }
+      })
+      .catch(() => showFailPage(res))
   })
 
   app.get('/cats/:catId', function(req, res) {
-    const catId = req.params.catId
-    searchNameDetails(catId).then(function(json) {
-      const { template, context } = createRenderContextNameDetails(json, catId)
-      res.render(template, context)
-    })
+    const { catId } = req.params
+    searchNameDetails(catId)
+      .then(json => json.cat)
+      .then(cat => {
+        const { name, description, id } = cat
+        res.render('name-details', {
+          name,
+          description,
+          id,
+        })
+      })
+      .catch(() => showFailPage(res))
+  })
+
+  app.get('/cats/:catId/edit', function(req, res) {
+    const { catId } = req.params
+    searchNameDetails(catId)
+      .then(json => json.cat)
+      .then(cat => {
+        const { name, description, id } = cat
+        res.render('name-details-edit', {
+          name,
+          description,
+          id,
+        })
+      })
+      .catch(() => showFailPage(res))
+  })
+
+  app.post('/cats/:catId/edit', function(req, res) {
+    const { catId } = req.params
+    const { description } = req.body
+
+    saveCatDescription(catId, description)
+      .then(json => json.cat)
+      .then(cat => {
+        const { name, description, id } = cat
+        res.render('name-details', {
+          name,
+          description,
+          id,
+        })
+      })
+      .catch(() => showFailPage(res))
   })
 
   return app
 }
 
-function searchNameDetails(catId) {
-  return fetch(`http://localhost:3001/cats/${catId}`).then(function(res) {
-    return res.json()
-  })
-}
-
-function renderSearchName(needle, res) {
-  searchName(needle)
-    .then(function(json) {
-      return createRenderContesxtSearchResult(json, needle)
-    })
-    .then(function(renderResult) {
-      res.render(renderResult.template, renderResult.context)
-    })
-}
-
-function searchName(needle) {
-  return fetch('http://localhost:3001/api/search', {
+function saveCatDescription(catId, catDescription) {
+  return fetch(`${apiUri}/cats/save-description`, {
     method: 'post',
     body: JSON.stringify({
-      needle,
+      catId,
+      catDescription,
     }),
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(function(res) {
-    return res.json()
-  })
+  }).then(res => res.json())
 }
 
-function addCats(cats, res) {
+function searchNameDetails(catId) {
+  return fetch(`http://localhost:3001/cats/get-by-id?id=${catId}`).then(res =>
+    res.json()
+  )
+}
+
+function renderSearchName(catName, res) {
+  return fetch(`${apiUri}/cats/search`, {
+    method: 'post',
+    body: JSON.stringify({
+      name: catName,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .then(json => createRenderContesxtSearchResult(json, catName))
+}
+
+function addCats(cats) {
   return fetch(`${apiUri}/cats/add`, {
     method: 'post',
     body: JSON.stringify({
@@ -94,24 +151,7 @@ function addCats(cats, res) {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(fetchRes => {
-    if (fetchRes.ok) {
-      res.render('index')
-    } else {
-      res.status(500).send('fail')
-    }
-  })
-}
-
-function createRenderContextNameDetails(json, catId) {
-  return {
-    template: 'name-details',
-    context: {
-      name: json.name,
-      details: json.details,
-      catId,
-    },
-  }
+  }).then(res => res.ok)
 }
 
 function createRenderContesxtSearchResult(json, needle) {
@@ -132,6 +172,10 @@ function createRenderContesxtSearchResult(json, needle) {
       },
     }
   }
+}
+
+function showFailPage(res) {
+  res.render('index', { showFailPopup: true })
 }
 
 module.exports = {
