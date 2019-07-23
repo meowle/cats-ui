@@ -49,8 +49,8 @@ function createApp() {
     }
 
     addCats(catsToAdd, res)
-      .then(isOk => {
-        if (isOk) {
+      .then(catSuccessfullyAdded => {
+        if (catSuccessfullyAdded) {
           res.render('index', { showSuccessPopup: true })
         } else {
           showFailPage(res)
@@ -123,7 +123,7 @@ function saveCatDescription(catId, catDescription) {
 }
 
 function searchNameDetails(catId) {
-  return fetch(`http://localhost:3001/cats/get-by-id?id=${catId}`).then(res =>
+  return fetch(`${apiUri}/cats/get-by-id?id=${catId}`).then(res =>
     res.json()
   )
 }
