@@ -8,3 +8,5 @@ yarn-error.log
 /out
 /.data
 /dist
+
+deploy_key
