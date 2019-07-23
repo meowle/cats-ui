@@ -1,11 +1,22 @@
-# Search cat names
+# Фронт приложение Meowlee
 
-## E2E tests
+## Старт приложения локально
 
 ```bash
-$ yarn selenium-standalone install
-$ yarn selenium-standalone start
-$ yarn start
-$ yarn codeceptjs run --steps --debug --verbose
+> yarn # установка зависимостей
+> yarn start:local # запуск приложения с локальным конфигом
 ```
 
+## Сборка docker-образа
+
+```bash
+> docker build . -t nasyalnik/cats-ui:<version> # установка зависимостей
+```
+
+## Запуск UI e2e тестов
+
+```bash
+> yarn selenium-standalone install # установка веб-драйвера для codeception
+> yarn selenium-standalone start # запуск selenium server
+> yarn codeceptjs run --steps --debug --verbose # запуск тестов
+```

@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "start:local": "cross-env NODE_ENV=local nodemon src/start.js",
+    "start": "nodemon src/start.js",
     "test": "jest -c jest.config.json",
     "selenium:install": "selenium-standalone install",
     "selenium:start": "selenium-standalone start",
