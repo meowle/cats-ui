@@ -1,5 +1,7 @@
 # Front-приложение Meowle
 
+[![Build Status](https://travis-ci.org/meowle/cats-ui.svg?branch=master)](https://travis-ci.org/meowle/cats-ui)
+
 ## Старт приложения локально
 
 ```bash
