@@ -23,7 +23,7 @@ html(lang='en')
           .column
             form.field.has-addons(method='POST', action='/search')
               .control.is-expanded
-                input.input(
+                input#cat-name.input(
                   type='text', 
                   placeholder='Введите часть имени кота', 
                   autocomplete='off',
@@ -55,6 +55,9 @@ html(lang='en')
                       span.tag.is-size-5
                         a(href='/cats/' + cat.id, style={color: 'black'}) #{cat.name}
                 hr
+
+    input#validation-rules(type='hidden', value=validationRules)
+    script(type='text/javascript', src='/js/validation.js')
 
     if showPopup
       script(type='text/javascript', src='/js/popup.js')

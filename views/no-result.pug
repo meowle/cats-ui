@@ -7,6 +7,9 @@ html(lang='en')
     title Meowle - #{needle}
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
+    
+    script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
+    link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
   body
     section.section.has-background-light
       .container
@@ -17,7 +20,7 @@ html(lang='en')
           .column
             form.field.has-addons(method='POST', action='/search')
               .control.is-expanded
-                input.input(
+                input#cat-name.input(
                   type='text',
                   placeholder='Введите часть имени кота', 
                   autocomplete='off',
@@ -48,3 +51,7 @@ html(lang='en')
                   span Добавить&nbsp;
                   span.has-text-weight-bold= needle
                   span &nbsp;в базу?
+
+    input#validation-rules(type='hidden', value=validationRules)
+    script(type='text/javascript', src='/js/validation.js')
+             

@@ -29,10 +29,10 @@ function createApp() {
 
   app.post('/search', function(req, res) {
     const needle = req.body.needle
-    renderSearchName(needle, res)
-      .then(renderResult => {
+    Promise.all([renderSearchName(needle, res), getRules()])
+      .then(([renderResult, validationRules]) => {
         const { template, context } = renderResult
-        res.render(template, context)
+        res.render(template, {...context, validationRules})
       })
       .catch(() => showFailPage(res))
   })
@@ -53,10 +53,10 @@ function createApp() {
       }
     }
 
-    addCats(catsToAdd, res)
-      .then(catSuccessfullyAdded => {
+    Promise.all([addCats(catsToAdd, res), getRules()])
+      .then(([catSuccessfullyAdded, validationRules]) => {
         if (catSuccessfullyAdded) {
-          res.render('index', { showSuccessPopup: true })
+          res.render('index', { showSuccessPopup: true , validationRules})
         } else {
           showFailPage(res)
         }
