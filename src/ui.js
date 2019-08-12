@@ -18,8 +18,13 @@ function createApp() {
       extended: true,
     })
   )
+
   app.get('/', function(req, res) {
-    res.render('index')
+    getRules().then(rules =>
+      res.render('index', {
+        validationRules: rules
+      })
+    )
   })
 
   app.post('/search', function(req, res) {
@@ -122,10 +127,12 @@ function saveCatDescription(catId, catDescription) {
   }).then(res => res.json())
 }
 
+function getRules() {
+  return fetch(`${apiUri}/cats/validation`).then(res => res.json())
+}
+
 function searchNameDetails(catId) {
-  return fetch(`${apiUri}/cats/get-by-id?id=${catId}`).then(res =>
-    res.json()
-  )
+  return fetch(`${apiUri}/cats/get-by-id?id=${catId}`).then(res => res.json())
 }
 
 function renderSearchName(catName, res) {

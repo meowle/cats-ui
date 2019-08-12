@@ -31,7 +31,7 @@ html(lang='en')
             form(method='POST', action='/search')
               .field
                 .control(style='width: 100%')
-                  input.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
+                  input#cat-name.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
               .field
                 .control.has-text-centered
                   button.button.is-light(type='submit')
@@ -64,7 +64,10 @@ html(lang='en')
                       i.fas.fa-plus
               button.button.is-warning(type='submit') Добавить
       button.modal-close.is-large(aria-label='close')
-    script(type='text/javascript', src='/js/addnames.js')  
+    script(type='text/javascript', src='/js/addnames.js')
+
+    input#validation-rules(type='hidden', value=validationRules)
+    script(type='text/javascript', src='/js/validation.js')
 
     if showSuccessPopup
       script(type='text/javascript', src='/js/popup.js')
