@@ -2,10 +2,12 @@ const nock = require("nock");
 const request = require("supertest");
 const ui = require("../src/ui");
 
-describe("search query validation", () => {
-  test("should not search if the query is empty", () => {});
+describe("Валидация ввода поискового запроса", () => {
+  test("Не должен искать, если запрос пустой", () => {});
+  test("Не должен искать, если запрос содержит всего 1 символ ", () => {});
 
-  test("Should not search if there are no letters or numbers in the query", () => {});
+  test("Ищет, если запрос содержит более 2-х символов ", () => {});
+
 });
 
 describe("Добавление имени", () => {
@@ -18,7 +20,7 @@ describe("Добавление имени", () => {
   });
 });
 
-describe("search and add name", () => {
+describe("Поиск и добавление имен", () => {
   test("Должен вернуть шаблон 'no-result' если список групп пустой", done => {
     nock("http://localhost:3001")
       .post("/api/search", {
