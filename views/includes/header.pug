@@ -1,0 +1,56 @@
+section.section.has-background-light
+  .container
+    .columns
+      .column.is-2.has-text-right-desktop
+        h1.is-size-3(style='margin-top: -0.5rem') 
+          a.has-text-black(href='/') meowle
+      .column
+        form.cats-search
+          .field.has-addons(method='GET', action='/search')
+            .control.is-expanded
+              input#cat-name.input(
+                type='text', 
+                placeholder='Введите часть имени кота', 
+                autocomplete='off',
+                name='needle',
+                value=needle
+              )
+            .control
+              button.button(type='submit')
+                span.icon
+                  i.fas.fa-search
+          .level
+            .level-left
+              .level-item
+                .field.is-grouped
+                  .control
+                    label.checkbox
+                      input(
+                        type='checkbox',
+                        name='female',
+                        checked=female
+                        )
+                      |&nbsp;Ж
+                  .control
+                    label.checkbox
+                      input(
+                        type='checkbox',
+                        name='male',
+                        checked=male
+                        )
+                      |&nbsp;М
+                  .control
+                    label.checkbox
+                      input(
+                        type='checkbox',
+                        name='unisex',
+                        checked=unisex
+                        )
+                      |&nbsp;Универс.      
+            .level-right
+              .level-item
+                p.is-size-7 Найдено имён: #{count}
+
+input#validation-rules(type='hidden', value=validationRules)
+script(type='text/javascript', src='/js/validation.js')
+script(type='text/javascript', src='/js/search-cats.js')
