@@ -26,6 +26,15 @@ html(lang='en')
               div
                 span.title.is-3 Значение имени #{name}
               br
+              //- if gender == 'female'
+              //-   span.icon.has-text-danger
+              //-     i.fas.fa-venus
+              //- else if gender == 'male'
+              //-   span.icon.has-text-info
+              //-     i.fas.fa-mars
+              //- else if gender == 'unisex'
+              //-   span.icon.has-text-primary
+              //-     i.fas.fa-venus-mars
               form(method='GET', action='/cats/' + id + '/edit')
                 if description
                   div= description

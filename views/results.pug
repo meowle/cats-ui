@@ -32,6 +32,15 @@ html(lang='en')
                   .tags
                     each cat in group.cats
                       span.tag.is-size-5
+                        if cat.gender == 'female'
+                          span.icon.has-text-danger
+                            i.fas.fa-venus
+                        else if cat.gender == 'male'
+                          span.icon.has-text-info
+                            i.fas.fa-mars
+                        else if cat.gender == 'unisex'
+                          span.icon.has-text-primary
+                            i.fas.fa-venus-mars
                         a(href='/cats/' + cat.id, style={color: 'black'}) #{cat.name}
                 hr
 

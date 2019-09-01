@@ -32,7 +32,7 @@ function searchNameDetails(catId) {
 }
 
 /*
-Ищем подходящих котов черех api (отправка запроса и получение данных)
+Ищем подходящих котов через api (отправка запроса и получение данных)
 */
 function searchCatsWithApi(searchParams) {
   const { needle, genders } = searchParams

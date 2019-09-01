@@ -107,6 +107,7 @@ function createApp() {
         res.render('name-details', {
           name,
           description,
+          // gender,
           id,
         })
       })
