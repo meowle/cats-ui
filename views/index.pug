@@ -28,7 +28,7 @@ html(lang='en')
                 figure.image.is-128x128.is-pulled-right
                   img(src='/img/cat.png')
 
-            form(method='POST', action='/search')
+            form(method='GET', action='/search')
               .field
                 .control(style='width: 100%')
                   input#cat-name.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
