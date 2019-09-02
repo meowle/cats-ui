@@ -1,4 +1,4 @@
-const ui = require('./ui')
+const ui = require('./controller')
 const { serverPort } = require('./configs')
 
 const app = ui.createApp()

@@ -14,28 +14,7 @@ html(lang='en')
     link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
     link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
   body
-    section.section.has-background-light
-      .container
-        .columns
-          .column.is-2.has-text-right-desktop
-            h1.is-size-3(style='margin-top: -0.5rem') 
-              a.has-text-black(href='/') meowle
-          .column
-            form.field.has-addons(method='POST', action='/search')
-              .control.is-expanded
-                input#cat-name.input(
-                  type='text', 
-                  placeholder='Введите часть имени кота', 
-                  autocomplete='off',
-                  name='needle',
-                  value=needle
-                )
-              .control
-                button.button(type='submit')
-                  span.icon
-                    i.fas.fa-search
-            p.is-size-7 Найдено имён: #{count}
-
+    include includes/header.pug    
     section.section
       .container
         .columns
@@ -53,11 +32,17 @@ html(lang='en')
                   .tags
                     each cat in group.cats
                       span.tag.is-size-5
+                        if cat.gender == 'female'
+                          span.icon.has-text-danger
+                            i.fas.fa-venus
+                        else if cat.gender == 'male'
+                          span.icon.has-text-info
+                            i.fas.fa-mars
+                        else if cat.gender == 'unisex'
+                          span.icon.has-text-primary
+                            i.fas.fa-venus-mars
                         a(href='/cats/' + cat.id, style={color: 'black'}) #{cat.name}
                 hr
-
-    input#validation-rules(type='hidden', value=validationRules)
-    script(type='text/javascript', src='/js/validation.js')
 
     if showPopup
       script(type='text/javascript', src='/js/popup.js')

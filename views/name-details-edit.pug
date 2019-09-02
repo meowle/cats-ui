@@ -14,27 +14,7 @@ html(lang='en')
     link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
     link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
   body
-    section.section.has-background-light
-      .container
-        .columns
-          .column.is-2.has-text-right-desktop
-            h1.is-size-3(style='margin-top: -0.5rem') 
-              a.has-text-black(href='/') meowle
-          .column
-            form.field.has-addons(method='POST', action='/search')
-              .control.is-expanded
-                input.input(
-                  type='text', 
-                  placeholder='Введите часть имени кота', 
-                  autocomplete='off',
-                  name='needle',
-                  value=name
-                )
-              .control
-                button.button(type='submit')
-                  span.icon
-                    i.fas.fa-search
-
+    include includes/header.pug
     section.section
       .container
         .columns

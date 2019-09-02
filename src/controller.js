@@ -1,9 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const fetch = require('node-fetch')
 const favicon = require('serve-favicon')
 const path = require('path')
-const { apiUri } = require('./configs')
+const {
+  getRules,
+  searchCatsWithApi,
+  showFailPage,
+  saveCatDescription,
+  searchNameDetails,
+  addCats,
+} = require('./services')
 
 function createApp() {
   const app = express()
@@ -22,21 +28,46 @@ function createApp() {
   app.get('/', function(req, res) {
     getRules().then(rules =>
       res.render('index', {
-        validationRules: rules
+        validationRules: rules,
       })
     )
   })
 
-  app.post('/search', function(req, res) {
-    const needle = req.body.needle
-    Promise.all([renderSearchName(needle, res), getRules()])
+  /*
+  Метод поиска котов по имени и полу
+  */
+  app.get('/search', function(req, res) {
+    const searchParams = {
+      needle: req.query.needle,
+      genders: [],
+    }
+
+    if (req.query.male != null) {
+      searchParams.genders.push('male')
+    }
+    
+    if (req.query.female != null) {
+      searchParams.genders.push('female')
+    }
+
+    if (req.query.unisex != null) {
+      searchParams.genders.push('unisex')
+    }
+
+    Promise.all([
+      searchCatsWithApi(searchParams, res),
+      getRules(),
+    ])
       .then(([renderResult, validationRules]) => {
         const { template, context } = renderResult
-        res.render(template, {...context, validationRules})
+        res.render(template, { ...context, validationRules })
       })
       .catch(() => showFailPage(res))
   })
 
+  /*
+  Метод добавления котов
+  */
   app.post('/cats/add', function(req, res) {
     const { catName } = req.body
 
@@ -56,7 +87,7 @@ function createApp() {
     Promise.all([addCats(catsToAdd, res), getRules()])
       .then(([catSuccessfullyAdded, validationRules]) => {
         if (catSuccessfullyAdded) {
-          res.render('index', { showSuccessPopup: true , validationRules})
+          res.render('index', { showSuccessPopup: true, validationRules })
         } else {
           showFailPage(res)
         }
@@ -64,6 +95,9 @@ function createApp() {
       .catch(() => showFailPage(res))
   })
 
+  /*
+  Метод получения кота по ID
+  */
   app.get('/cats/:catId', function(req, res) {
     const { catId } = req.params
     searchNameDetails(catId)
@@ -73,12 +107,16 @@ function createApp() {
         res.render('name-details', {
           name,
           description,
+          // gender,
           id,
         })
       })
       .catch(() => showFailPage(res))
   })
 
+  /*
+  Метод вызова редактирования кота
+  */
   app.get('/cats/:catId/edit', function(req, res) {
     const { catId } = req.params
     searchNameDetails(catId)
@@ -94,6 +132,9 @@ function createApp() {
       .catch(() => showFailPage(res))
   })
 
+  /*
+  Метод сохранения модицификации кота
+  */
   app.post('/cats/:catId/edit', function(req, res) {
     const { catId } = req.params
     const { description } = req.body
@@ -114,78 +155,6 @@ function createApp() {
   return app
 }
 
-function saveCatDescription(catId, catDescription) {
-  return fetch(`${apiUri}/cats/save-description`, {
-    method: 'post',
-    body: JSON.stringify({
-      catId,
-      catDescription,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then(res => res.json())
-}
-
-function getRules() {
-  return fetch(`${apiUri}/cats/validation`).then(res => res.json())
-}
-
-function searchNameDetails(catId) {
-  return fetch(`${apiUri}/cats/get-by-id?id=${catId}`).then(res => res.json())
-}
-
-function renderSearchName(catName, res) {
-  return fetch(`${apiUri}/cats/search`, {
-    method: 'post',
-    body: JSON.stringify({
-      name: catName,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(res => res.json())
-    .then(json => createRenderContesxtSearchResult(json, catName))
-}
-
-function addCats(cats) {
-  return fetch(`${apiUri}/cats/add`, {
-    method: 'post',
-    body: JSON.stringify({
-      cats,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then(res => res.ok)
-}
-
-function createRenderContesxtSearchResult(json, needle) {
-  if (json.groups == null || json.groups.length == 0) {
-    return {
-      template: 'no-result',
-      context: {
-        needle,
-      },
-    }
-  } else {
-    return {
-      template: 'results',
-      context: {
-        groups: json.groups,
-        count: json.count,
-        needle,
-      },
-    }
-  }
-}
-
-function showFailPage(res) {
-  res.render('index', { showFailPopup: true })
-}
-
 module.exports = {
   createApp,
-  createRenderContesxtSearchResult,
 }
