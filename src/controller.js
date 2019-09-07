@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const path = require('path')
-const formidable = require('formidable')
 const {
   getRules,
   searchCatsWithApi,
@@ -11,7 +10,6 @@ const {
   searchNameDetails,
   addCats,
   searchCatsByPatternWithApi,
-  uploadCatPhoto,
 } = require('./services')
 
 function createApp() {
@@ -170,32 +168,6 @@ function createApp() {
         })
       })
       .catch(() => showFailPage(res))
-  })
-
-  /*
-  Метод загрузки фотографии
-  */
-  app.post('/cats/:catId/upload-photo', function(req, res) {
-    const { catId } = req.params
-    const { image } = req.body
-
-    var form = new formidable.IncomingForm();
-
-    form.maxFileSize = 3 * 1024 * 1024;
-    form.parse(req, function(err, fields, files) {
-      uploadCatPhoto(catId, image)
-        .then(({cat, photos}) => {
-          const { name, description, id } = cat
-
-          res.render('name-details', {
-            name,
-            description,
-            id,
-            photos,
-          })
-        })
-        .catch(() => showFailPage(res))
-    });
   })
 
   return app
