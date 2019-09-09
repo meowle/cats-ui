@@ -15,7 +15,20 @@ block content
         .column
           .name-details
             div
-              span.title.is-3 Значение имени #{name}
+              - var urlLikeAction = liked ? `/cats/${id}/unlike` : `/cats/${id}/like`
+              form#like-form(method='GET' action=`${urlLikeAction}`)
+                span.title.is-3 Значение имени #{name}
+                  | &nbsp;#{id}
+                  if liked
+                    button#like.button.is-success(type='submit')
+                      | 👍&nbsp;
+                      span#like-count
+                        | #{likes}
+                  else
+                    button#unlike.button.is-light(type='submit')
+                      | 👍&nbsp;
+                      span
+                        | #{likes}
             br
             //- if gender == 'female'
             //-   span.icon.has-text-danger

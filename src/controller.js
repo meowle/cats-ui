@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const path = require('path')
 const formidable = require('formidable')
+const cookieParser = require('cookie-parser')
 const {
   getRules,
   searchCatsWithApi,
@@ -12,6 +13,8 @@ const {
   addCats,
   searchCatsByPatternWithApi,
   uploadCatPhoto,
+  like,
+  createRenderDetails,
 } = require('./services')
 
 function createApp() {
@@ -27,6 +30,7 @@ function createApp() {
       extended: true,
     }),
   )
+  app.use(cookieParser())
 
   app.get('/', function(req, res) {
     getRules().then(rules =>
@@ -123,12 +127,64 @@ function createApp() {
     searchNameDetails(catId)
       .then(json => json.cat)
       .then(cat => {
-        const { name, description, id } = cat
+        res.render('name-details', createRenderDetails(req, cat))
+      })
+      .catch(() => showFailPage(res))
+  })
+
+  /* Метод установки лайка */
+  app.get('/cats/:catId/like', function(req, res) {
+    const { catId } = req.params
+
+    // Если у клиента есть кука лайка с значением 'true' - он не может лайкнуть еще раз - отправляем ошибку
+    if (req.cookies.liked === 'true') {
+      showFailPage(res);
+
+      return;
+    }
+
+    // Получаем инфу об имени и устанавливам ему лайк
+    Promise.all([
+      searchNameDetails(catId),
+      like(catId)
+    ])
+      .then(([searchResponse]) => {
+        res.cookie('liked', 'true', {
+          expires: new Date(2030, 1, 1),
+          path: `/cats/${catId}`
+        })
         res.render('name-details', {
-          name,
-          description,
-          // gender,
-          id,
+          ...createRenderDetails(req, searchResponse.cat),
+          liked: true
+        })
+      })
+      .catch(() => showFailPage(res))
+  })
+
+  /* Метод удаения лайка */
+  app.get('/cats/:catId/unlike', function(req, res) {
+    const { catId } = req.params
+
+    // Если у клиента нет куки лайка с значением 'true' - он не может отменить лайк - отправляем ошибку
+    if (req.cookies.liked !== 'true') {
+      showFailPage(res);
+
+      return;
+    }
+
+    // Получаем инфу об имени и устанавливам ему лайк
+    Promise.all([
+      searchNameDetails(catId),
+      like(catId)
+    ])
+      .then(([searchResponse]) => {
+        res.cookie('liked', 'false', {
+          maxAge: 0,
+          path: `/cats/${catId}`
+        })
+        res.render('name-details', {
+          ...createRenderDetails(req, searchResponse.cat),
+          liked: false
         })
       })
       .catch(() => showFailPage(res))

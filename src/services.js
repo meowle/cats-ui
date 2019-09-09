@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const { apiUri } = require('./configs')
+
 /*
 Сохранение описания кота
 */
@@ -115,7 +116,7 @@ function uploadCatPhoto(catId, file) {
     cat: {
       id: catId,
       name: 'Mock cat name',
-      description: 'Mock cat description'
+      description: 'Mock cat description',
     },
     photos: [
       'https://bulma.io/images/placeholders/480x640.png',
@@ -124,8 +125,26 @@ function uploadCatPhoto(catId, file) {
       'https://bulma.io/images/placeholders/64x64.png',
       'https://bulma.io/images/placeholders/32x32.png',
       'https://bulma.io/images/placeholders/480x640.png',
-    ]
+    ],
   })
+}
+
+function like(catId) {
+  return Promise.resolve(true)
+}
+
+function createRenderDetails(req, cat) {
+  const {name, description, id, likes} = cat;
+  const {liked} = req.cookies;
+
+  return {
+    name,
+    description,
+    // gender,
+    id,
+    likes,
+    liked: liked === 'true'
+  }
 }
 
 module.exports = {
@@ -137,4 +156,6 @@ module.exports = {
   addCats,
   searchCatsByPatternWithApi,
   uploadCatPhoto,
+  like,
+  createRenderDetails,
 }
