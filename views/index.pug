@@ -34,7 +34,7 @@ html(lang='en')
                   input#cat-name.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
               .field
                 .control.has-text-centered
-                  button.button.is-light(type='submit')
+                  button#search-button.button.is-light(type='submit', disabled='')
                     span.icon
                       i.fas.fa-search
                     span Найти имя коту
@@ -58,7 +58,7 @@ html(lang='en')
               .field.has-addons
                 .control.is-expanded
                   input.input(
-                    type='text', 
+                    type='text',
                     placeholder='Введите имя',
                     name='catName'
                   )
@@ -77,3 +77,5 @@ html(lang='en')
       script(type='text/javascript', src='/js/popup.js')
     else if showFailPopup
       script(type='text/javascript', src='/js/popup-fail.js')
+
+  script(type='text/javascript', src='/js/button-disabling.js')
