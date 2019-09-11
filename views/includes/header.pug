@@ -2,19 +2,22 @@ section.section.has-background-light
   .container
     .columns
       .column.is-2.has-text-right-desktop
-        h1.is-size-3(style='margin-top: -0.5rem') 
+        h1.is-size-3(style='margin-top: -0.5rem')
           a.has-text-black(href='/') meowle
       .column
         form.cats-search
           .field.has-addons(method='GET', action='/search')
             .control.is-expanded
-              input#cat-name.input(
-                type='text', 
-                placeholder='Введите часть имени кота', 
-                autocomplete='off',
-                name='needle',
-                value=needle
-              )
+              .dropdown#suggestions(style='width: 100%')
+                input#cat-name.input(
+                  type='text',
+                  placeholder='Введите часть имени кота',
+                  autocomplete='off',
+                  name='needle',
+                  value=needle
+                )
+                .dropdown-menu(role="menu")
+                  .dropdown-content
             .control
               button.button(type='submit')
                 span.icon
@@ -29,27 +32,28 @@ section.section.has-background-light
                         type='checkbox',
                         name='female',
                         checked=female
-                        )
-                      |&nbsp;Ж
+                      )
+                      | &nbsp;Ж
                   .control
                     label.checkbox
                       input(
                         type='checkbox',
                         name='male',
                         checked=male
-                        )
-                      |&nbsp;М
+                      )
+                      | &nbsp;М
                   .control
                     label.checkbox
                       input(
                         type='checkbox',
                         name='unisex',
                         checked=unisex
-                        )
-                      |&nbsp;Универс.      
-            .level-right
-              .level-item
-                p.is-size-7 Найдено имён: #{count}
+                      )
+                      | &nbsp;Универс.
+            if count
+              .level-right
+                .level-item
+                  p.is-size-7 Найдено имён: #{count}
 
 input#validation-rules(type='hidden', value=validationRules)
 script(type='text/javascript', src='/js/validation.js')

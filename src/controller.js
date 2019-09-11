@@ -9,6 +9,7 @@ const {
   saveCatDescription,
   searchNameDetails,
   addCats,
+  searchCatsByPatternWithApi,
 } = require('./services')
 
 function createApp() {
@@ -22,14 +23,14 @@ function createApp() {
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    })
+    }),
   )
 
   app.get('/', function(req, res) {
     getRules().then(rules =>
       res.render('index', {
         validationRules: rules,
-      })
+      }),
     )
   })
 
@@ -45,7 +46,7 @@ function createApp() {
     if (req.query.male != null) {
       searchParams.genders.push('male')
     }
-    
+
     if (req.query.female != null) {
       searchParams.genders.push('female')
     }
@@ -63,6 +64,23 @@ function createApp() {
         res.render(template, { ...context, validationRules })
       })
       .catch(() => showFailPage(res))
+  })
+
+  /*
+  Метод поиска котов по имени и полу
+  */
+  app.get('/search-suggests', function(req, res) {
+    if (!req.query.name) {
+      return res.json([])
+    }
+
+    const limit = req.query.limit || 20
+
+    searchCatsByPatternWithApi(req.query.name, limit)
+      .then(result => {
+        res.json(result)
+      })
+      .catch(err => console.log(err))
   })
 
   /*
