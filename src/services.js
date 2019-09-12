@@ -52,6 +52,14 @@ function searchCatsWithApi(searchParams) {
 }
 
 /*
+Ищем подходящих котов через api по части имени (отправка запроса и получение данных)
+*/
+function searchCatsByPatternWithApi(searchName, limit) {
+  return fetch(`${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`)
+    .then(res => res.json())
+}
+
+/*
 Возвращаем всех котов
  */
 function getAllCats() {
@@ -110,7 +118,7 @@ function createRenderContesxtSearchResult(json, searchParams) {
     needle,
     male: genders.includes('male'),
     female: genders.includes('female'),
-    unisex: genders.includes('unisex')
+    unisex: genders.includes('unisex'),
   }
 
   if (json.groups == null || json.groups.length == 0) {
@@ -145,4 +153,5 @@ module.exports = {
   searchNameDetails,
   addCats,
   getAllCats
+  searchCatsByPatternWithApi,
 }

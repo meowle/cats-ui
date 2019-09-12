@@ -30,8 +30,11 @@ html(lang='en')
 
             form(method='GET', action='/search')
               .field
-                .control(style='width: 100%')
-                  input#cat-name.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
+                .control
+                  .dropdown#suggestions(style='width: 100%')
+                    input#cat-name.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
+                    .dropdown-menu(role="menu")
+                      .dropdown-content
               .field
                 .control.has-text-centered
                   button#search-button.button.is-light(type='submit', disabled='')
@@ -42,7 +45,11 @@ html(lang='en')
                     span.icon
                         i.fas.fa-search
                     span Все имена
-    button.button.is-light.has-background-warning(style={ position: 'absolute', right: '20px', bottom: '20px' }).show-add-names
+    button.button.is-light.has-background-warning(style={
+      position: 'absolute',
+      right: '20px',
+      bottom: '20px'
+    }).show-add-names
       span.icon
         i.fas.fa-plus
     .modal.is-clipped
@@ -79,3 +86,4 @@ html(lang='en')
       script(type='text/javascript', src='/js/popup-fail.js')
 
   script(type='text/javascript', src='/js/button-disabling.js')
+  script(type='text/javascript', src='/js/search-cats.js')
