@@ -70,7 +70,7 @@ function createApp() {
   /*
   Метод вывода всех котов
   */
-  app.get('/allname', function(req, res) {
+  app.get('/all-names', function(req, res) {
 
     Promise.all([
       getAllCats(req, res),

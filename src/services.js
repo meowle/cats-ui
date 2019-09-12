@@ -63,7 +63,7 @@ function searchCatsByPatternWithApi(searchName, limit) {
 Возвращаем всех котов
  */
 function getAllCats() {
-  return fetch(`${apiUri}/cats/getall`, {
+  return fetch(`${apiUri}/cats/all`, {
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -152,6 +152,6 @@ module.exports = {
   saveCatDescription,
   searchNameDetails,
   addCats,
-  getAllCats
+  getAllCats,
   searchCatsByPatternWithApi,
 }

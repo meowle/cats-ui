@@ -41,10 +41,11 @@ html(lang='en')
                     span.icon
                       i.fas.fa-search
                     span Найти имя коту
-                  button.button.is-light(type='button', style='margin-left: 1rem' onclick="location.href = '/allname';")
-                    span.icon
-                        i.fas.fa-search
-                    span Все имена
+                  a(href='/all-names')
+                    button.button.is-light(type='button', style='margin-left: 1rem')
+                      span.icon
+                          i.fas.fa-search
+                      span Все имена
     button.button.is-light.has-background-warning(style={
       position: 'absolute',
       right: '20px',
