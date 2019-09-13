@@ -51,6 +51,7 @@
       const newSearchValue = searchInput.value
 
       if (!newSearchValue) {
+        oldSearchValue = newSearchValue
         dropdownActive(false)
         return
       }

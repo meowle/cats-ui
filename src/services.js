@@ -60,6 +60,21 @@ function searchCatsByPatternWithApi(searchName, limit) {
 }
 
 /*
+Возвращаем всех котов
+ */
+function getAllCats() {
+  return fetch(`${apiUri}/cats/all`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+  },
+  })
+    .then(res => res.json())
+    .then(json => createRenderAllContext(json))
+
+}
+
+/*
 Добавление котов
 */
 function addCats(cats) {
@@ -72,6 +87,26 @@ function addCats(cats) {
       'Content-Type': 'application/json',
     },
   }).then(res => res.ok)
+}
+
+/*
+Вьюшка для отрисовки всех котов
+ */
+function createRenderAllContext(json) {
+
+  if (json.groups == null || json.groups.length == 0) {
+    return {
+      template: 'no-result',
+    }
+  } else {
+    return {
+      template: 'results',
+      context: {
+        groups: json.groups,
+        count: json.count,
+      },
+    }
+  }
 }
 
 /*
@@ -117,5 +152,6 @@ module.exports = {
   saveCatDescription,
   searchNameDetails,
   addCats,
+  getAllCats,
   searchCatsByPatternWithApi,
 }
