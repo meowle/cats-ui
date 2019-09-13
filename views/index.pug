@@ -37,10 +37,15 @@ html(lang='en')
                       .dropdown-content
               .field
                 .control.has-text-centered
-                  button.button.is-light(type='submit')
+                  button#search-button.button.is-light(type='submit', disabled='')
                     span.icon
                       i.fas.fa-search
                     span Найти имя коту
+                  a(href='/all-names')
+                    button.button.is-light(type='button', style='margin-left: 1rem')
+                      span.icon
+                          i.fas.fa-search
+                      span Все имена
     button.button.is-light.has-background-warning(style={
       position: 'absolute',
       right: '20px',
@@ -80,4 +85,6 @@ html(lang='en')
       script(type='text/javascript', src='/js/popup.js')
     else if showFailPopup
       script(type='text/javascript', src='/js/popup-fail.js')
-script(type='text/javascript', src='/js/search-cats.js')
+
+  script(type='text/javascript', src='/js/button-disabling.js')
+  script(type='text/javascript', src='/js/search-cats.js')

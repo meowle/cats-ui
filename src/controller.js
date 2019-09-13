@@ -9,6 +9,7 @@ const {
   saveCatDescription,
   searchNameDetails,
   addCats,
+  getAllCats,
   searchCatsByPatternWithApi,
 } = require('./services')
 
@@ -56,7 +57,23 @@ function createApp() {
     }
 
     Promise.all([
-      searchCatsWithApi(searchParams, res),
+    searchCatsWithApi(searchParams, res),
+    getRules(),
+  ])
+    .then(([renderResult, validationRules]) => {
+      const { template, context } = renderResult
+      res.render(template, { ...context, validationRules })
+    })
+    .catch(() => showFailPage(res))
+})
+
+  /*
+  Метод вывода всех котов
+  */
+  app.get('/all-names', function(req, res) {
+
+    Promise.all([
+      getAllCats(req, res),
       getRules(),
     ])
       .then(([renderResult, validationRules]) => {
