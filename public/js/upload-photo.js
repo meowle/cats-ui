@@ -1,15 +1,8 @@
-function UploadPhoto() {
-  this.element = document.querySelector('#upload-photo')
-  this.form = this.element.closest('form')
-  this.addHandler()
-}
+;(function() {
+  var element = document.querySelector('#upload-photo')
+  var form = element.closest('form')
 
-UploadPhoto.prototype.addHandler = function() {
-  this.element.addEventListener('change', this.handlerChange)
-}
-
-UploadPhoto.prototype.handlerChange = function() {
-  this.form.submit()
-}
-
-var uploadPhoto = new UploadPhoto()
+  element.addEventListener('change', function() {
+    form.submit()
+  })
+})()
