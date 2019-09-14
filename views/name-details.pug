@@ -49,7 +49,7 @@ block content
               label
                 span.title
                   | Добавить фото
-                form(method='POST', action=`/cats/${id}/upload-photo`, enctype='multipart/form-data')
-                  input#upload-photo(type='file' accept='image/*' name='image')
+                form(method='POST', action=`/cats/${id}/upload`, enctype='multipart/form-data')
+                  input#upload-photo(type='file' accept='image/png,image/jpeg' name='file')
             each url in photos || []
               .photo(style=`background-image:url(${url})`)
