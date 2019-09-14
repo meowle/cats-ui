@@ -13,6 +13,7 @@ const {
   searchNameDetails,
   addCats,
   searchCatsByPatternWithApi,
+  getPhotos,
 } = require('./services')
 
 function createApp() {
@@ -123,15 +124,22 @@ function createApp() {
   */
   app.get('/cats/:catId', function(req, res) {
     const { catId } = req.params
-    searchNameDetails(catId)
-      .then(json => json.cat)
-      .then(cat => {
-        const { name, description, id } = cat
+    Promise.all([
+      searchNameDetails(catId),
+      getRules(),
+      getPhotos(catId),
+    ])
+      .then(([cat, validationRules, photos]) => {
+        const { cat: { name, description, id } } = cat
+        const images = photos.images.map(({ link }) => link)
+
         res.render('name-details', {
           name,
           description,
           // gender,
           id,
+          validationRules,
+          photos: images,
         })
       })
       .catch(() => showFailPage(res))

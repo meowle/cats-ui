@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const { apiUri } = require('./configs')
+
 /*
 Сохранение описания кота
 */
@@ -109,6 +110,15 @@ function showFailPage(res) {
   res.render('index', { showFailPopup: true })
 }
 
+/*
+Получение фотографий
+*/
+function getPhotos(catId) {
+  return fetch(`${apiUri}/cats/${catId}/photos`)
+    .then(res => res.json())
+}
+
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -117,4 +127,5 @@ module.exports = {
   searchNameDetails,
   addCats,
   searchCatsByPatternWithApi,
+  getPhotos,
 }
