@@ -131,7 +131,7 @@ function createApp() {
     ])
       .then(([cat, validationRules, photos]) => {
         const { cat: { name, description, id } } = cat
-        const images = photos.images.map(({ link }) => link)
+        const images = photos.images;
 
         res.render('name-details', {
           name,
