@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const path = require('path')
+const formidable = require('formidable')
+const { apiUri } = require('./configs')
+const proxy = require('./proxy')(apiUri)
 const {
   getRules,
   searchCatsWithApi,
@@ -11,6 +14,7 @@ const {
   addCats,
   getAllCats,
   searchCatsByPatternWithApi,
+  getPhotos,
 } = require('./services')
 
 function createApp() {
@@ -26,6 +30,8 @@ function createApp() {
       extended: true,
     }),
   )
+
+  app.use(proxy.init())
 
   app.get('/', function(req, res) {
     getRules().then(rules =>
@@ -135,15 +141,22 @@ function createApp() {
   */
   app.get('/cats/:catId', function(req, res) {
     const { catId } = req.params
-    searchNameDetails(catId)
-      .then(json => json.cat)
-      .then(cat => {
-        const { name, description, id } = cat
+    Promise.all([
+      searchNameDetails(catId),
+      getRules(),
+      getPhotos(catId),
+    ])
+      .then(([cat, validationRules, photos]) => {
+        const { cat: { name, description, id } } = cat
+        const images = photos.images;
+
         res.render('name-details', {
           name,
           description,
           // gender,
           id,
+          validationRules,
+          photos: images,
         })
       })
       .catch(() => showFailPage(res))
@@ -185,6 +198,15 @@ function createApp() {
         })
       })
       .catch(() => showFailPage(res))
+  })
+
+  proxy.post('/cats/:catId/upload', function(proxyRes, req, res) {
+    proxyRes.on('data', () => {
+    })
+
+    proxyRes.on('end', function() {
+      res.redirect('back')
+    })
   })
 
   return app
