@@ -23,6 +23,7 @@
     "dotenv": "^8.0.0",
     "escape-regex-string": "^1.0.6",
     "express": "^4.16.3",
+    "http-proxy": "^1.17.0",
     "node-fetch": "^2.2.0",
     "pug": "^2.0.3",
     "serve-favicon": "^2.5.0"

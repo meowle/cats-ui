@@ -145,6 +145,15 @@ function showFailPage(res) {
   res.render('index', { showFailPopup: true })
 }
 
+/*
+Получение фотографий
+*/
+function getPhotos(catId) {
+  return fetch(`${apiUri}/cats/${catId}/photos`)
+    .then(res => res.json())
+}
+
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -154,4 +163,5 @@ module.exports = {
   addCats,
   getAllCats,
   searchCatsByPatternWithApi,
+  getPhotos,
 }
