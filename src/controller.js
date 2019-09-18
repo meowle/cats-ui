@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const path = require('path')
-const formidable = require('formidable')
 const { apiUri } = require('./configs')
 const proxy = require('./proxy')(apiUri)
 const {
@@ -200,14 +199,16 @@ function createApp() {
       .catch(() => showFailPage(res))
   })
 
-  proxy.post('/cats/:catId/upload', function(proxyRes, req, res) {
+  proxy.post('/cats/:catId/upload', true, function(proxyRes, req, res) {
     proxyRes.on('data', () => {
     })
 
     proxyRes.on('end', function() {
-      res.redirect('back')
+        res.redirect('back')
     })
   })
+
+  proxy.get('/photos', false)
 
   return app
 }
