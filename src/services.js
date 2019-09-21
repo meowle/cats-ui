@@ -63,8 +63,14 @@ function searchCatsByPatternWithApi(searchName, limit) {
 /*
 Возвращаем всех котов
  */
-function getAllCats() {
-  return fetch(`${apiUri}/cats/all`, {
+function getAllCats(order) {
+  let query = '';
+
+  if (order) {
+    query = `?order=${order}`;
+  }
+
+  return fetch(`${apiUri}/cats/all${query}`, {
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

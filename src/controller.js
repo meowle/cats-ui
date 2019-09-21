@@ -73,10 +73,16 @@ function createApp() {
   Метод вывода всех котов
   */
   app.get('/all-names', function(req, res) {
-    Promise.all([getAllCats(req, res), getRules()])
+    const { order } = req.query;
+
+    Promise.all([getAllCats(order), getRules()])
       .then(([renderResult, validationRules]) => {
         const { template, context } = renderResult
-        res.render(template, { ...context, validationRules })
+        res.render(template, {
+          ...context,
+          validationRules,
+          order: order || 'none',
+        })
       })
       .catch(() => showFailPage(res))
   })
