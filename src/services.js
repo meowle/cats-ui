@@ -55,8 +55,9 @@ function searchCatsWithApi(searchParams) {
 Ищем подходящих котов через api по части имени (отправка запроса и получение данных)
 */
 function searchCatsByPatternWithApi(searchName, limit) {
-  return fetch(`${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`)
-    .then(res => res.json())
+  return fetch(
+    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`
+  ).then(res => res.json())
 }
 
 /*
@@ -67,11 +68,10 @@ function getAllCats() {
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
-  },
+    },
   })
     .then(res => res.json())
     .then(json => createRenderAllContext(json))
-
 }
 
 /*
@@ -93,7 +93,6 @@ function addCats(cats) {
 Вьюшка для отрисовки всех котов
  */
 function createRenderAllContext(json) {
-
   if (json.groups == null || json.groups.length == 0) {
     return {
       template: 'no-result',
@@ -149,10 +148,8 @@ function showFailPage(res) {
 Получение фотографий
 */
 function getPhotos(catId) {
-  return fetch(`${apiUri}/cats/${catId}/photos`)
-    .then(res => res.json())
+  return fetch(`${apiUri}/cats/${catId}/photos`).then(res => res.json())
 }
-
 
 module.exports = {
   getRules,

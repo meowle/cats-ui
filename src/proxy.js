@@ -10,15 +10,17 @@ class Proxy {
     this._httpProxy.on('proxyRes', (proxyRes, req, res) => {
       const currentProxyPath = this._findProxyConfig(req)
 
-      if (currentProxyPath) {
+      if (currentProxyPath && currentProxyPath.cb) {
         currentProxyPath.cb(proxyRes, req, res)
       }
     })
 
     return (req, res, next) => {
-      if (this._findProxyConfig(req)) {
+      const config = this._findProxyConfig(req);
+
+      if (config) {
         this._httpProxy.web(req, res, {
-          selfHandleResponse: true,
+          selfHandleResponse: config.changeResponse,
         })
         return
       }
@@ -28,27 +30,28 @@ class Proxy {
     }
   }
 
-  get(url, cb) {
-    this._createConfig('get', url, cb)
+  get(url, changeResponse, cb) {
+    this._createConfig('get', url, changeResponse, cb)
   }
 
-  post(url, cb) {
-    this._createConfig('post', url, cb)
+  post(url, changeResponse, cb) {
+    this._createConfig('post', url, changeResponse, cb)
   }
 
-  put(url, cb) {
-    this._createConfig('put', url, cb)
+  put(url, changeResponse, cb) {
+    this._createConfig('put', url, changeResponse, cb)
   }
 
-  delete(url, cb) {
-    this._createConfig('delete', url, cb)
+  delete(url, changeResponse, cb) {
+    this._createConfig('delete', url, changeResponse, cb)
   }
 
-  _createConfig(method, url, cb) {
+  _createConfig(method, url, changeResponse, cb) {
     this._configs.push({
       url: this._urlToRegex(url),
       method,
       cb,
+      changeResponse,
     })
   }
 

@@ -2,15 +2,15 @@ doctype html
 html(lang='en')
   head
     meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
     title Meowle
-    link(rel='stylesheet', href='/css/bulma.min.css')
-    link(rel='stylesheet', href='/css/fontawesome.all.min.css')
+    link(rel='stylesheet' href='/css/bulma.min.css')
+    link(rel='stylesheet' href='/css/fontawesome.all.min.css')
 
-    script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
-    link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
-    link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
+    script(type='text/javascript' src='/libs/alertifyjs/alertify.min.js')
+    link(rel='stylesheet' href='/libs/alertifyjs/css/alertify.min.css')
+    link(rel='stylesheet' href='/libs/alertifyjs/css/themes/bootstrap.min.css')
 
     style.
       html, body {
@@ -28,23 +28,23 @@ html(lang='en')
                 figure.image.is-128x128.is-pulled-right
                   img(src='/img/cat.png')
 
-            form(method='GET', action='/search')
+            form(method='GET' action='/search')
               .field
                 .control
                   .dropdown#suggestions(style='width: 100%')
-                    input#cat-name.input(type='text', placeholder='Введите часть имени', name='needle', autocomplete='off')
+                    input#cat-name.input(type='text' placeholder='Введите часть имени' name='needle' autocomplete='off')
                     .dropdown-menu(role="menu")
                       .dropdown-content
               .field
                 .control.has-text-centered
-                  button#search-button.button.is-light(type='submit', disabled='')
+                  button#search-button.button.is-light(type='submit' disabled='')
                     span.icon
                       i.fas.fa-search
                     span Найти имя коту
                   a(href='/all-names')
-                    button.button.is-light(type='button', style='margin-left: 1rem')
+                    button.button.is-light(type='button' style='margin-left: 1rem')
                       span.icon
-                          i.fas.fa-search
+                        i.fas.fa-search
                       span Все имена
     button.button.is-light.has-background-warning(style={
       position: 'absolute',
@@ -62,29 +62,53 @@ html(lang='en')
             img(src='/img/cat-icon.png')
         section.modal-card-body
           .column
-            form(method='POST', action='/cats/add')
-              .field.has-addons
-                .control.is-expanded
-                  input.input(
-                    type='text',
-                    placeholder='Введите имя',
-                    name='catName'
-                  )
-                .control
-                  button.button.is-light.add-new-name
-                    span.icon
-                      i.fas.fa-plus
+            form(method='POST' action='/cats/add')
+              .level
+                .level-item
+                  .level-right
+                    .control.is-expanded
+                      input.input(
+                        type='text',
+                        placeholder='Введите имя',
+                        name='cat-name-0'
+                      )
+                .level-item
+                  .level-left
+                    .control 
+                      span.specify-gender Укажите пол: 
+                      label.radio
+                        input(
+                          type='radio',
+                          name='cat-gender-0',
+                          value='female')
+                        |     &ZHcy;
+                      label.radio
+                        input(
+                          type='radio',
+                          name='cat-gender-0',
+                          value='male')
+                        |     &Mcy;
+                      label.radio
+                        input(
+                          type='radio',
+                          name='cat-gender-0',
+                          value='unisex')
+                        |     &Ucy;&ncy;&icy;&vcy;&iecy;&rcy;&scy;.
+                    .control
+                      button.button.is-light.add-new-name
+                        span.icon
+                          i.fas.fa-plus
               button.button.is-warning(type='submit') Добавить
       button.modal-close.is-large(aria-label='close')
-    script(type='text/javascript', src='/js/addnames.js')
+    script(type='text/javascript' src='/js/addnames.js')
 
     input#validation-rules(type='hidden', value=validationRules)
-    script(type='text/javascript', src='/js/validation.js')
+    script(type='text/javascript' src='/js/validation.js')
 
     if showSuccessPopup
-      script(type='text/javascript', src='/js/popup.js')
+      script(type='text/javascript' src='/js/popup.js')
     else if showFailPopup
-      script(type='text/javascript', src='/js/popup-fail.js')
+      script(type='text/javascript' src='/js/popup-fail.js')
 
-  script(type='text/javascript', src='/js/button-disabling.js')
-  script(type='text/javascript', src='/js/search-cats.js')
+  script(type='text/javascript' src='/js/button-disabling.js')
+  script(type='text/javascript' src='/js/search-cats.js')
