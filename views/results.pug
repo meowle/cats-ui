@@ -28,18 +28,10 @@ html(lang='en')
                       select(name="order")
                         option.is-hidden
                           | Сортировка групп
-                        if order == 'asc'
-                          option(selected="selected" value='asc')
-                            | По возврастанию
-                        else
-                          option(value='asc')
-                            | По возврастанию
-                        if order == 'desc'
-                          option(selected="selected" value='desc')
-                            | По убыванию
-                        else
-                          option(value='desc')
-                            | По убыванию
+                        option(selected=order == 'asc' value='asc')
+                          | По возврастанию
+                        option(selected=order == 'desc' value='desc')
+                          | По убыванию
                   .icon.is-small.is-left
                     i.fas.fa-sort
         .columns
