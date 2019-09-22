@@ -14,53 +14,35 @@ html(lang='en')
     link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
     link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
   body
-    include includes/header.pug    
-    section.section
-      .container
-        .columns
-          if order
-            .column.is-2
-            .column(style="margin-top: -30px")
-              .field
-                .control.has-icons-left
-                  .select.is-small
-                    form#sorting(method="GET")
-                      select(name="order")
-                        option.is-hidden
-                          | Сортировка групп
-                        option(selected=order == 'asc' value='asc')
-                          | По возврастанию
-                        option(selected=order == 'desc' value='desc')
-                          | По убыванию
-                  .icon.is-small.is-left
-                    i.fas.fa-sort
-        .columns
-          .column.is-2
-            figure.image.is-64x64.is-pulled-right
-              img(src='/img/cat.png')
-          .column
-            each group in groups
-              .search-result-group
-                div
-                  span.title.is-4 #{group.title}
-                  span.is-pulled-right.has-text-grey.is-size-7 #{group.count}
-                br
-                div
-                  .tags
-                    each cat in group.cats
-                      span.tag.is-size-5
-                        if cat.gender == 'female'
-                          span.icon.has-text-danger
-                            i.fas.fa-venus
-                        else if cat.gender == 'male'
-                          span.icon.has-text-info
-                            i.fas.fa-mars
-                        else if cat.gender == 'unisex'
-                          span.icon.has-text-primary
-                            i.fas.fa-venus-mars
-                        a(href='/cats/' + cat.id, style={color: 'black'}) #{cat.name}
-                hr
+    include includes/header.pug
+    include includes/search-filter
 
+    .container
+      .columns
+        .column.is-2
+          figure.image.is-64x64.is-pulled-right
+            img(src='/img/cat.png')
+        .column
+          each group in groups
+            .search-result-group
+              div
+                span.title.is-4 #{group.title}
+                span.is-pulled-right.has-text-grey.is-size-7 #{group.count}
+              br
+              div
+                .tags
+                  each cat in group.cats
+                    span.tag.is-size-5
+                      if cat.gender == 'female'
+                        span.icon.has-text-danger
+                          i.fas.fa-venus
+                      else if cat.gender == 'male'
+                        span.icon.has-text-info
+                          i.fas.fa-mars
+                      else if cat.gender == 'unisex'
+                        span.icon.has-text-primary
+                          i.fas.fa-venus-mars
+                      a(href='/cats/' + cat.id, style={ color: 'black' }) #{cat.name}
+              hr
     if showPopup
       script(type='text/javascript', src='/js/popup.js')
-    script(type='text/javascript', src='/js/sort-cats.js')

@@ -35,13 +35,13 @@ function searchNameDetails(catId) {
 Ищем подходящих котов через api (отправка запроса и получение данных)
 */
 function searchCatsWithApi(searchParams) {
-  const { needle, genders } = searchParams
+  const { needle, gender } = searchParams
 
   return fetch(`${apiUri}/cats/search`, {
     method: 'post',
     body: JSON.stringify({
       name: needle,
-      genders,
+      gender,
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -56,21 +56,20 @@ function searchCatsWithApi(searchParams) {
 */
 function searchCatsByPatternWithApi(searchName, limit) {
   return fetch(
-    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`
+    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`,
   ).then(res => res.json())
 }
 
 /*
 Возвращаем всех котов
  */
-function getAllCats(order) {
-  let query = '';
+function getAllCats(filter) {
+  let query = Object.keys(filter)
+    .filter(key => filter[key])
+    .map(key => `${key}=${filter[key]}`)
+    .join('&')
 
-  if (order) {
-    query = `?order=${order}`;
-  }
-
-  return fetch(`${apiUri}/cats/all${query}`, {
+  return fetch(`${apiUri}/cats/all?${query}`, {
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
@@ -102,6 +101,9 @@ function createRenderAllContext(json) {
   if (json.groups == null || json.groups.length == 0) {
     return {
       template: 'no-result',
+      context: {
+        hideSearchFilter: true,
+      },
     }
   } else {
     return {
@@ -118,18 +120,21 @@ function createRenderAllContext(json) {
 Выбор вьюшки для отрисовки (с результатами или без)
 */
 function createRenderContesxtSearchResult(json, searchParams) {
-  const { needle, genders } = searchParams
+  const { needle, gender } = searchParams
   const searchContext = {
     needle,
-    male: genders.includes('male'),
-    female: genders.includes('female'),
-    unisex: genders.includes('unisex'),
+    gender,
   }
 
   if (json.groups == null || json.groups.length == 0) {
     return {
       template: 'no-result',
-      context: searchContext,
+      context: {
+        ...searchContext,
+        gender,
+        hideSearchFilter: !gender,
+        hideSearchSort: true,
+      },
     }
   } else {
     return {
@@ -138,6 +143,7 @@ function createRenderContesxtSearchResult(json, searchParams) {
         ...searchContext,
         groups: json.groups,
         count: json.count,
+        hideSearchSort: true,
       },
     }
   }
