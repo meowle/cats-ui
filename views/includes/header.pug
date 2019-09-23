@@ -22,38 +22,6 @@ section.section.has-background-light
               button.button(type='submit')
                 span.icon
                   i.fas.fa-search
-          .level
-            .level-left
-              .level-item
-                .field.is-grouped
-                  .control
-                    label.checkbox
-                      input(
-                        type='checkbox',
-                        name='female',
-                        checked=female
-                      )
-                      | &nbsp;Ж
-                  .control
-                    label.checkbox
-                      input(
-                        type='checkbox',
-                        name='male',
-                        checked=male
-                      )
-                      | &nbsp;М
-                  .control
-                    label.checkbox
-                      input(
-                        type='checkbox',
-                        name='unisex',
-                        checked=unisex
-                      )
-                      | &nbsp;Универс.
-            if count
-              .level-right
-                .level-item
-                  p.is-size-7 Найдено имён: #{count}
 
 input#validation-rules(type='hidden', value=validationRules)
 script(type='text/javascript', src='/js/validation.js')
