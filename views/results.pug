@@ -5,7 +5,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
 
-    title Meowle - #{needle}
+    title Все имена
 
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
@@ -14,36 +14,35 @@ html(lang='en')
     link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
     link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
   body
-    include includes/header.pug    
-    section.section
-      .container
-        .columns
-          .column.is-2
-            figure.image.is-64x64.is-pulled-right
-              img(src='/img/cat.png')
-          .column
-            each group in groups
-              .search-result-group
-                div
-                  span.title.is-4 #{group.title}
-                  span.is-pulled-right.has-text-grey.is-size-7 #{group.count}
-                br
-                div
-                  .tags
-                    each cat in group.cats
-                      span.tag.is-size-5
-                        if cat.gender == 'female'
-                          span.icon.has-text-danger
-                            i.fas.fa-venus
-                        else if cat.gender == 'male'
-                          span.icon.has-text-info
-                            i.fas.fa-mars
-                        else if cat.gender == 'unisex'
-                          span.icon.has-text-primary
-                            i.fas.fa-venus-mars
-                        a(href='/cats/' + cat.id, style={color: 'black'}) #{cat.name}
-                hr
+    include includes/header.pug
+    include includes/search-filter
 
+    .container
+      .columns
+        .column.is-2
+          figure.image.is-64x64.is-pulled-right
+            img(src='/img/cat.png')
+        .column
+          each group in groups
+            .search-result-group
+              div
+                span.title.is-4 #{group.title}
+                span.is-pulled-right.has-text-grey.is-size-7 #{group.count}
+              br
+              div
+                .tags
+                  each cat in group.cats
+                    span.tag.is-size-5
+                      if cat.gender == 'female'
+                        span.icon.has-text-danger
+                          i.fas.fa-venus
+                      else if cat.gender == 'male'
+                        span.icon.has-text-info
+                          i.fas.fa-mars
+                      else if cat.gender == 'unisex'
+                        span.icon.has-text-primary
+                          i.fas.fa-venus-mars
+                      a(href='/cats/' + cat.id, style={ color: 'black' }) #{cat.name}
+              hr
     if showPopup
       script(type='text/javascript', src='/js/popup.js')
-                              

@@ -7,11 +7,13 @@ html(lang='en')
     title Meowle - #{needle}
     link(rel='stylesheet', href='/css/bulma.min.css')
     link(rel='stylesheet', href='/css/fontawesome.all.min.css')
-    
+
     script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
     link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
   body
     include includes/header.pug
+    include includes/search-filter
+
     section.section
       .container
         .columns
@@ -27,7 +29,7 @@ html(lang='en')
               br
               input(type='hidden', name='catName', value=needle)
               .control.has-text-centered
-                button.button.is-warning.is-medium.button-search(type='submit')               
+                button.button.is-warning.is-medium.button-search(type='submit')
                   span Добавить&nbsp;
                   span.has-text-weight-bold= needle
                   span &nbsp;в базу?

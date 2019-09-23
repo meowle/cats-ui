@@ -21,7 +21,7 @@
     // задержка поиска подсказок в мс
     const DELAY_SEARCH_SUGGESTIONS = 500
     // ограничение количества полученных подсказок
-    const LIMIT_SUGGESTIONS = 20
+    const LIMIT_SUGGESTIONS = 10
     const searchInput = document.getElementById('cat-name')
     const suggestionsElement = document.getElementById('suggestions')
     const suggestionsContentElement = suggestionsElement && suggestionsElement.querySelector('.dropdown-content')
