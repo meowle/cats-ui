@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const path = require('path')
-const formidable = require('formidable')
+const { apiUri } = require('./configs')
+const proxy = require('./proxy')(apiUri)
 const cookieParser = require('cookie-parser')
 const {
   getRules,
@@ -11,8 +12,9 @@ const {
   saveCatDescription,
   searchNameDetails,
   addCats,
+  getAllCats,
   searchCatsByPatternWithApi,
-  uploadCatPhoto,
+  getPhotos,
   like,
   createRenderDetails,
 } = require('./services')
@@ -28,15 +30,16 @@ function createApp() {
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    }),
+    })
   )
+  app.use(proxy.init())
   app.use(cookieParser())
 
   app.get('/', function(req, res) {
     getRules().then(rules =>
       res.render('index', {
         validationRules: rules,
-      }),
+      })
     )
   })
 
@@ -61,10 +64,19 @@ function createApp() {
       searchParams.genders.push('unisex')
     }
 
-    Promise.all([
-      searchCatsWithApi(searchParams, res),
-      getRules(),
-    ])
+    Promise.all([searchCatsWithApi(searchParams, res), getRules()])
+      .then(([renderResult, validationRules]) => {
+        const { template, context } = renderResult
+        res.render(template, { ...context, validationRules })
+      })
+      .catch(() => showFailPage(res))
+  })
+
+  /*
+  Метод вывода всех котов
+  */
+  app.get('/all-names', function(req, res) {
+    Promise.all([getAllCats(req, res), getRules()])
       .then(([renderResult, validationRules]) => {
         const { template, context } = renderResult
         res.render(template, { ...context, validationRules })
@@ -93,20 +105,33 @@ function createApp() {
   Метод добавления котов
   */
   app.post('/cats/add', function(req, res) {
-    const { catName } = req.body
+    const cats = {}
 
-    let catsToAdd
+    for (const [catParam, value] of Object.entries(req.body)) {
+      const catNameMatch = catParam.match(/^cat-name-(\d+)$/)
+      if (catNameMatch) {
+        const catIndex = catNameMatch[1]
+        if (cats[catIndex] == null) {
+          cats[catIndex] = {}
+        }
 
-    if (!Array.isArray(catName)) {
-      catsToAdd = [{ name: catName }]
-    } else {
-      catsToAdd = []
-      for (let i = 0; i < catName.length; i++) {
-        catsToAdd.push({
-          name: catName[i],
-        })
+        cats[catIndex].name = value.trim()
+        continue
+      }
+
+      const caGenderMatch = catParam.match(/^cat-gender-(\d+)$/)
+      if (caGenderMatch) {
+        const catIndex = caGenderMatch[1]
+        if (cats[catIndex] == null) {
+          cats[catIndex] = {}
+        }
+
+        cats[catIndex].gender = value.trim()
+        continue
       }
     }
+
+    const catsToAdd = Object.values(cats)
 
     Promise.all([addCats(catsToAdd, res), getRules()])
       .then(([catSuccessfullyAdded, validationRules]) => {
@@ -124,10 +149,21 @@ function createApp() {
   */
   app.get('/cats/:catId', function(req, res) {
     const { catId } = req.params
-    searchNameDetails(catId)
-      .then(json => json.cat)
-      .then(cat => {
-        res.render('name-details', createRenderDetails(req, cat))
+    Promise.all([searchNameDetails(catId), getRules(), getPhotos(catId)])
+      .then(([cat, validationRules, photos]) => {
+        const {
+          cat: { name, description, id },
+        } = cat
+        const images = photos.images
+
+        res.render('name-details', {
+          name,
+          description,
+          // gender,
+          id,
+          validationRules,
+          photos: images,
+        })
       })
       .catch(() => showFailPage(res))
   })
@@ -228,31 +264,15 @@ function createApp() {
       .catch(() => showFailPage(res))
   })
 
-  /*
-  Метод загрузки фотографии
-  */
-  app.post('/cats/:catId/upload-photo', function(req, res) {
-    const { catId } = req.params
-    const { image } = req.body
+  proxy.post('/cats/:catId/upload', true, function(proxyRes, req, res) {
+    proxyRes.on('data', () => {})
 
-    var form = new formidable.IncomingForm();
-
-    form.maxFileSize = 3 * 1024 * 1024;
-    form.parse(req, function(err, fields, files) {
-      uploadCatPhoto(catId, image)
-        .then(({cat, photos}) => {
-          const { name, description, id } = cat
-
-          res.render('name-details', {
-            name,
-            description,
-            id,
-            photos,
-          })
-        })
-        .catch(() => showFailPage(res))
-    });
+    proxyRes.on('end', function() {
+      res.redirect('back')
+    })
   })
+
+  proxy.get('/photos', false)
 
   return app
 }

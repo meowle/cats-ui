@@ -55,8 +55,23 @@ function searchCatsWithApi(searchParams) {
 Ищем подходящих котов через api по части имени (отправка запроса и получение данных)
 */
 function searchCatsByPatternWithApi(searchName, limit) {
-  return fetch(`${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`)
+  return fetch(
+    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`
+  ).then(res => res.json())
+}
+
+/*
+Возвращаем всех котов
+ */
+function getAllCats() {
+  return fetch(`${apiUri}/cats/all`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then(res => res.json())
+    .then(json => createRenderAllContext(json))
 }
 
 /*
@@ -72,6 +87,25 @@ function addCats(cats) {
       'Content-Type': 'application/json',
     },
   }).then(res => res.ok)
+}
+
+/*
+Вьюшка для отрисовки всех котов
+ */
+function createRenderAllContext(json) {
+  if (json.groups == null || json.groups.length == 0) {
+    return {
+      template: 'no-result',
+    }
+  } else {
+    return {
+      template: 'results',
+      context: {
+        groups: json.groups,
+        count: json.count,
+      },
+    }
+  }
 }
 
 /*
@@ -110,23 +144,11 @@ function showFailPage(res) {
   res.render('index', { showFailPopup: true })
 }
 
-function uploadCatPhoto(catId, file) {
-  // sending photo to server
-  return Promise.resolve({
-    cat: {
-      id: catId,
-      name: 'Mock cat name',
-      description: 'Mock cat description',
-    },
-    photos: [
-      'https://bulma.io/images/placeholders/480x640.png',
-      'https://bulma.io/images/placeholders/480x320.png',
-      'https://bulma.io/images/placeholders/480x480.png',
-      'https://bulma.io/images/placeholders/64x64.png',
-      'https://bulma.io/images/placeholders/32x32.png',
-      'https://bulma.io/images/placeholders/480x640.png',
-    ],
-  })
+/*
+Получение фотографий
+*/
+function getPhotos(catId) {
+  return fetch(`${apiUri}/cats/${catId}/photos`).then(res => res.json())
 }
 
 function like(catId) {
@@ -154,8 +176,9 @@ module.exports = {
   saveCatDescription,
   searchNameDetails,
   addCats,
+  getAllCats,
   searchCatsByPatternWithApi,
-  uploadCatPhoto,
+  getPhotos,
   like,
   createRenderDetails,
 }
