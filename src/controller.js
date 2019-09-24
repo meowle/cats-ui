@@ -30,7 +30,7 @@ function createApp() {
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    })
+    }),
   )
   app.use(proxy.init())
   app.use(cookieParser())
@@ -39,7 +39,7 @@ function createApp() {
     getRules().then(rules =>
       res.render('index', {
         validationRules: rules,
-      })
+      }),
     )
   })
 
@@ -159,68 +159,66 @@ function createApp() {
         res.render('name-details', {
           name,
           description,
-          // gender,
           id,
           validationRules,
           photos: images,
+          liked: req.cookies['liked'] === 'true',
         })
       })
       .catch(() => showFailPage(res))
   })
 
   /* Метод установки лайка */
-  app.get('/cats/:catId/like', function(req, res) {
+  app.post('/cats/:catId/like', function(req, res) {
     const { catId } = req.params
 
     // Если у клиента есть кука лайка с значением 'true' - он не может лайкнуть еще раз - отправляем ошибку
     if (req.cookies.liked === 'true') {
-      showFailPage(res);
+      console.log(`${catId} already liked`)
+      showFailPage(res)
 
-      return;
+      return
     }
 
     // Получаем инфу об имени и устанавливам ему лайк
-    Promise.all([
-      searchNameDetails(catId),
-      like(catId)
-    ])
-      .then(([searchResponse]) => {
+    like(catId)
+      .then(() => {
         res.cookie('liked', 'true', {
           expires: new Date(2030, 1, 1),
-          path: `/cats/${catId}`
+          path: `/cats/${catId}`,
         })
-        res.render('name-details', {
-          ...createRenderDetails(req, searchResponse.cat),
-          liked: true
-        })
+        res.redirect('back')
       })
-      .catch(() => showFailPage(res))
+      .catch(err => {
+        console.log('Error: like', err)
+        return showFailPage(res)
+      })
   })
 
   /* Метод удаения лайка */
-  app.get('/cats/:catId/unlike', function(req, res) {
+  app.delete('/cats/:catId/like', function(req, res) {
     const { catId } = req.params
 
     // Если у клиента нет куки лайка с значением 'true' - он не может отменить лайк - отправляем ошибку
     if (req.cookies.liked !== 'true') {
-      showFailPage(res);
+      showFailPage(res)
 
-      return;
+      return
     }
 
     // Получаем инфу об имени и устанавливам ему лайк
     Promise.all([
       searchNameDetails(catId),
-      like(catId)
+      like(catId),
     ])
       .then(([searchResponse]) => {
         res.cookie('liked', 'false', {
           maxAge: 0,
-          path: `/cats/${catId}`
+          path: `/cats/${catId}`,
         })
         res.render('name-details', {
           ...createRenderDetails(req, searchResponse.cat),
-          liked: false
+          liked: false,
         })
       })
       .catch(() => showFailPage(res))
@@ -265,7 +263,8 @@ function createApp() {
   })
 
   proxy.post('/cats/:catId/upload', true, function(proxyRes, req, res) {
-    proxyRes.on('data', () => {})
+    proxyRes.on('data', () => {
+    })
 
     proxyRes.on('end', function() {
       res.redirect('back')

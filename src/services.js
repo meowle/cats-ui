@@ -56,7 +56,7 @@ function searchCatsWithApi(searchParams) {
 */
 function searchCatsByPatternWithApi(searchName, limit) {
   return fetch(
-    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`
+    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`,
   ).then(res => res.json())
 }
 
@@ -152,12 +152,22 @@ function getPhotos(catId) {
 }
 
 function like(catId) {
-  return Promise.resolve(true)
+  return Promise.resolve(true);
+  /*return fetch(`${apiUri}/cats/${catId}/like`, {
+    method: 'POST',
+  }).then(res => res.json())*/
 }
 
+function unlike(catId) {
+  /*return fetch(`${apiUri}/cats/${catId}/like`, {
+    method: 'DELETE',
+  }).then(res => res.json())*/
+}
+
+
 function createRenderDetails(req, cat) {
-  const {name, description, id, likes} = cat;
-  const {liked} = req.cookies;
+  const { name, description, id, likes } = cat
+  const { liked } = req.cookies
 
   return {
     name,
@@ -165,7 +175,7 @@ function createRenderDetails(req, cat) {
     // gender,
     id,
     likes,
-    liked: liked === 'true'
+    liked: liked === 'true',
   }
 }
 
