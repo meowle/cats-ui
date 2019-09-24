@@ -252,12 +252,7 @@ function createApp() {
     saveCatDescription(catId, description)
       .then(json => json.cat)
       .then(cat => {
-        const { name, description, id } = cat
-        res.render('name-details', {
-          name,
-          description,
-          id,
-        })
+        res.redirect(`/cats/${cat.id}`)
       })
       .catch(() => showFailPage(res))
   })
