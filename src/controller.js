@@ -15,8 +15,9 @@ const {
   getAllCats,
   searchCatsByPatternWithApi,
   getPhotos,
-  like,
   createRenderDetails,
+  setLike,
+  deleteLike,
 } = require('./services')
 
 function createApp() {
@@ -152,7 +153,7 @@ function createApp() {
     Promise.all([searchNameDetails(catId), getRules(), getPhotos(catId)])
       .then(([cat, validationRules, photos]) => {
         const {
-          cat: { name, description, id },
+          cat: { name, description, id, likes },
         } = cat
         const images = photos.images
 
@@ -162,6 +163,7 @@ function createApp() {
           id,
           validationRules,
           photos: images,
+          likes,
           liked: req.cookies['liked'] === 'true',
         })
       })
@@ -181,7 +183,7 @@ function createApp() {
     }
 
     // Получаем инфу об имени и устанавливам ему лайк
-    like(catId)
+    setLike(catId)
       .then(() => {
         res.cookie('liked', 'true', {
           expires: new Date(2030, 1, 1),
@@ -196,32 +198,30 @@ function createApp() {
   })
 
   /* Метод удаения лайка */
-  app.delete('/cats/:catId/like', function(req, res) {
+  app.post('/cats/:catId/unlike', function(req, res) {
     const { catId } = req.params
 
     // Если у клиента нет куки лайка с значением 'true' - он не может отменить лайк - отправляем ошибку
     if (req.cookies.liked !== 'true') {
+      console.log(`Error: ${catId} unlike without cookie`)
       showFailPage(res)
 
       return
     }
 
     // Получаем инфу об имени и устанавливам ему лайк
-    Promise.all([
-      searchNameDetails(catId),
-      like(catId),
-    ])
-      .then(([searchResponse]) => {
+    deleteLike(catId)
+      .then(() => {
         res.cookie('liked', 'false', {
           maxAge: 0,
           path: `/cats/${catId}`,
         })
-        res.render('name-details', {
-          ...createRenderDetails(req, searchResponse.cat),
-          liked: false,
-        })
+        res.redirect('back')
       })
-      .catch(() => showFailPage(res))
+      .catch(err => {
+        console.log('Error: unlike', err)
+        return showFailPage(res)
+      })
   })
 
   /*

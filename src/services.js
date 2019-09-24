@@ -151,17 +151,18 @@ function getPhotos(catId) {
   return fetch(`${apiUri}/cats/${catId}/photos`).then(res => res.json())
 }
 
-function like(catId) {
-  return Promise.resolve(true);
-  /*return fetch(`${apiUri}/cats/${catId}/like`, {
+function setLike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/like`, {
     method: 'POST',
-  }).then(res => res.json())*/
+  }).then(() => {
+  })
 }
 
-function unlike(catId) {
-  /*return fetch(`${apiUri}/cats/${catId}/like`, {
+function deleteLike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/like`, {
     method: 'DELETE',
-  }).then(res => res.json())*/
+  }).then(() => {
+  })
 }
 
 
@@ -189,6 +190,7 @@ module.exports = {
   getAllCats,
   searchCatsByPatternWithApi,
   getPhotos,
-  like,
   createRenderDetails,
+  setLike,
+  deleteLike,
 }
