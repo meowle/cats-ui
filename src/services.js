@@ -92,12 +92,14 @@ function addCats(cats) {
       'Content-Type': 'application/json',
     },
   })
-    .then(res => res.json())
-    .then(json => {
+    .then(res => res.json().then(json => ({ json, isOk: res.ok })))
+    .then(({ json, isOk }) => {
       if (json.data != null && json.data.message != null) {
         return json.data.message
-      } else {
-        return null
+      }
+
+      if (!isOk) {
+        throw Error('Не смогли сохранить котов, что-то пошло не так')
       }
     })
 }

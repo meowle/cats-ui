@@ -15,15 +15,11 @@
   function handleAddNewName(event) {
     event.preventDefault()
 
-    const currentCat = this.closest('.level')
-
-    const isCatValid = [isCatNameValid, isCatGenderValid]
-      .map(validate => validate(currentCat))
-      .every(isValid => isValid)
-
-    if (!isCatValid) {
+    if (!catsAreValid()) {
       return
     }
+
+    const currentCat = this.closest('.level')
 
     const newField = currentCat.cloneNode(true)
 
@@ -72,37 +68,6 @@
     return true
   }
 
-  function handleAddNewNameWithValidation(event) {
-    event.preventDefault()
-
-    const catName = document.querySelector('input[type=text][name=catName]')
-      .value
-    const gender = document.querySelector('input[type=radio]:checked').value
-    const thisField = this.closest('.level')
-    //Попытка раскрасить текст в красный цвет, при условии, что радиобаттоны false
-    if (gender.length == 0) {
-      thisField.getElementsByTagName('choise-gender').classList.add('is-danger')
-    }
-
-    if (catName !== '') {
-      const newField = thisField.cloneNode(true)
-      newField.getElementsByTagName('input')[0].value = ''
-      // попытка клонировать новый уровень без предзаполенных значений радиабаттонов
-      //      newField.getElementsByTagName('gender').prop('checked', false)
-      thisField.parentNode.insertBefore(newField, thisField.nextSibling)
-
-      resetAddNewNameHandlers()
-    } else {
-      const fieldAddName = document.getElementsByTagName('input')[0]
-      // попытка раскрасить инпут в красный цвет, при пустом значении
-      //      fieldAddName.classList.add('is-danger')
-      fieldAddName.className += 'is-danger'
-      console.log('catName is empty')
-    }
-
-    console.log(gender)
-  }
-
   function setShowModalHandler() {
     const addNamesButton = document.getElementsByClassName('show-add-names')[0]
     addNamesButton.addEventListener('click', function() {
@@ -119,7 +84,39 @@
     })
   }
 
+  function catsAreValid() {
+    const levels = document.getElementsByClassName('add-cat-data')
+    let thereIsBadCat = true
+
+    for (let level of levels) {
+      const isCatValid = [isCatNameValid, isCatGenderValid]
+        .map(validate => validate(level))
+        .every(isValid => isValid)
+
+      if (!isCatValid) {
+        thereIsBadCat = false
+      }
+    }
+
+    return thereIsBadCat
+  }
+
+  function setSubmitHandler() {
+    const submitButton = document.getElementsByClassName('submit-cats')[0]
+
+    submitButton.addEventListener('click', function(event) {
+      event.preventDefault()
+      
+      if (!catsAreValid()) {
+        return
+      }
+
+      document.forms['add-cat'].submit()
+    })
+  }
+
   resetAddNewNameHandlers()
   setCloseModalHandler()
   setShowModalHandler()
+  setSubmitHandler()
 })()

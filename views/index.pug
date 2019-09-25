@@ -62,8 +62,8 @@ html(lang='en')
             img(src='/img/cat-icon.png')
         section.modal-card-body
           .column
-            form(method='POST' action='/cats/add')
-              .level
+            form#add-cat(method='POST' action='/cats/add')
+              .level.add-cat-data
                 .level-item
                   .level-right
                     .control.is-expanded
@@ -98,7 +98,7 @@ html(lang='en')
                       button.button.is-light.add-new-name
                         span.icon
                           i.fas.fa-plus
-              button.button.is-warning(type='submit') Добавить
+              button.button.is-warning.submit-cats Добавить
       button.modal-close.is-large(aria-label='close')
     script(type='text/javascript' src='/js/addnames.js')
 
