@@ -31,7 +31,7 @@ function createApp() {
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    }),
+    })
   )
   app.use(proxy.init())
   app.use(cookieParser())
@@ -40,7 +40,7 @@ function createApp() {
     getRules().then(rules =>
       res.render('index', {
         validationRules: rules,
-      }),
+      })
     )
   })
 
@@ -115,9 +115,9 @@ function createApp() {
         continue
       }
 
-      const caGenderMatch = catParam.match(/^cat-gender-(\d+)$/)
-      if (caGenderMatch) {
-        const catIndex = caGenderMatch[1]
+      const catGenderMatch = catParam.match(/^cat-gender-(\d+)$/)
+      if (catGenderMatch) {
+        const catIndex = catGenderMatch[1]
         if (cats[catIndex] == null) {
           cats[catIndex] = {}
         }
@@ -130,11 +130,11 @@ function createApp() {
     const catsToAdd = Object.values(cats)
 
     Promise.all([addCats(catsToAdd, res), getRules()])
-      .then(([catSuccessfullyAdded, validationRules]) => {
-        if (catSuccessfullyAdded) {
+      .then(([catsAddError, validationRules]) => {
+        if (!catsAddError) {
           res.render('index', { showSuccessPopup: true, validationRules })
         } else {
-          showFailPage(res)
+          showFailPage(res, { validationRules })
         }
       })
       .catch(() => showFailPage(res))
@@ -253,8 +253,7 @@ function createApp() {
   })
 
   proxy.post('/cats/:catId/upload', true, function(proxyRes, req, res) {
-    proxyRes.on('data', () => {
-    })
+    proxyRes.on('data', () => {})
 
     proxyRes.on('end', function() {
       res.redirect('back')

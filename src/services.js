@@ -56,7 +56,7 @@ function searchCatsWithApi(searchParams) {
 */
 function searchCatsByPatternWithApi(searchName, limit) {
   return fetch(
-    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`,
+    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`
   ).then(res => res.json())
 }
 
@@ -91,7 +91,15 @@ function addCats(cats) {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(res => res.ok)
+  })
+    .then(res => res.json())
+    .then(json => {
+      if (json.data != null && json.data.message != null) {
+        return json.data.message
+      } else {
+        return null
+      }
+    })
 }
 
 /*
@@ -152,8 +160,12 @@ function createRenderContesxtSearchResult(json, searchParams) {
 /*
 Рендеринг главной страницы в случае неуспеха
 */
-function showFailPage(res) {
-  res.render('index', { showFailPopup: true })
+function showFailPage(res, pageParams) {
+  if (pageParams != null) {
+    res.render('index', { showFailPopup: true, ...pageParams })
+  } else {
+    res.render('index', { showFailPopup: true })
+  }
 }
 
 /*
@@ -166,17 +178,14 @@ function getPhotos(catId) {
 function setLike(catId) {
   return fetch(`${apiUri}/cats/${catId}/like`, {
     method: 'POST',
-  }).then(() => {
-  })
+  }).then(() => {})
 }
 
 function deleteLike(catId) {
   return fetch(`${apiUri}/cats/${catId}/like`, {
     method: 'DELETE',
-  }).then(() => {
-  })
+  }).then(() => {})
 }
-
 
 function createRenderDetails(req, cat) {
   const { name, description, id, likes } = cat
