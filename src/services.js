@@ -213,7 +213,4 @@ module.exports = {
   getAllCats,
   searchCatsByPatternWithApi,
   getPhotos,
-  createRenderDetails,
-  setLike,
-  deleteLike,
 }
