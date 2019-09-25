@@ -64,16 +64,16 @@ html(lang='en')
           .column
             form#add-cat(method='POST' action='/cats/add')
               .level.add-cat-data
-                .level-item
-                  .level-right
+                .level-left
+                  .level-item
                     .control.is-expanded
                       input.input(
                         type='text',
                         placeholder='Введите имя',
                         name='cat-name-0'
                       )
-                .level-item
-                  .level-left
+                .level-right
+                  .level-item
                     .control 
                       span.specify-gender Укажите пол: 
                       label.radio
