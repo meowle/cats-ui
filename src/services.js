@@ -163,6 +163,35 @@ function getPhotos(catId) {
   return fetch(`${apiUri}/cats/${catId}/photos`).then(res => res.json())
 }
 
+function setLike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/like`, {
+    method: 'POST',
+  }).then(() => {
+  })
+}
+
+function deleteLike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/like`, {
+    method: 'DELETE',
+  }).then(() => {
+  })
+}
+
+
+function createRenderDetails(req, cat) {
+  const { name, description, id, likes } = cat
+  const { liked } = req.cookies
+
+  return {
+    name,
+    description,
+    // gender,
+    id,
+    likes,
+    liked: liked === 'true',
+  }
+}
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -173,4 +202,7 @@ module.exports = {
   getAllCats,
   searchCatsByPatternWithApi,
   getPhotos,
+  createRenderDetails,
+  setLike,
+  deleteLike,
 }
