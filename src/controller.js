@@ -130,11 +130,11 @@ function createApp() {
     const catsToAdd = Object.values(cats)
 
     Promise.all([addCats(catsToAdd, res), getRules()])
-      .then(([catsAddError, validationRules]) => {
-        if (!catsAddError) {
+      .then(([validationError, validationRules]) => {
+        if (!validationError) {
           res.render('index', { showSuccessPopup: true, validationRules })
         } else {
-          showFailPage(res, { validationRules })
+          showFailPage(res, { validationRules, validationError })
         }
       })
       .catch(() => showFailPage(res))

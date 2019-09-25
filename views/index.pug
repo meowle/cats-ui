@@ -108,7 +108,9 @@ html(lang='en')
     if showSuccessPopup
       script(type='text/javascript' src='/js/popup.js')
     else if showFailPopup
+      input#validation-error(type='hidden', value=validationError)
       script(type='text/javascript' src='/js/popup-fail.js')
+      
 
   script(type='text/javascript' src='/js/button-disabling.js')
   script(type='text/javascript' src='/js/search-cats.js')
