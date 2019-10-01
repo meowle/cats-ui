@@ -15,9 +15,12 @@ const {
   searchCatsByPatternWithApi,
   getPhotos,
 } = require('./services')
+const pino = require('express-pino-logger')()
 
 function createApp() {
   const app = express()
+
+  app.use(pino)
 
   app.set('view engine', 'pug')
 
@@ -33,11 +36,16 @@ function createApp() {
   app.use(proxy.init())
 
   app.get('/', function(req, res) {
-    getRules().then(rules =>
-      res.render('index', {
-        validationRules: rules,
+    getRules()
+      .then(rules =>
+        res.render('index', {
+          validationRules: rules,
+        })
+      )
+      .catch(err => {
+        req.log.error(err.message)
+        showFailPage(res)
       })
-    )
   })
 
   /*
@@ -90,7 +98,7 @@ function createApp() {
       .then(result => {
         res.json(result)
       })
-      .catch(err => console.log(err))
+      .catch(err => req.log.error(err.message))
   })
 
   /*
