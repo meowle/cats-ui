@@ -14,6 +14,7 @@ const {
   getAllCats,
   searchCatsByPatternWithApi,
   getPhotos,
+  getVersions,
 } = require('./services')
 const pino = require('express-pino-logger')()
 
@@ -204,6 +205,16 @@ function createApp() {
         })
       })
       .catch(() => showFailPage(res))
+  })
+
+  /*
+  Метод получения версий сервисов
+  */
+  app.get('/versions', function(req, res) {
+    getVersions()
+      .then(result => {
+        res.json(result)
+      })
   })
 
   proxy.post('/cats/:catId/upload', true, function(proxyRes, req, res) {
