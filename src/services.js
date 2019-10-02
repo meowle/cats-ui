@@ -203,6 +203,19 @@ function createRenderDetails(req, cat) {
   }
 }
 
+function getVersions() {
+  return fetch(`${apiUri}/version`)
+    .then(res => res.json())
+    .then(apiVersion => {
+      return {
+        ui: {
+          build: process.env.BUILD_NUMBER,
+        },
+        api: apiVersion
+      }
+    })
+}
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -213,4 +226,5 @@ module.exports = {
   getAllCats,
   searchCatsByPatternWithApi,
   getPhotos,
+  getVersions,
 }
