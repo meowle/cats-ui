@@ -15,9 +15,12 @@ const {
   searchCatsByPatternWithApi,
   getPhotos,
 } = require('./services')
+const pino = require('express-pino-logger')()
 
 function createApp() {
   const app = express()
+
+  app.use(pino)
 
   app.set('view engine', 'pug')
 
@@ -27,17 +30,22 @@ function createApp() {
   app.use(
     bodyParser.urlencoded({
       extended: true,
-    }),
+    })
   )
 
   app.use(proxy.init())
 
   app.get('/', function(req, res) {
-    getRules().then(rules =>
-      res.render('index', {
-        validationRules: rules,
-      }),
-    )
+    getRules()
+      .then(rules =>
+        res.render('index', {
+          validationRules: rules,
+        })
+      )
+      .catch(err => {
+        req.log.error(err.message)
+        showFailPage(res)
+      })
   })
 
   /*
@@ -90,7 +98,7 @@ function createApp() {
       .then(result => {
         res.json(result)
       })
-      .catch(err => console.log(err))
+      .catch(err => req.log.error(err.message))
   })
 
   /*
@@ -111,9 +119,9 @@ function createApp() {
         continue
       }
 
-      const caGenderMatch = catParam.match(/^cat-gender-(\d+)$/)
-      if (caGenderMatch) {
-        const catIndex = caGenderMatch[1]
+      const catGenderMatch = catParam.match(/^cat-gender-(\d+)$/)
+      if (catGenderMatch) {
+        const catIndex = catGenderMatch[1]
         if (cats[catIndex] == null) {
           cats[catIndex] = {}
         }
@@ -126,11 +134,11 @@ function createApp() {
     const catsToAdd = Object.values(cats)
 
     Promise.all([addCats(catsToAdd, res), getRules()])
-      .then(([catSuccessfullyAdded, validationRules]) => {
-        if (catSuccessfullyAdded) {
-          res.render('index', { showSuccessPopup: true, validationRules })
+      .then(([validationError, validationRules]) => {
+        if (validationError) {
+          showFailPage(res, { validationRules, validationError })
         } else {
-          showFailPage(res)
+          res.render('index', { showSuccessPopup: true, validationRules })
         }
       })
       .catch(() => showFailPage(res))
@@ -199,8 +207,7 @@ function createApp() {
   })
 
   proxy.post('/cats/:catId/upload', true, function(proxyRes, req, res) {
-    proxyRes.on('data', () => {
-    })
+    proxyRes.on('data', () => {})
 
     proxyRes.on('end', function() {
       res.redirect('back')

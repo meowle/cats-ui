@@ -56,7 +56,7 @@ function searchCatsWithApi(searchParams) {
 */
 function searchCatsByPatternWithApi(searchName, limit) {
   return fetch(
-    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`,
+    `${apiUri}/cats/search-pattern?name=${encodeURI(searchName)}&limit=${limit}`
   ).then(res => res.json())
 }
 
@@ -91,7 +91,17 @@ function addCats(cats) {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(res => res.ok)
+  })
+    .then(res => res.json().then(json => ({ json, isOk: res.ok })))
+    .then(({ json, isOk }) => {
+      if (json.data != null && json.data.message != null) {
+        return json.data.message
+      }
+
+      if (!isOk) {
+        throw Error('Не смогли сохранить котов, что-то пошло не так')
+      }
+    })
 }
 
 /*
@@ -152,8 +162,12 @@ function createRenderContesxtSearchResult(json, searchParams) {
 /*
 Рендеринг главной страницы в случае неуспеха
 */
-function showFailPage(res) {
-  res.render('index', { showFailPopup: true })
+function showFailPage(res, pageParams) {
+  if (pageParams != null) {
+    res.render('index', { showFailPopup: true, ...pageParams })
+  } else {
+    res.render('index', { showFailPopup: true })
+  }
 }
 
 /*
@@ -161,6 +175,32 @@ function showFailPage(res) {
 */
 function getPhotos(catId) {
   return fetch(`${apiUri}/cats/${catId}/photos`).then(res => res.json())
+}
+
+function setLike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/like`, {
+    method: 'POST',
+  }).then(() => {})
+}
+
+function deleteLike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/like`, {
+    method: 'DELETE',
+  }).then(() => {})
+}
+
+function createRenderDetails(req, cat) {
+  const { name, description, id, likes } = cat
+  const { liked } = req.cookies
+
+  return {
+    name,
+    description,
+    // gender,
+    id,
+    likes,
+    liked: liked === 'true',
+  }
 }
 
 module.exports = {
