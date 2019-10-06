@@ -9,6 +9,7 @@ ssh -i ./deploy_key "$PRODUCTION_USER@$PRODUCTION_SERVER" << EOF
         --restart always \
         -e NODE_ENV=production \
         -e API_URI=http://cats-api:3001 \
+        -e BUILD_NUMBER=$TRAVIS_BUILD_NUMBER \
         -l traefik.enable=true \
         -l "traefik.http.routers.cats_ui.rule=Host(\\\`meowle.testops.ru\\\`,\\\`www.meowle.testops.ru\\\`)" \
         -l traefik.http.routers.cats_ui.entrypoints=websecure \
