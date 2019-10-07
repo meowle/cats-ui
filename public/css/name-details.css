@@ -30,7 +30,7 @@
 }
 
 .photo.upload:hover .title {
-    color: var(--gray-light-color);
+    color: var(--grey-light-color);
 }
 
 .photo.upload input[type='file'] {
