@@ -142,7 +142,7 @@ function createApp() {
           res.render('index', { showSuccessPopup: true, validationRules })
         }
       })
-      .catch(() => showFailPage(res))
+      .catch(err => showFailPage(res, {popupFailMessage: err.message} ))
   })
 
   /*
