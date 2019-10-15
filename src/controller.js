@@ -136,11 +136,7 @@ function createApp() {
 
     Promise.all([addCats(catsToAdd, res), getRules()])
       .then(([validationError, validationRules]) => {
-        if (validationError) {
-          showFailPage(res, { validationRules, validationError })
-        } else {
-          res.render('index', { showSuccessPopup: true, validationRules })
-        }
+        res.render('index', { showSuccessPopup: true, validationRules })
       })
       .catch(err => showFailPage(res, {popupFailMessage: err.message} ))
   })
