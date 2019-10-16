@@ -106,9 +106,10 @@ html(lang='en')
     script(type='text/javascript' src='/js/validation.js')
 
     if showSuccessPopup
+      input#popup(type='hidden', value=popupMessage)
       script(type='text/javascript' src='/js/popup.js')
     else if showFailPopup
-      input#validation-error(type='hidden', value=validationError)
+      input#popup-fail(type='hidden', value=popupFailMessage)
       script(type='text/javascript' src='/js/popup-fail.js')
       
 
