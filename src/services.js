@@ -189,8 +189,20 @@ function deleteLike(catId) {
   }).then(() => {})
 }
 
+function setDislike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/dislike`, {
+    method: 'POST',
+  }).then(() => {})
+}
+
+function deleteDislike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/dislike`, {
+    method: 'DELETE',
+  }).then(() => {})
+}
+
 function createRenderDetails(req, cat) {
-  const { name, description, id, likes } = cat
+  const { name, description, id, likes, dislikes } = cat
   const { liked } = req.cookies
 
   return {
@@ -200,6 +212,8 @@ function createRenderDetails(req, cat) {
     id,
     likes,
     liked: liked === 'true',
+    dislikes,
+    disliked: disliked === 'true',
   }
 }
 
@@ -230,4 +244,6 @@ module.exports = {
   createRenderDetails,
   setLike,
   deleteLike,
+  setDislike,
+  deleteDislike,
 }

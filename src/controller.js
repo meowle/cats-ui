@@ -19,6 +19,8 @@ const {
   createRenderDetails,
   setLike,
   deleteLike,
+  setDislike,
+  deleteDislike,
 } = require('./services')
 const pino = require('express-pino-logger')()
 
@@ -157,7 +159,7 @@ function createApp() {
     Promise.all([searchNameDetails(catId), getRules(), getPhotos(catId)])
       .then(([cat, validationRules, photos]) => {
         const {
-          cat: { name, description, id, likes },
+          cat: { name, description, id, likes, dislikes },
         } = cat
         const images = photos.images
 
@@ -169,6 +171,8 @@ function createApp() {
           photos: images,
           likes,
           liked: req.cookies['liked'] === 'true',
+          dislikes,
+          disliked: req.cookies['disliked'] === 'true',
         })
       })
       .catch(() => showFailPage(res))
@@ -224,6 +228,60 @@ function createApp() {
       })
       .catch(err => {
         console.log('Error: unlike', err)
+        return showFailPage(res)
+      })
+  })
+
+  /* Метод установки дизлайка */
+  app.post('/cats/:catId/dislike', function(req, res) {
+    const { catId } = req.params
+
+    // Если у клиента есть кука дизлайка с значением 'true' - он не может дизлайкнуть еще раз - отправляем ошибку
+    if (req.cookies.disliked === 'true') {
+      console.log(`${catId} already disliked`)
+      showFailPage(res)
+
+      return
+    }
+
+    // Получаем инфу об имени и устанавливам ему дизлайк
+    setDislike(catId)
+      .then(() => {
+        res.cookie('disliked', 'true', {
+          expires: new Date(2030, 1, 1),
+          path: `/cats/${catId}`,
+        })
+        res.redirect('back')
+      })
+      .catch(err => {
+        console.log('Error: dislike', err)
+        return showFailPage(res)
+      })
+  })
+
+  /* Метод удаения дизлайка */
+  app.post('/cats/:catId/undislike', function(req, res) {
+    const { catId } = req.params
+
+    // Если у клиента нет куки лайка с значением 'true' - он не может отменить лайк - отправляем ошибку
+    if (req.cookies.disliked !== 'true') {
+      console.log(`Error: ${catId} undislike without cookie`)
+      showFailPage(res)
+
+      return
+    }
+
+    // Получаем инфу об имени и устанавливам ему дизлайк
+    deleteDislike(catId)
+      .then(() => {
+        res.cookie('disliked', 'false', {
+          maxAge: 0,
+          path: `/cats/${catId}`,
+        })
+        res.redirect('back')
+      })
+      .catch(err => {
+        console.log('Error: undislike', err)
         return showFailPage(res)
       })
   })
