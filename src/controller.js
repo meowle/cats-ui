@@ -236,7 +236,7 @@ function createApp() {
   app.post('/cats/:catId/dislike', function(req, res) {
     const { catId } = req.params
 
-    // Если у клиента есть кука лайка с значением 'true' - он не может дизлайкнуть еще раз - отправляем ошибку
+    // Если у клиента есть кука дизлайка с значением 'true' - он не может дизлайкнуть еще раз - отправляем ошибку
     if (req.cookies.disliked === 'true') {
       console.log(`${catId} already disliked`)
       showFailPage(res)
