@@ -189,8 +189,20 @@ function deleteLike(catId) {
   }).then(() => {})
 }
 
+function setDislike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/dislike`, {
+    method: 'POST',
+  }).then(() => {})
+}
+
+function deleteDislike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/dislike`, {
+    method: 'DELETE',
+  }).then(() => {})
+}
+
 function createRenderDetails(req, cat) {
-  const { name, description, id, likes } = cat
+  const { name, description, id, likes, dislikes } = cat
   const { liked } = req.cookies
 
   return {
@@ -200,6 +212,8 @@ function createRenderDetails(req, cat) {
     id,
     likes,
     liked: liked === 'true',
+    dislikes,
+    disliked: disliked === 'true',
   }
 }
 
@@ -216,6 +230,27 @@ function getVersions() {
     })
 }
 
+function getTopNames() {
+  return request(`${apiUri}/cats/likes-rating`)
+    .then(res => res.json())
+}
+
+function getAntiTopNames() {
+  return request(`${apiUri}/cats/dislikes-rating`)
+    .then(res => res.json())
+}
+
+function request(...args) {
+  return fetch(...args)
+    .then(res => {
+      if (res.ok) {
+        return res
+      }
+
+      throw res
+    })
+}
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -227,4 +262,11 @@ module.exports = {
   searchCatsByPatternWithApi,
   getPhotos,
   getVersions,
+  createRenderDetails,
+  setLike,
+  deleteLike,
+  setDislike,
+  deleteDislike,
+  getTopNames,
+  getAntiTopNames,
 }
