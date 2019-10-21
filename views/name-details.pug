@@ -3,6 +3,48 @@ block title
   |  Значение имени - #{name}
 block append styles
   link(rel='stylesheet', href='/css/name-details.css')
+  style.
+    .button-like {
+      margin-left: 10px;
+    }
+
+    .button-like.is-liked, .button-like.is-liked:active {
+      background-color: var(--grey-lighter-color);
+    }
+
+    .button-like.is-liked:focus:active {
+      background-color: hsl(0, 0%, 76%);
+      outline: none;
+    }
+
+    .button-like.is-liked:hover {
+      border-color: hsl(0, 0%, 81%);
+      background-color: hsl(0, 0%, 81%);
+    }
+
+    .button-dislike {
+      margin-left: 20px;
+    }
+
+    .button-dislike.is-disliked, .button-dislike.is-disliked:active {
+      background-color: var(--grey-lighter-color);
+    }
+
+    .button-dislike.is-disliked:focus:active {
+      background-color: hsl(0, 0%, 76%);
+      outline: none;
+    }
+
+    .button-dislike.is-disliked:hover {
+      border-color: hsl(0, 0%, 81%);
+      background-color: hsl(0, 0%, 81%);
+    }
+
+    .form-inline{
+      display: inline;
+    }
+
+
 block append scripts
   script(type='text/javascript', src='/js/upload-photo.js')
 block content
@@ -15,7 +57,20 @@ block content
         .column
           .name-details
             div
-              span.title.is-3 Значение имени #{name}
+              - var urlLikeAction = liked ? `/cats/${id}/unlike` : `/cats/${id}/like`
+              form.form-inline#like-form(method='POST' action=urlLikeAction)
+                span.title.is-3 Значение имени #{name}
+                  button.button.button-like.is-light(type='submit' class=liked ? 'is-liked' : '' title=liked ? 'Убрать лайк' : 'Лайкнуть')
+                    | 👍&nbsp;
+                    span
+                      | #{likes}
+              - var urlDislikeAction = disliked ? `/cats/${id}/undislike` : `/cats/${id}/dislike`
+              form.form-inline#dislike-form(method='POST' action=urlDislikeAction)
+                  button.button.button-dislike.is-light(type='submit' class=disliked ? 'is-disliked': '' title=disliked ? 'Убрать дизлайк': 'Дизлайкнуть')
+                    | 👎&nbsp;
+                    span
+                      | #{dislikes}
+
             br
             //- if gender == 'female'
             //-   span.icon.has-text-danger
