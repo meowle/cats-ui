@@ -5,8 +5,8 @@ section.section.has-background-light
         h1.is-size-3(style='margin-top: -0.5rem')
           a.has-text-black(href='/') meowle
       .column
-        form.cats-search
-          .field.has-addons(method='GET', action='/search')
+        form.cats-search(method='GET', action='/search')
+          .field.has-addons
             .control.is-expanded
               .dropdown#suggestions(style='width: 100%')
                 input#cat-name.input(
