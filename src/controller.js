@@ -144,13 +144,9 @@ function createApp() {
 
     Promise.all([addCats(catsToAdd, res), getRules()])
       .then(([validationError, validationRules]) => {
-        if (validationError) {
-          showFailPage(res, { validationRules, validationError })
-        } else {
-          res.render('index', { showSuccessPopup: true, validationRules })
-        }
+        res.render('index', { showSuccessPopup: true, validationRules })
       })
-      .catch(() => showFailPage(res))
+      .catch(err => showFailPage(res, {popupFailMessage: err.message} ))
   })
 
   /*
@@ -314,9 +310,8 @@ function createApp() {
     const { description } = req.body
 
     saveCatDescription(catId, description)
-      .then(json => json.cat)
-      .then(cat => {
-        res.redirect(`/cats/${cat.id}`)
+      .then(() => {
+        res.redirect(`/cats/${catId}`)
       })
       .catch(() => showFailPage(res))
   })
