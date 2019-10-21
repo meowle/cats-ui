@@ -230,6 +230,27 @@ function getVersions() {
     })
 }
 
+function getTopNames() {
+  return request(`${apiUri}/cats/likes-rating`)
+    .then(res => res.json())
+}
+
+function getAntiTopNames() {
+  return request(`${apiUri}/cats/dislikes-rating`)
+    .then(res => res.json())
+}
+
+function request(...args) {
+  return fetch(...args)
+    .then(res => {
+      if (res.ok) {
+        return res
+      }
+
+      throw res
+    })
+}
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -246,4 +267,6 @@ module.exports = {
   deleteLike,
   setDislike,
   deleteDislike,
+  getTopNames,
+  getAntiTopNames,
 }
