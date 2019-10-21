@@ -22,6 +22,7 @@ const {
   setDislike,
   deleteDislike,
   getTopNames,
+  getAntiTopNames,
 } = require('./services')
 const pino = require('express-pino-logger')()
 
@@ -334,6 +335,17 @@ function createApp() {
     Promise.all([getTopNames(), getRules()])
       .then(([namesList, validationRules]) => {
         res.render('top-names', {
+          validationRules,
+          namesList,
+        })
+      })
+      .catch(() => showFailPage(res))
+  })
+
+  app.get('/anti-top-names', function(req, res) {
+    Promise.all([getAntiTopNames(), getRules()])
+      .then(([namesList, validationRules]) => {
+        res.render('anti-top-names', {
           validationRules,
           namesList,
         })

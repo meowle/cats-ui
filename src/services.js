@@ -235,6 +235,11 @@ function getTopNames() {
     .then(res => res.json())
 }
 
+function getAntiTopNames() {
+  return request(`${apiUri}/cats/dislikes-rating`)
+    .then(res => res.json())
+}
+
 function request(...args) {
   return fetch(...args)
     .then(res => {
@@ -263,4 +268,5 @@ module.exports = {
   setDislike,
   deleteDislike,
   getTopNames,
+  getAntiTopNames,
 }
