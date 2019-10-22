@@ -92,15 +92,9 @@ function addCats(cats) {
       'Content-Type': 'application/json',
     },
   })
-    .then(res => res.json().then(json => ({ json, isOk: res.ok })))
-    .then(({ json, isOk }) => {
-      if (json.data != null && json.data.message != null) {
-        return json.data.message
-      }
-
-      if (!isOk) {
-        throw Error('Не смогли сохранить котов, что-то пошло не так')
-      }
+    .then(jsonResponse)
+    .catch(err => {
+      throw Error(err && err.message || 'Не смогли сохранить котов, что-то пошло не так')
     })
 }
 
@@ -163,11 +157,13 @@ function createRenderContesxtSearchResult(json, searchParams) {
 Рендеринг главной страницы в случае неуспеха
 */
 function showFailPage(res, pageParams) {
-  if (pageParams != null) {
-    res.render('index', { showFailPopup: true, ...pageParams })
-  } else {
-    res.render('index', { showFailPopup: true })
-  }
+  const validationRules$ = pageParams && pageParams.validationRules
+    ? Promise.resolve(pageParams.validationRules)
+    : getRules()
+
+  validationRules$.then(validationRules => {
+    res.render('index', { showFailPopup: true, validationRules, ...(pageParams || {}) })
+  })
 }
 
 /*
@@ -189,8 +185,20 @@ function deleteLike(catId) {
   }).then(() => {})
 }
 
+function setDislike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/dislike`, {
+    method: 'POST',
+  }).then(() => {})
+}
+
+function deleteDislike(catId) {
+  return fetch(`${apiUri}/cats/${catId}/dislike`, {
+    method: 'DELETE',
+  }).then(() => {})
+}
+
 function createRenderDetails(req, cat) {
-  const { name, description, id, likes } = cat
+  const { name, description, id, likes, dislikes } = cat
   const { liked } = req.cookies
 
   return {
@@ -200,6 +208,8 @@ function createRenderDetails(req, cat) {
     id,
     likes,
     liked: liked === 'true',
+    dislikes,
+    disliked: disliked === 'true',
   }
 }
 
@@ -216,6 +226,40 @@ function getVersions() {
     })
 }
 
+function getTopNames() {
+  return request(`${apiUri}/cats/likes-rating`)
+    .then(res => res.json())
+}
+
+function getAntiTopNames() {
+  return request(`${apiUri}/cats/dislikes-rating`)
+    .then(res => res.json())
+}
+
+function request(...args) {
+  return fetch(...args)
+    .then(res => {
+      if (res.ok) {
+        return res
+      }
+
+      throw res
+    })
+}
+
+function jsonResponse(response) {
+  return response.json()
+    .then(json => {
+      if (json.isBoom && json.output && json.output.statusCode >= 300) {
+        const message = json.output.statusCode >= 500 && json.output.statusCode < 600 ? '' : json.output.payload.message
+
+        throw new Error(message || '')
+      }
+
+      return json
+    })
+}
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -227,4 +271,11 @@ module.exports = {
   searchCatsByPatternWithApi,
   getPhotos,
   getVersions,
+  createRenderDetails,
+  setLike,
+  deleteLike,
+  setDislike,
+  deleteDislike,
+  getTopNames,
+  getAntiTopNames,
 }

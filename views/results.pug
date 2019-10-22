@@ -45,4 +45,5 @@ html(lang='en')
                       a(href='/cats/' + cat.id, style={ color: 'black' }) #{cat.name}
               hr
     if showPopup
+      input#popup(type='hidden', value=popupMessage)
       script(type='text/javascript', src='/js/popup.js')
