@@ -10,6 +10,10 @@
     const keyPressed = event.key
     const newValue = currentValue + keyPressed
 
+    if (event.charCode === 13) {
+      return;
+    }
+
     for (let i = 0; i < validationRules.length; i++) {
       const { description, regex } = validationRules[i]
       const validationRegex = new RegExp(regex)
