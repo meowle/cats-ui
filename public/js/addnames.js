@@ -68,22 +68,6 @@
     return true
   }
 
-  function setShowModalHandler() {
-    const addNamesButton = document.getElementsByClassName('show-add-names')[0]
-    addNamesButton.addEventListener('click', function() {
-      const addNamesModal = document.getElementsByClassName('modal')[0]
-      addNamesModal.classList.add('is-active')
-    })
-  }
-
-  function setCloseModalHandler() {
-    const closeModalButton = document.getElementsByClassName('modal-close')[0]
-    closeModalButton.addEventListener('click', function() {
-      const addNamesModal = document.getElementsByClassName('modal')[0]
-      addNamesModal.classList.remove('is-active')
-    })
-  }
-
   function catsAreValid() {
     const levels = document.getElementsByClassName('add-cat-data')
     let thereIsBadCat = true
@@ -116,7 +100,5 @@
   }
 
   resetAddNewNameHandlers()
-  setCloseModalHandler()
-  setShowModalHandler()
   setSubmitHandler()
 })()

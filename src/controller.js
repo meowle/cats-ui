@@ -23,6 +23,8 @@ const {
   deleteDislike,
   getTopNames,
   getAntiTopNames,
+  successNotification,
+  failNotification,
 } = require('./services')
 const pino = require('express-pino-logger')()
 
@@ -48,6 +50,10 @@ function createApp() {
     getRules()
       .then(rules =>
         res.render('index', {
+          showSuccessPopup: req.cookies.showSuccessPopup,
+          showFailPopup: req.cookies.showFailPopup,
+          popupMessage: req.cookies.popupMessage,
+          popupFailMessage: req.cookies.popupFailMessage,
           validationRules: rules,
         })
       )
@@ -111,6 +117,13 @@ function createApp() {
   })
 
   /*
+  Показ диалогового окна добавления имен
+  */
+  app.get('/cats/add', function(req, res) {
+    res.render('add')
+  })
+
+  /*
   Метод добавления котов
   */
   app.post('/cats/add', function(req, res) {
@@ -142,11 +155,12 @@ function createApp() {
 
     const catsToAdd = Object.values(cats)
 
-    Promise.all([addCats(catsToAdd, res), getRules()])
-      .then(([validationError, validationRules]) => {
-        res.render('index', { showSuccessPopup: true, validationRules })
+    addCats(catsToAdd, res)
+      .then(() => {
+        successNotification(null, res)
+        res.redirect("/")
       })
-      .catch(err => showFailPage(res, {popupFailMessage: err.message} ))
+      .catch(err => showFailPage(res, err.message ))
   })
 
   /*
