@@ -171,13 +171,14 @@ function createApp() {
     Promise.all([searchNameDetails(catId), getRules(), getPhotos(catId)])
       .then(([cat, validationRules, photos]) => {
         const {
-          cat: { name, description, id, likes, dislikes },
+          cat: { name, description, gender, id, likes, dislikes },
         } = cat
         const images = photos.images
 
         res.render('name-details', {
           name,
           description,
+          gender,
           id,
           validationRules,
           photos: images,
