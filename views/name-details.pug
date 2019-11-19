@@ -89,7 +89,13 @@ block content
 
               - var urlDislikeAction = disliked ? `/cats/${id}/undislike` : `/cats/${id}/dislike`
               form.form-inline#dislike-form(method='POST' action=urlDislikeAction)
-                  button.button.button-dislike.is-light(type='submit' class=disliked ? 'is-disliked': '' title=disliked ? 'Убрать дизлайк': 'Дизлайкнуть')
+                if (dislikes === maxInt & disliked === false)
+                  button.button.button-dislike.is-light(disabled type='submit' class=disliked ? 'is-disliked': '' title=disliked ? 'Убрать дизлайк': 'Дизлайкнуть')
+                    | 👎&nbsp;
+                    span
+                      | #{dislikes}
+                else
+                  button.button.button-dislike.is-light(type='submit' class=disliked ? 'is-disliked' : '' title=disliked ? 'Убрать дизлайк' : 'Дизлайкнуть')
                     | 👎&nbsp;
                     span
                       | #{dislikes}
