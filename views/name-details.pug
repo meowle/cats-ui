@@ -62,6 +62,7 @@ block content
         .column
           .name-details
             div
+              - var maxInt = 32767
               - var urlLikeAction = liked ? `/cats/${id}/unlike` : `/cats/${id}/like`
               form.form-inline#like-form(method='POST' action=urlLikeAction)
                 span.title.is-3 Значение имени #{name}
@@ -74,10 +75,18 @@ block content
                   else if gender == 'unisex'
                     span.icon.gender-icon.has-text-primary
                         i.fas.fa-venus-mars
-                  button.button.button-like.is-light(type='submit' class=liked ? 'is-liked' : '' title=liked ? 'Убрать лайк' : 'Лайкнуть')
-                    | 👍&nbsp;
-                    span
-                      | #{likes}
+
+                  if (likes === maxInt & liked === false)
+                    button.button.button-like.is-light(disabled type='submit' class=liked ? 'is-liked' : '' title=liked ? 'Убрать лайк' : 'Лайкнуть')
+                      | 👍&nbsp;
+                      span
+                        | #{likes}
+                  else
+                    button.button.button-like.is-light(type='submit' class=liked ? 'is-liked' : '' title=liked ? 'Убрать лайк' : 'Лайкнуть')
+                      | 👍&nbsp;
+                      span
+                        | #{likes}
+
               - var urlDislikeAction = disliked ? `/cats/${id}/undislike` : `/cats/${id}/dislike`
               form.form-inline#dislike-form(method='POST' action=urlDislikeAction)
                   button.button.button-dislike.is-light(type='submit' class=disliked ? 'is-disliked': '' title=disliked ? 'Убрать дизлайк': 'Дизлайкнуть')
