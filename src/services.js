@@ -193,13 +193,13 @@ function deleteDislike(catId) {
 }
 
 function createRenderDetails(req, cat) {
-  const { name, description, id, likes, dislikes } = cat
+  const { name, description, gender, id, likes, dislikes } = cat
   const { liked } = req.cookies
 
   return {
     name,
     description,
-    // gender,
+    gender,
     id,
     likes,
     liked: liked === 'true',
@@ -264,7 +264,7 @@ function successNotification(text, res) {
 
 function failNotification(text, res) {
   res.cookie("showFailPopup", "true", { httpOnly: true, expires: new Date(Date.now() + 2000) });
-  
+
   if (text)
     res.cookie("popupFailMessage", text, { httpOnly: true, expires: new Date(Date.now() + 2000) });
 }
