@@ -48,6 +48,7 @@
     *  Если таймер еще не начался, а значение поиска уже изменилось - отменяется таймер и создается новый.
     *  При пустом поле - скрываются подсказки. */
     searchInput.addEventListener('keyup', () => {
+      document.getElementById("search-button").disabled = !searchInput.value.length;
       const newSearchValue = searchInput.value
 
       if (!newSearchValue) {
