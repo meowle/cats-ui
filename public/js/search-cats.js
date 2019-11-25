@@ -86,7 +86,7 @@
 
   /* Рендерит список имен в дропдаун подсказок */
   function renderSuggestionsItems(dropdownContentElement, data) {
-    const {cats: items} = data
+    const {cats: items, moreResults} = data
 
     dropdownContentElement.innerHTML = ''
 
@@ -108,6 +108,14 @@
       itemElement.addEventListener('click', suggestClickHandler)
       dropdownContentElement.append(itemElement)
     })
+
+    if (moreResults) {
+      const itemElement = document.createElement('div')
+
+      itemElement.classList = 'dropdown-item'
+      itemElement.innerText = '...'
+      dropdownContentElement.append(itemElement)
+    }
   }
 
   /* Клик по подсказке скроет дропдаун и впишет текст подсказки в поле поиска */
