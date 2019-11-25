@@ -156,14 +156,9 @@ function createRenderContesxtSearchResult(json, searchParams) {
 /*
 Рендеринг главной страницы в случае неуспеха
 */
-function showFailPage(res, pageParams) {
-  const validationRules$ = pageParams && pageParams.validationRules
-    ? Promise.resolve(pageParams.validationRules)
-    : getRules()
-
-  validationRules$.then(validationRules => {
-    res.render('index', { showFailPopup: true, validationRules, ...(pageParams || {}) })
-  })
+function showFailPage(res, errorMessage) {
+  failNotification(errorMessage, res)
+  res.redirect('/')
 }
 
 /*
@@ -198,13 +193,13 @@ function deleteDislike(catId) {
 }
 
 function createRenderDetails(req, cat) {
-  const { name, description, id, likes, dislikes } = cat
+  const { name, description, gender, id, likes, dislikes } = cat
   const { liked } = req.cookies
 
   return {
     name,
     description,
-    // gender,
+    gender,
     id,
     likes,
     liked: liked === 'true',
@@ -260,6 +255,20 @@ function jsonResponse(response) {
     })
 }
 
+function successNotification(text, res) {
+  res.cookie("showSuccessPopup", "true", { httpOnly: true, expires: new Date(Date.now() + 2000) });
+
+  if (text)
+    res.cookie("popupMessage", text, { httpOnly: true, expires: new Date(Date.now() + 2000) });
+}
+
+function failNotification(text, res) {
+  res.cookie("showFailPopup", "true", { httpOnly: true, expires: new Date(Date.now() + 2000) });
+
+  if (text)
+    res.cookie("popupFailMessage", text, { httpOnly: true, expires: new Date(Date.now() + 2000) });
+}
+
 module.exports = {
   getRules,
   searchCatsWithApi,
@@ -278,4 +287,6 @@ module.exports = {
   deleteDislike,
   getTopNames,
   getAntiTopNames,
+  successNotification,
+  failNotification,
 }

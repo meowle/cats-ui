@@ -1,127 +1,27 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible' content='ie=edge')
-    title Meowle
-    link(rel='stylesheet' href='/css/bulma.min.css')
-    link(rel='stylesheet' href='/css/fontawesome.all.min.css')
-
-    script(type='text/javascript' src='/libs/alertifyjs/alertify.min.js')
-    link(rel='stylesheet' href='/libs/alertifyjs/css/alertify.min.css')
-    link(rel='stylesheet' href='/libs/alertifyjs/css/themes/bootstrap.min.css')
-
-    style.
-      html, body {
-        height: 100%;
-      }
-  body
-    section.section(style='height: 100%')
-      .container(style='height: 100%')
-        .columns.is-mobile.is-vcentered(style='height: 100%')
-          .column.is-8.is-offset-2(style='margin-top: -10rem')
-            .columns(style='margin-bottom: -1.5rem')
-              .column
-                h1(style='font-size: 6rem') meowle
-              .column.is-hidden-mobile
-                figure.image.is-128x128.is-pulled-right
-                  img(src='/img/cat.png')
-
-            form(method='GET' action='/search')
-              .field
-                .control
-                  .dropdown#suggestions(style='width: 100%')
-                    input#cat-name.input(type='text' placeholder='Введите часть имени' name='needle' autocomplete='off')
-                    .dropdown-menu(role="menu")
-                      .dropdown-content
-              .field
-                .control.has-text-centered
-                  button#search-button.button.is-light(type='submit' disabled='')
-                    span.icon
-                      i.fas.fa-search
-                    span Найти имя коту
-                  a(href='/all-names')
-                    button.button.is-light(type='button' style='margin-left: 1rem')
-                      span.icon
-                        i.fas.fa-search
-                      span Все имена
-                  a(href='/top-names')
-                    button.button.is-light(type='button' style='margin-left: 1rem')
-                      span.icon
-                        i.fas.fa-heart
-                      span ТОП-10 имён
-                  a(href='/anti-top-names')
-                    button.button.is-light(type='button' style='margin-left: 1rem')
-                      span.icon
-                        img(src='/img/heart-broken-solid.svg' width='16px')
-                      span АнтиТОП-10 имён
-    button.button.is-light.has-background-warning(style={
-      position: 'absolute',
-      right: '20px',
-      bottom: '20px'
-    }).show-add-names
-      span.icon
-        i.fas.fa-plus
-    .modal.is-clipped
-      .modal-background
-      .modal-card
-        header.modal-card-head
-          p.modal-card-title Добавить имена в базу котиков
-          figure.image.is-64x64.modal-card-title
-            img(src='/img/cat-icon.png')
-        section.modal-card-body
-          .column
-            form#add-cat(method='POST' action='/cats/add')
-              .level.add-cat-data
-                .level-left
-                  .level-item
-                    .control.is-expanded
-                      input.input(
-                        type='text',
-                        placeholder='Введите имя',
-                        name='cat-name-0'
-                      )
-                .level-right
-                  .level-item
-                    .control 
-                      span.specify-gender Укажите пол: 
-                      label.radio
-                        input(
-                          type='radio',
-                          name='cat-gender-0',
-                          value='female')
-                        |     &ZHcy;
-                      label.radio
-                        input(
-                          type='radio',
-                          name='cat-gender-0',
-                          value='male')
-                        |     &Mcy;
-                      label.radio
-                        input(
-                          type='radio',
-                          name='cat-gender-0',
-                          value='unisex')
-                        |     &Ucy;&ncy;&icy;&vcy;&iecy;&rcy;&scy;.
-                    .control
-                      button.button.is-light.add-new-name
-                        span.icon
-                          i.fas.fa-plus
-              button.button.is-warning.submit-cats Добавить
-      button.modal-close.is-large(aria-label='close')
-    script(type='text/javascript' src='/js/addnames.js')
-
-    input#validation-rules(type='hidden', value=validationRules)
-    script(type='text/javascript' src='/js/validation.js?2')
-
-    if showSuccessPopup
-      input#popup(type='hidden', value=popupMessage)
-      script(type='text/javascript' src='/js/popup.js')
-    else if showFailPopup
-      input#popup-fail(type='hidden', value=popupFailMessage)
-      script(type='text/javascript' src='/js/popup-fail.js')
-      
-
+extends extends/main
+block title
+  | Meowle
+block append styles
+block append scripts
   script(type='text/javascript' src='/js/button-disabling.js')
-  script(type='text/javascript' src='/js/search-cats.js')
+block header
+block content
+  include includes/index-search.pug
+  a.button.is-light.has-background-warning(href='/cats/add' style={
+    position: 'absolute',
+    right: '20px',
+    bottom: '20px'
+  }).show-add-names
+    span.icon
+      i.fas.fa-plus
+  
+  input#validation-rules(type='hidden', value=validationRules)
+  script(type='text/javascript' src='/js/validation.js?2')
+  | f#{showFailPopup}
+  | s#{showSuccessPopup}
+  if showSuccessPopup
+    input#popup(type='hidden', value=popupMessage)
+    script(type='text/javascript' src='/js/popup.js')
+  else if showFailPopup
+    input#popup-fail(type='hidden', value=popupFailMessage)
+    script(type='text/javascript' src='/js/popup-fail.js')
