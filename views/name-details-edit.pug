@@ -1,37 +1,26 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible', content='ie=edge')
-
-    title Значение имени - #{name}
-
-    link(rel='stylesheet', href='/css/bulma.min.css')
-    link(rel='stylesheet', href='/css/fontawesome.all.min.css')
-
-    script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
-    link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
-    link(rel='stylesheet', href='/libs/alertifyjs/css/themes/bootstrap.min.css')
-  body
-    include includes/header.pug
-    section.section
-      .container
-        .columns
-          .column.is-2
-            figure.image.is-64x64.is-pulled-right
-              img(src='/img/cat.png')
-          .column
-            .name-details
-              form(method='POST', action='/cats/' + id + '/edit')
-                div
-                  span.title.is-3 Значение имени #{name}
-                br              
-                textarea.textarea(
-                    type='text', 
-                    placeholder='Введите описание кота',
-                    name='description'
-                )= description
-                br              
-                button.button.is-success.is-outlined(type='submit') Сохранить описание 
-
+extends extends/main
+block title
+  | Значение имени - #{name}
+block append styles
+block append scripts
+block content
+  include includes/search-filter
+  section.section
+    .container
+      .columns
+        .column.is-2
+          figure.image.is-64x64.is-pulled-right
+            img(src='/img/cat.png')
+        .column
+          .name-details
+            form(method='POST', action='/cats/' + id + '/edit')
+              div
+                span.title.is-3 Значение имени #{name}
+              br              
+              textarea.textarea(
+                  type='text', 
+                  placeholder='Введите описание кота',
+                  name='description'
+              )= description
+              br              
+              button.button.is-success.is-outlined(type='submit') Сохранить описание 
