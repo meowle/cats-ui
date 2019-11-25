@@ -1,38 +1,26 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible', content='ie=edge')
-    title Meowle - #{needle}
-    link(rel='stylesheet', href='/css/bulma.min.css')
-    link(rel='stylesheet', href='/css/fontawesome.all.min.css')
-
-    script(type='text/javascript', src='/libs/alertifyjs/alertify.min.js')
-    link(rel='stylesheet', href='/libs/alertifyjs/css/alertify.min.css')
-  body
-    include includes/header.pug
-    include includes/search-filter
-
-    section.section
-      .container
-        .columns
-          .column
-            .level
-              .level-item
-                figure.image.is-64x64
-                  img(src='/img/weary-cat.png')
-            form.field(method='POST', action='/cats/add')
-              .control.has-text-centered
-                .h2.subtitle
-                  | Упс! Ничего не нашли
-              br
-              input(type='hidden', name='catName', value=needle)
-              .control.has-text-centered
-                button.button.is-warning.is-medium.button-search(type='submit')
-                  span Добавить&nbsp;
-                  span.has-text-weight-bold= needle
-                  span &nbsp;в базу?
-
-    input#validation-rules(type='hidden', value=validationRules)
-    script(type='text/javascript', src='/js/validation.js?2')
+extends extends/main
+block title
+  | Meowle - #{needle}
+block append styles
+block append scripts
+block content
+  include includes/search-filter
+  section.section
+    .container
+      .columns
+        .column
+          .level
+            .level-item
+              figure.image.is-64x64
+                img(src='/img/weary-cat.png')
+          form.field(method='POST', action='/cats/add')
+            .control.has-text-centered
+              .h2.subtitle
+                | Упс! Ничего не нашли
+            br
+            input(type='hidden', name='catName', value=needle)
+            .control.has-text-centered
+              button.button.is-warning.is-medium.button-search(type='submit')
+                span Добавить&nbsp;
+                span.has-text-weight-bold= needle
+                span &nbsp;в базу?

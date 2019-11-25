@@ -22,3 +22,6 @@ html(lang='en')
       include ../includes/header.pug
     block content
     block scripts
+      input#validation-rules(type='hidden', value=validationRules)
+      script(type='text/javascript', src='/js/validation.js?2')
+      script(type='text/javascript', src='/js/search-cats.js')
