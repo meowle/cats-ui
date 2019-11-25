@@ -120,7 +120,13 @@ function createApp() {
   Показ диалогового окна добавления имен
   */
   app.get('/cats/add', function(req, res) {
-    res.render('add')
+    getRules()
+      .then(validationRules => {
+        res.render('add', {
+          validationRules,
+        })
+      })
+      .catch(() => showFailPage(res))
   })
 
   /*
