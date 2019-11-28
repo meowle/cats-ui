@@ -1,0 +1,29 @@
+{
+  "tests": "codecept/simple/*.test.js",
+  "output": "./reports/codecept",
+  "helpers": {
+    "REST": {
+      "endpoint": "https://meowle.testops.ru"
+    },
+    "Puppeteer": {
+      "url": "https://meowle.testops.ru",
+      "restart": false,
+      "show": true,
+      "pressKeyDelay": 0,
+      "waitForAction": 20,
+      "waitForTimeout": 5000,
+      "chrome": {
+        "args": [
+          "--disable-setuid-sandbox",
+          "--no-sandbox",
+          "--ignore-certificate-errors",
+          "--allow-insecure-localhost",
+          "--enable-low-res-tiling"
+        ],
+        "ignoreHTTPSErrors": true
+      }
+    }
+  },
+  "timeout": 10000,
+  "name": "cat-names"
+}
