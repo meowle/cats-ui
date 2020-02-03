@@ -16,9 +16,6 @@ block content
       i.fas.fa-plus
   
   input#validation-rules(type='hidden', value=validationRules)
-  script(type='text/javascript' src='/js/validation.js?2')
-  | f#{showFailPopup}
-  | s#{showSuccessPopup}
   if showSuccessPopup
     input#popup(type='hidden', value=popupMessage)
     script(type='text/javascript' src='/js/popup.js')

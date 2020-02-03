@@ -65,7 +65,7 @@
       lastTimer = setTimeout(() => {
         dropdownActive(true)
         apiSearchSuggestions(suggestionsContentElement, newSearchValue, LIMIT_SUGGESTIONS)
-          .then(items => renderSuggestionsItems(suggestionsContentElement, items))
+          .then(data => renderSuggestionsItems(suggestionsContentElement, data))
       }, DELAY_SEARCH_SUGGESTIONS)
     })
   }
@@ -85,7 +85,9 @@
   }
 
   /* Рендерит список имен в дропдаун подсказок */
-  function renderSuggestionsItems(dropdownContentElement, items) {
+  function renderSuggestionsItems(dropdownContentElement, data) {
+    const {cats: items, moreResults} = data
+
     dropdownContentElement.innerHTML = ''
 
     if (!items || !items.length) {
@@ -106,6 +108,14 @@
       itemElement.addEventListener('click', suggestClickHandler)
       dropdownContentElement.append(itemElement)
     })
+
+    if (moreResults) {
+      const itemElement = document.createElement('div')
+
+      itemElement.classList = 'dropdown-item'
+      itemElement.innerText = '...'
+      dropdownContentElement.append(itemElement)
+    }
   }
 
   /* Клик по подсказке скроет дропдаун и впишет текст подсказки в поле поиска */

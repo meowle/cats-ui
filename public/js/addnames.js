@@ -1,6 +1,8 @@
 ;(function() {
   function resetAddNewNameHandlers() {
     const plusButtons = document.getElementsByClassName('add-new-name')
+    
+    window.bindSearchValidation('#add-cat input[name^="cat-name"]')
 
     for (let i = 0; i < plusButtons.length; i++) {
       const plusButton = plusButtons[i]

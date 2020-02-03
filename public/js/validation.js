@@ -1,9 +1,21 @@
-;(function() {
+function bindSearchValidation(inputsSelector) {
   const validationRulesInput = document.getElementById('validation-rules')
-  const validationRules = JSON.parse(validationRulesInput.value)
+  let validationRules = [];
+  
+  try {
+    validationRules = JSON.parse(validationRulesInput.value)
+  } catch (e) {
+    console.error('No validation rules')
+  }
 
-  const catNameInput = document.getElementById('cat-name')
-  catNameInput.addEventListener('keypress', validateSearchInput)
+  const nameInputs = document.querySelectorAll(inputsSelector) || []
+
+  for (let i = 0; i < nameInputs.length; i++) {
+    const nameInput = nameInputs[i]
+
+    nameInput.addEventListener('keypress', validateSearchInput)
+  }
+
 
   function validateSearchInput(event) {
     const currentValue = event.target.value
@@ -30,4 +42,6 @@
       }
     }
   }
-})()
+}
+
+bindSearchValidation('#cat-name')
