@@ -1,10 +1,7 @@
 import React from 'react'
-import { CatsApi } from '../../api/cats'
 
 function App() {
-  const text = CatsApi.getAll()
-
-  return <div>Hello, {text}</div>
+  return <div>Hello, </div>
 }
 
 export default App
