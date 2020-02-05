@@ -4,5 +4,5 @@ export const urls =
         catsApi: 'http://meowle.testops.ru:3001',
       }
     : {
-        catsApi: 'http://localhost:3000',
+        catsApi: 'http://localhost:3001',
       }
