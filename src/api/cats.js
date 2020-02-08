@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { urls } from '../config'
+import axios from 'axios';
+import { urls } from '../config';
 
 export class CatsApi {
   /**
@@ -14,7 +14,7 @@ export class CatsApi {
   static add(cats) {
     return axios.post(`${urls.catsApi}/cats/add`, {
       cats,
-    })
+    });
   }
 
   /**
@@ -28,7 +28,7 @@ export class CatsApi {
     return axios.post(`${urls.catsApi}/cats/search`, {
       name,
       gender,
-    })
+    });
   }
 
   /**
@@ -40,7 +40,7 @@ export class CatsApi {
   static getById(id) {
     return axios.get(`${urls.catsApi}/cats/get-by-id`, {
       params: { id },
-    })
+    });
   }
 
   /**
@@ -52,7 +52,7 @@ export class CatsApi {
   static getSuggestions(name, limit) {
     return axios.get(`${urls.catsApi}/cats/search-pattern`, {
       params: { name, limit },
-    })
+    });
   }
 
   /**
@@ -60,7 +60,7 @@ export class CatsApi {
    * @returns {Promise<Validation[]>} Промис со списком с регулярными выражениями
    */
   static getValidations() {
-    return axios.get(`${urls.catsApi}/cats/validation`)
+    return axios.get(`${urls.catsApi}/cats/validation`);
   }
 
   /**
@@ -74,7 +74,7 @@ export class CatsApi {
     return axios.post(`${urls.catsApi}/cats/save-description`, {
       id,
       catDescription: description,
-    })
+    });
   }
 
   /**
@@ -88,6 +88,6 @@ export class CatsApi {
     return axios.get(`${urls.catsApi}/cats/all`, {
       order,
       gender,
-    })
+    });
   }
 }

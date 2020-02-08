@@ -1,40 +1,40 @@
-import React from 'react'
-import history from '../../utils/history'
-import './main.css'
+import React from 'react';
+import history from '../../utils/history';
+import './main.css';
 
 export class MainPage extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       searchName: '',
       some: 2,
-    }
+    };
   }
 
   // Template methods
 
   get isSearchButtonDisabled() {
-    return !this.state.searchName
+    return !this.state.searchName;
   }
 
   onSearchButtonClick = () => {
-    this._search()
-  }
+    this._search();
+  };
 
   onKeyUp = event => {
-    this.setState({ searchName: event.target.value })
+    this.setState({ searchName: event.target.value });
 
     if (event.key === 'Enter') {
-      this._search()
+      this._search();
     }
-  }
+  };
 
   // Private methods
 
   _search() {
-    if (!this.state.searchName) return
+    if (!this.state.searchName) return;
 
-    history.push(`/search/${this.state.searchName}`)
+    history.push(`/search/${this.state.searchName}`);
   }
 
   render() {
@@ -85,6 +85,6 @@ export class MainPage extends React.Component {
           </div>
         </div>
       </section>
-    )
+    );
   }
 }
