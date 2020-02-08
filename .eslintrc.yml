@@ -3,14 +3,13 @@ env:
   es6: true
 extends:
   - 'plugin:react/recommended'
-  - airbnb
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
 parserOptions:
   ecmaFeatures:
     jsx: true
-  ecmaVersion: 2018
+  ecmaVersion: 2019
   sourceType: module
 plugins:
   - react
@@ -18,3 +17,4 @@ plugins:
 rules: {
   prettier/prettier: error
 }
+parser: 'babel-eslint'
