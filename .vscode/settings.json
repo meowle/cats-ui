@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "git.autofetch": false,
   "emmet.triggerExpansionOnTab": true,
   "emmet.includeLanguages": {

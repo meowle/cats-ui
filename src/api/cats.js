@@ -23,8 +23,6 @@ export class CatsApi {
    * @param {!string} name Часть имени
    * @param {?string=} gender Пол
    * @returns {Promise<Groups>} Промис с группировкой имен котов
-   * @returns
-   * @returns {Object<>}
    */
   static search(name, gender) {
     return axios.post(`${urls.catsApi}/cats/search`, {
@@ -84,6 +82,7 @@ export class CatsApi {
    * http://meowle.testops.ru:3001/api-docs-ui/#/default/get_cats_all
    * @param {!string} order Сортировка (asc | desc)
    * @param {string=} gender Фильтр по полу
+   * @returns {Promise<Groups>} Промис с группировкой имен котов
    */
   static getAll(order, gender) {
     return axios.get(`${urls.catsApi}/cats/all`, {
