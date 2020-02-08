@@ -5,4 +5,4 @@ export const urls =
       }
     : {
         catsApi: 'http://localhost:3001',
-      }
+      };

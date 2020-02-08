@@ -1,8 +1,8 @@
-import React from 'react'
-import { Router, Switch, Route, Redirect } from 'react-router-dom'
-import { MainPage } from './pages/main/main'
-import history from './utils/history'
-import './App.css'
+import React from 'react';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
+import { MainPage } from './pages/main/main';
+import history from './utils/history';
+import './App.css';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         </Switch>
       </Router>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
