@@ -7,8 +7,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/* --ext .js,.jsx",
-    "lint:format:fix": "prettier --config ./.prettierrc.yml \"src/**/*.{js,jsx,json,css,scss,md}\""
+    "lint": "npm run lint:js",
+    "lint:js": "eslint src/* --ext .js,.jsx",
+    "lint:format:fix": "prettier --config ./.prettierrc.yml \"src/**/*.{js,jsx,json,css,scss,md}\" --write"
   },
   "dependencies": {
     "axios": "0.19.2",
@@ -29,7 +30,6 @@
     "eslint-plugin-react": "7.18.3",
     "eslint-plugin-react-hooks": "1.7.0",
     "husky": "4.2.1",
-    "lint-staged": "10.0.7",
     "prettier": "1.19.1"
   },
   "eslintConfig": {
@@ -49,12 +49,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "lint-staged"
+      "pre-push": "npm run lint"
     }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "npm run lint"
-    ]
   }
 }
