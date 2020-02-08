@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route, Redirect } from 'react-router-dom'
 import { MainPage } from './pages/main/main'
 import history from './utils/history'
 import './App.css'
@@ -14,6 +14,9 @@ function App() {
             <MainPage />
           </Route>
           <Route path="/search/:query">Search page</Route>
+          <Route path="*">
+            <Redirect to="/"></Redirect>
+          </Route>
         </Switch>
       </Router>
     </div>

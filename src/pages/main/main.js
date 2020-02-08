@@ -11,30 +11,43 @@ export class MainPage extends React.Component {
     }
   }
 
-  onKeyUp(event) {
+  // Template methods
+
+  get isSearchButtonDisabled() {
+    return !this.state.searchName
+  }
+
+  onSearchButtonClick = () => {
+    this._search()
+  }
+
+  onKeyUp = event => {
     this.setState({ searchName: event.target.value })
 
     if (event.key === 'Enter') {
-      this.search()
+      this._search()
     }
   }
 
-  search() {
+  // Private methods
+
+  _search() {
+    if (!this.state.searchName) return
+
     history.push(`/search/${this.state.searchName}`)
   }
 
-  // TODO добавить стили (отсутпы, размер шрифта)
   render() {
     return (
       <section className="section full-size">
         <div className="container full-size">
-          <div className="columns is-mobile is-vcentered full-size">
-            <div className="column is-8 is-offset-2">
-              <div className="columns">
+          <div className="columns is-flex-mobile is-centered is-vcentered full-size">
+            <div className="column is-8">
+              <div className="columns is-mobile header">
                 <div className="column">
-                  <h1>meowle</h1>
+                  <h1 className="is-size-1-mobile is-vbottom-mobile">meowle</h1>
                 </div>
-                <div className="column is-hidden-mobile">
+                <div className="column">
                   <figure className="image is-128x128 is-pulled-right">
                     <img src="/img/cat.png" />
                   </figure>
@@ -48,8 +61,23 @@ export class MainPage extends React.Component {
                       className="input"
                       placeholder="Введите часть имени"
                       autoComplete="off"
-                      onKeyUp={this.onKeyUp.bind(this)}
+                      onKeyUp={this.onKeyUp}
                     />
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="control has-text-centered">
+                    <button
+                      className="button is-light"
+                      type="submit"
+                      disabled={this.isSearchButtonDisabled}
+                      onClick={this.onSearchButtonClick}
+                    >
+                      <span className="icon">
+                        <i className="fa fa-search"></i>
+                      </span>
+                      <span>Найти имя коту</span>
+                    </button>
                   </div>
                 </div>
               </div>
