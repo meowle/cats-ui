@@ -52,7 +52,7 @@ function NoResults(prop) {
             <div className="level">
               <div className="level-item">
                 <figure className="image is-64x64">
-                  <img src="/img/weary-cat.png" />
+                  <img src="/img/weary-cat.png" alt="" />
                 </figure>
               </div>
             </div>
@@ -87,7 +87,7 @@ function Results(props) {
         <div className="columns">
           <div className="column is-2">
             <figure className="image is-64x64 is-pulled-right is-hidden-mobile">
-              <img src="/img/cat.png" />
+              <img src="/img/cat.png" alt="" />
             </figure>
           </div>
           <div className="column">

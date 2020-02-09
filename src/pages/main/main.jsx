@@ -69,7 +69,7 @@ export class MainPage extends React.Component {
                 </div>
                 <div className="column">
                   <figure className="image is-128x128 is-pulled-right">
-                    <img src="/img/cat.png" />
+                    <img src="/img/cat.png" alt="" />
                   </figure>
                 </div>
               </div>
