@@ -1,6 +1,7 @@
 import React from 'react';
 import history from '../../utils/history';
-import './main.css';
+import css from './main.module.css';
+import classNames from 'classnames/bind';
 
 export class MainPage extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ export class MainPage extends React.Component {
       searchName: '',
       some: 2,
     };
+    this.style = classNames.bind(css);
   }
 
   // Template methods
@@ -39,13 +41,29 @@ export class MainPage extends React.Component {
 
   render() {
     return (
-      <section className="section full-size">
-        <div className="container full-size">
-          <div className="columns is-flex-mobile is-centered is-vcentered full-size">
+      <section className={this.style('section', 'full-size')}>
+        <div className={this.style('container', 'full-size')}>
+          <div
+            className={this.style(
+              'columns',
+              'is-flex-mobile',
+              'is-centered',
+              'is-vcentered',
+              'full-size'
+            )}
+          >
             <div className="column is-8">
-              <div className="columns is-mobile header">
+              <div className={this.style('columns', 'is-mobile', 'header')}>
                 <div className="column">
-                  <h1 className="is-size-1-mobile is-vbottom-mobile">meowle</h1>
+                  <h1
+                    className={this.style(
+                      'is-size-1-mobile',
+                      'is-vbottom-mobile',
+                      'title'
+                    )}
+                  >
+                    meowle
+                  </h1>
                 </div>
                 <div className="column">
                   <figure className="image is-128x128 is-pulled-right">
