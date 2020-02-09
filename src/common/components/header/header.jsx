@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import history from '../../../utils/history';
 
-export function Header() {
-  const { query } = useParams();
-  const [searchQuery, setSearchQuery] = useState(query);
+export function Header({ searchValue, onSearch }) {
+  const [searchQuery, setSearchQuery] = useState(searchValue);
   const [isButtonDisabled, setButtonDisabled] = useState(!searchQuery);
 
   function onChangeSearch({ target: { value } }) {
