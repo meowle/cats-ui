@@ -36,7 +36,7 @@ export function CatsList(props) {
   );
 }
 CatsList.propTypes = {
-  searchValue: PropTypes.element.isRequired,
+  searchValue: PropTypes.string.isRequired,
 };
 
 function Error(prop) {
@@ -99,14 +99,14 @@ function Results(props) {
   );
 }
 Results.propTypes = {
-  data: PropTypes.element.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 function Groups(props) {
   return props.groups.map((group, i) => <Group group={group} key={i} />);
 }
 Groups.propTypes = {
-  groups: PropTypes.element.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 function Group({ group: { title, count, cats } }) {
@@ -123,7 +123,7 @@ function Group({ group: { title, count, cats } }) {
   );
 }
 Group.propTypes = {
-  group: PropTypes.element.isRequired,
+  group: PropTypes.object.isRequired,
 };
 
 function Cats(props) {
@@ -132,7 +132,7 @@ function Cats(props) {
   return <div className="tags">{catsEl}</div>;
 }
 Cats.propTypes = {
-  cats: PropTypes.element.isRequired,
+  cats: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 function Cat({ cat: { id, name, gender } }) {
@@ -148,5 +148,5 @@ function Cat({ cat: { id, name, gender } }) {
   );
 }
 Cat.propTypes = {
-  cat: PropTypes.element.isRequired,
+  cat: PropTypes.object.isRequired,
 };
