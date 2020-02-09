@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import history from '../../../utils/history';
 
 export function Header({ searchValue, onSearch }) {
@@ -40,7 +42,7 @@ export function Header({ searchValue, onSearch }) {
               <div className="control">
                 <button className="button" disabled={isButtonDisabled}>
                   <span className="icon">
-                    <i className="fa fa-search"></i>
+                    <FontAwesomeIcon icon={faSearch} />
                   </span>
                 </button>
               </div>

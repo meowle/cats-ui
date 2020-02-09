@@ -2,6 +2,8 @@ import React from 'react';
 import history from '../../utils/history';
 import css from './main.module.css';
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export class MainPage extends React.Component {
   constructor(props) {
@@ -92,7 +94,7 @@ export class MainPage extends React.Component {
                       onClick={this.onSearchButtonClick}
                     >
                       <span className="icon">
-                        <i className="fa fa-search"></i>
+                        <FontAwesomeIcon icon={faSearch} />
                       </span>
                       <span>Найти имя коту</span>
                     </button>
