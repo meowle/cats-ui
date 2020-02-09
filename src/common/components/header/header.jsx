@@ -53,3 +53,7 @@ export function Header({ searchValue, onSearch }) {
     </section>
   );
 }
+Header.propTypes = {
+  searchValue: PropTypes.element.isRequired,
+  onSearch: PropTypes.element.isRequired,
+};

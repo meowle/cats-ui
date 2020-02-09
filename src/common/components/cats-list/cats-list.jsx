@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { CatsApi } from '../../../api/cats';
 import { GenderIcon } from '../gender-icon';
 import style from './cats-list.module.css';
@@ -34,6 +35,9 @@ export function CatsList(props) {
     <NoResults text="Упс! Ничего не нашли" />
   );
 }
+CatsList.propTypes = {
+  searchValue: PropTypes.element.isRequired,
+};
 
 function Error(prop) {
   return <NoResults text="Ошибка загрузки котов"></NoResults>;
@@ -94,10 +98,16 @@ function Results(props) {
     </section>
   );
 }
+Results.propTypes = {
+  data: PropTypes.element.isRequired,
+};
 
 function Groups(props) {
   return props.groups.map((group, i) => <Group group={group} key={i} />);
 }
+Groups.propTypes = {
+  groups: PropTypes.element.isRequired,
+};
 
 function Group({ group: { title, count, cats } }) {
   return (
@@ -112,12 +122,18 @@ function Group({ group: { title, count, cats } }) {
     </div>
   );
 }
+Group.propTypes = {
+  group: PropTypes.element.isRequired,
+};
 
 function Cats(props) {
   const catsEl = props.cats.map(cat => <Cat cat={cat} key={cat.id} />);
 
   return <div className="tags">{catsEl}</div>;
 }
+Cats.propTypes = {
+  cats: PropTypes.element.isRequired,
+};
 
 function Cat({ cat: { id, name, gender } }) {
   const link = `/cats/${id}`;
@@ -131,3 +147,6 @@ function Cat({ cat: { id, name, gender } }) {
     </span>
   );
 }
+Cat.propTypes = {
+  cat: PropTypes.element.isRequired,
+};
