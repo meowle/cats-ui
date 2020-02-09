@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import history from '../../../utils/history';
 
-export function Header({ searchValue, onSearch }) {
+export function Header({ searchValue, onSearch: onSearchHandler }) {
   const [searchQuery, setSearchQuery] = useState(searchValue);
   const [isButtonDisabled, setButtonDisabled] = useState(!searchQuery);
 
@@ -15,7 +15,7 @@ export function Header({ searchValue, onSearch }) {
 
   function onSearch(event) {
     event.preventDefault();
-    history.push(`/search/${searchQuery}`);
+    onSearchHandler(searchQuery);
   }
 
   return (
@@ -54,6 +54,6 @@ export function Header({ searchValue, onSearch }) {
   );
 }
 Header.propTypes = {
-  searchValue: PropTypes.element.isRequired,
-  onSearch: PropTypes.element.isRequired,
+  searchValue: PropTypes.string.isRequired,
+  onSearch: PropTypes.func.isRequired,
 };
