@@ -8,6 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "npm run lint:js",
+    "deploy": "npm run build && tar -zcvf ./tmp/build.tar.gz ./build && scp ./tmp/build.tar.gz root@bobrovartem.ru:/var/www/cats-ui/build/",
     "lint:js": "eslint src/* --ext .js,.jsx",
     "lint:format:fix": "prettier --config ./.prettierrc.yml \"src/**/*.{js,jsx,json,css,scss,md}\" --write"
   },
