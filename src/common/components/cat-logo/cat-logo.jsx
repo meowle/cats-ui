@@ -1,0 +1,31 @@
+import React from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
+export function CatLogo({ size = 's', isRight = true, catType = 'default' }) {
+  const sizeMap = {
+    s: 'is-64x64',
+    l: 'is-128x128',
+  };
+  const catImageMap = {
+    default: 'cat',
+    weary: 'weary-cat',
+  };
+
+  return (
+    <figure
+      className={classNames(
+        'image',
+        { 'is-pulled-right': isRight },
+        sizeMap[size]
+      )}
+    >
+      <img src={`/img/${catImageMap[catType]}.png`} />
+    </figure>
+  );
+}
+CatLogo.propTypes = {
+  size: PropTypes.oneOf(['s', 'l']),
+  isRight: PropTypes.bool,
+  catType: PropTypes.oneOf(['default', 'weary']),
+};

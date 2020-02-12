@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CatsApi } from '../../../api/cats';
+import { CatLogo } from '../cat-logo';
 import { GenderIcon } from '../gender-icon';
 import style from './cats-list.module.css';
 
 export function CatsList(props) {
-  const [isLoading, setLoading] = useState(true);
   const [data, setGroups] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
     CatsApi.search(props.searchValue)
       .then(({ data }) => {
         setGroups(data);
@@ -19,17 +18,12 @@ export function CatsList(props) {
       })
       .catch(error => {
         setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, [props.searchValue]);
 
-  return isLoading ? (
-    <Loading />
-  ) : error ? (
-    <Error error={error} />
-  ) : data.count ? (
+  return error ? (
+    <Error />
+  ) : data?.count ? (
     <Results data={data} />
   ) : (
     <NoResults text="Упс! Ничего не нашли" />
@@ -39,7 +33,7 @@ CatsList.propTypes = {
   searchValue: PropTypes.string.isRequired,
 };
 
-function Error(prop) {
+function Error() {
   return <NoResults text="Ошибка загрузки котов"></NoResults>;
 }
 
@@ -66,29 +60,13 @@ function NoResults(prop) {
   );
 }
 
-function Loading() {
-  return (
-    <div className="container">
-      <div className="columns is-mobile is-centered">
-        <div className="column is-half is-3">
-          <progress className="progress is-small is-info" max="100">
-            30%
-          </progress>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function Results(props) {
   return (
     <section className="section">
       <div className="container">
         <div className="columns">
           <div className="column is-2">
-            <figure className="image is-64x64 is-pulled-right is-hidden-mobile">
-              <img src="/img/cat.png" alt="" />
-            </figure>
+            <CatLogo class="is-hidden-mobile" />
           </div>
           <div className="column">
             <Groups groups={props.data.groups} />
