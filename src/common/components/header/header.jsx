@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import style from './header.module.css';
 
 export function Header({ searchValue, onSearch: onSearchHandler }) {
   const [searchQuery, setSearchQuery] = useState(searchValue);
@@ -19,7 +21,9 @@ export function Header({ searchValue, onSearch: onSearchHandler }) {
   }
 
   return (
-    <section className="section has-background-light">
+    <section
+      className={classnames('section', 'has-background-light', style.header)}
+    >
       <div className="container">
         <div className="columns">
           <div className="column is-2 has-text-right-desktop">
