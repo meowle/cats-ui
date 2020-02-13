@@ -7,10 +7,12 @@ import { GenderIcon } from '../gender-icon';
 import style from './cats-list.module.css';
 
 export function CatsList(props) {
+  const [isLoading, setLoading] = useState(true);
   const [data, setGroups] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     CatsApi.search(props.searchValue)
       .then(({ data }) => {
         setGroups(data);
@@ -18,12 +20,17 @@ export function CatsList(props) {
       })
       .catch(error => {
         setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [props.searchValue]);
 
-  return error ? (
+  return isLoading ? (
+    <></>
+  ) : error ? (
     <Error />
-  ) : data?.count ? (
+  ) : data.count ? (
     <Results data={data} />
   ) : (
     <NoResults text="Упс! Ничего не нашли" />

@@ -20,7 +20,7 @@ export function CatLogo({ size = 's', isRight = true, catType = 'default' }) {
         sizeMap[size]
       )}
     >
-      <img src={`/img/${catImageMap[catType]}.png`} />
+      <img src={`/img/${catImageMap[catType]}.png`} alt="" />
     </figure>
   );
 }
