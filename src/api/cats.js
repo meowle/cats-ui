@@ -66,13 +66,13 @@ export class CatsApi {
   /**
    * Сохранение описания имени кота
    * http://meowle.testops.ru:3001/api-docs-ui/#/default/post_cats_save_description
-   * @param {!number} id ID кота
+   * @param {!number} catId ID кота
    * @param {!string} description Описание имени
    * @returns {Promise<Cat>} Промис с объектом кота
    */
-  static saveDescription(id, description) {
+  static saveDescription(catId, description) {
     return axios.post(`${urls.catsApi}/cats/save-description`, {
-      id,
+      catId,
       catDescription: description,
     });
   }

@@ -12,15 +12,17 @@ export function ProfilePage() {
   const { catId } = useParams();
   const [catInfo, updateInfo] = useState(null);
 
+  const updateInfoHandler = newCatInfo =>
+    updateInfo({ ...catInfo, ...newCatInfo });
+
   useEffect(() => {
     loadCatProfile(catId, updateInfo);
   }, [catId]);
 
   const info = catInfo ? (
-    <Info catInfo={catInfo} path={match.path} />
-  ) : (
-    <div></div>
-  );
+    <Info catInfo={catInfo} path={match.path} updateInfo={updateInfoHandler} />
+  ) : null;
+
   return (
     <>
       <Header />
@@ -33,7 +35,9 @@ function loadCatProfile(id, updateHandler) {
   return CatsApi.getById(id).then(({ data }) => updateHandler(data.cat));
 }
 
-function Info({ catInfo, path }) {
+function Info({ catInfo, path, updateInfo }) {
+  const _onChangeDescription = onChangeDescription.bind(null, updateInfo);
+
   return (
     <section className="section">
       <div className="container">
@@ -45,6 +49,13 @@ function Info({ catInfo, path }) {
             <Switch>
               <Route path={`${path}/edit`}>
                 <Title catInfo={catInfo} />
+                <Description
+                  className="description"
+                  catId={catInfo.id}
+                  text={catInfo.description}
+                  isEdit={true}
+                  onChangeDescription={_onChangeDescription}
+                />
               </Route>
               <Route path={path}>
                 <Title catInfo={catInfo} />
@@ -64,6 +75,7 @@ function Info({ catInfo, path }) {
 Info.propTypes = {
   catInfo: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
+  updateInfo: PropTypes.func.isRequired,
 };
 
 function Title({ catInfo }) {
@@ -78,3 +90,7 @@ function Title({ catInfo }) {
 Title.propTypes = {
   catInfo: PropTypes.object.isRequired,
 };
+
+function onChangeDescription(updateInfoHandler, newDescription) {
+  updateInfoHandler({ description: newDescription });
+}

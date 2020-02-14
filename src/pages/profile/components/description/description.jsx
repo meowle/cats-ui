@@ -1,16 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { CatsApi } from '../../../../api/cats';
+import history from '../../../../utils/history';
 
-const descriptionInfoPropTypes = {
+export function Description({
+  catId,
+  text,
+  isEdit = false,
+  onChangeDescription,
+}) {
+  return isEdit ? (
+    <Form catId={catId} text={text} onChangeDescription={onChangeDescription} />
+  ) : (
+    <Text catId={catId} text={text} />
+  );
+}
+Description.propTypes = {
   catId: PropTypes.number.isRequired,
   text: PropTypes.string,
+  isEdit: PropTypes.bool,
+  onChangeDescription: PropTypes.func,
 };
-
-export function Description({ catId, text }) {
-  return <Text text={text} catId={catId} />;
-}
-Description.propTypes = descriptionInfoPropTypes;
 
 function Text({ catId, text }) {
   const emptyText = 'У этого кота нет описания';
@@ -27,18 +38,20 @@ function Text({ catId, text }) {
     </>
   );
 }
-Text.propTypes = descriptionInfoPropTypes;
+Text.propTypes = {
+  catId: PropTypes.number.isRequired,
+  text: PropTypes.string,
+};
 
-function Form({ catId, text }) {
+function Form({ catId, text, onChangeDescription }) {
   return (
-    <form onSubmit={onSubmitForm}>
+    <form onSubmit={onSubmitForm.bind(null, catId, onChangeDescription)}>
       <textarea
         name="textControl"
         className="textarea"
         placeholder="Введите описание кота"
-      >
-        {text}
-      </textarea>
+        defaultValue={text}
+      ></textarea>
       <br />
       <button className="button is-success is-outlined">
         Сохранить описание
@@ -46,8 +59,20 @@ function Form({ catId, text }) {
     </form>
   );
 }
-Form.propTypes = descriptionInfoPropTypes;
+Form.propTypes = {
+  catId: PropTypes.number.isRequired,
+  text: PropTypes.string,
+  onChangeDescription: PropTypes.func,
+};
 
-function onSubmitForm(event) {
+function onSubmitForm(catId, onChangeDescription, event) {
   event.preventDefault();
+
+  const newDescription = event.target.textControl.value;
+
+  onChangeDescription && onChangeDescription(newDescription);
+
+  CatsApi.saveDescription(catId, newDescription).then(() => {
+    history.push(`/cats/${catId}`);
+  });
 }
