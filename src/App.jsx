@@ -18,9 +18,7 @@ function App() {
           <Route path="/search/:query">
             <SearchPage />
           </Route>
-          <Route path="/cats/:id">
-            <ProfilePage />
-          </Route>
+          <Route path="/cats/:catId" component={ProfilePage} />
           <Route path="*">
             <Redirect to="/" />
           </Route>
