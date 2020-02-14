@@ -3,6 +3,7 @@ import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import history from './utils/history';
 import { MainPage } from './pages/main/main';
 import { SearchPage } from './pages/search/search';
+import { ProfilePage } from './pages/profile/profile';
 import style from './App.module.css';
 
 function App() {
@@ -15,10 +16,11 @@ function App() {
             <MainPage />
           </Route>
           <Route path="/search/:query">
-            <SearchPage></SearchPage>
+            <SearchPage />
           </Route>
+          <Route path="/cats/:catId" component={ProfilePage} />
           <Route path="*">
-            <Redirect to="/"></Redirect>
+            <Redirect to="/" />
           </Route>
         </Switch>
       </Router>

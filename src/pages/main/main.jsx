@@ -1,5 +1,6 @@
 import React from 'react';
 import history from '../../utils/history';
+import { CatLogo } from '../../common/components/cat-logo';
 import css from './main.module.css';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -68,9 +69,7 @@ export class MainPage extends React.Component {
                   </h1>
                 </div>
                 <div className="column">
-                  <figure className="image is-128x128 is-pulled-right">
-                    <img src="/img/cat.png" alt="" />
-                  </figure>
+                  <CatLogo size="l"></CatLogo>
                 </div>
               </div>
               <div>

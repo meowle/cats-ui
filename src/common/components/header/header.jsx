@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import style from './header.module.css';
+import history from '../../../utils/history';
 
-export function Header({ searchValue, onSearch: onSearchHandler }) {
-  const [searchQuery, setSearchQuery] = useState(searchValue);
+export function Header({ searchValue }) {
+  const [searchQuery, setSearchQuery] = useState(searchValue || '');
   const [isButtonDisabled, setButtonDisabled] = useState(!searchQuery);
 
   function onChangeSearch({ target: { value } }) {
@@ -15,11 +18,13 @@ export function Header({ searchValue, onSearch: onSearchHandler }) {
 
   function onSearch(event) {
     event.preventDefault();
-    onSearchHandler(searchQuery);
+    history.push(`/search/${searchQuery}`);
   }
 
   return (
-    <section className="section has-background-light">
+    <section
+      className={classnames('section', 'has-background-light', style.header)}
+    >
       <div className="container">
         <div className="columns">
           <div className="column is-2 has-text-right-desktop">
@@ -54,6 +59,5 @@ export function Header({ searchValue, onSearch: onSearchHandler }) {
   );
 }
 Header.propTypes = {
-  searchValue: PropTypes.string.isRequired,
-  onSearch: PropTypes.func.isRequired,
+  searchValue: PropTypes.string,
 };
