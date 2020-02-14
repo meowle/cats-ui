@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Switch, Route, useRouteMatch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Header } from '../../common/components/header';
 import { CatLogo } from '../../common/components/cat-logo';
 import { GenderIcon } from '../../common/components/gender-icon';
@@ -45,12 +46,12 @@ function Info({ catInfo, path }) {
               <Route path={`${path}/edit`}>
                 <Title catInfo={catInfo} />
               </Route>
-              <Route path={`${path}`}>
+              <Route path={path}>
                 <Title catInfo={catInfo} />
                 <Description
                   className="description"
                   catId={catInfo.id}
-                  description={catInfo.description}
+                  text={catInfo.description}
                 />
               </Route>
             </Switch>
@@ -60,6 +61,10 @@ function Info({ catInfo, path }) {
     </section>
   );
 }
+Info.propTypes = {
+  catInfo: PropTypes.object.isRequired,
+  path: PropTypes.string.isRequired,
+};
 
 function Title({ catInfo }) {
   return (
@@ -70,3 +75,6 @@ function Title({ catInfo }) {
     </div>
   );
 }
+Title.propTypes = {
+  catInfo: PropTypes.object.isRequired,
+};

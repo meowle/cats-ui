@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export function Description({ catId, description }) {
-  return <Text description={description} catId={catId} />;
+const descriptionInfoPropTypes = {
+  catId: PropTypes.number.isRequired,
+  text: PropTypes.string,
+};
+
+export function Description({ catId, text }) {
+  return <Text text={text} catId={catId} />;
 }
+Description.propTypes = descriptionInfoPropTypes;
 
 function Text({ catId, text }) {
   const emptyText = 'У этого кота нет описания';
@@ -20,8 +27,9 @@ function Text({ catId, text }) {
     </>
   );
 }
+Text.propTypes = descriptionInfoPropTypes;
 
-function Form({ id, text }) {
+function Form({ catId, text }) {
   return (
     <form onSubmit={onSubmitForm}>
       <textarea
@@ -38,6 +46,7 @@ function Form({ id, text }) {
     </form>
   );
 }
+Form.propTypes = descriptionInfoPropTypes;
 
 function onSubmitForm(event) {
   event.preventDefault();
