@@ -47,16 +47,3 @@ function Info({ catInfo }) {
     </section>
   );
 }
-
-function emojiButton({ isDisabled, type = 'like', count = 0 }) {
-  const typeMap = {
-    like: '👍',
-    dislike: '👎',
-  };
-
-  return (
-    <button class="button button-like is-light" type="submit" title="Лайкнуть">
-      &nbsp;<span>0</span>
-    </button>
-  );
-}
