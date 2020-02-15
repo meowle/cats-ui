@@ -104,4 +104,7 @@ function GenderInput({ gender, index, state, onChange }) {
 }
 GenderInput.propTypes = {
   gender: PropTypes.oneOf(['male', 'female', 'unisex']),
+  index: PropTypes.number.isRequired,
+  state: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
