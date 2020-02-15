@@ -3,10 +3,10 @@ import history from '../../utils/history';
 import { CatLogo } from '../../common/components/cat-logo';
 import css from './main.module.css';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { withRouter, Link } from 'react-router-dom';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Icon } from '../../common/components/icon/icon';
 
 class MainPageWithoutRoute extends React.Component {
   constructor(props) {
@@ -95,9 +95,7 @@ class MainPageWithoutRoute extends React.Component {
                         disabled={this.isSearchButtonDisabled}
                         onClick={this.onSearchButtonClick}
                       >
-                        <span className="icon">
-                          <FontAwesomeIcon icon={faSearch} />
-                        </span>
+                        <Icon icon={faSearch} />
                         <span>Найти имя коту</span>
                       </button>
                     </div>
@@ -122,9 +120,7 @@ function LinkToAdd() {
       to="/cats/add"
       style={{ position: 'absolute', right: '20px', bottom: '20px' }}
     >
-      <span className="icon">
-        <FontAwesomeIcon icon={faPlus} />
-      </span>
+      <Icon icon={faPlus} />
     </Link>
   );
 }

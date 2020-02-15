@@ -1,56 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from '../modal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import history from '../../../utils/history';
+import { CatsApi } from '../../../api/cats';
+import { Item } from './item';
+
+const newItemData = {
+  name: '',
+  gender: null,
+};
 
 export function AddPopup() {
-  return <Modal title="Добавить имена в базу котиков" bodyComponent={Form()} />;
+  return (
+    <Modal title="Добавить имена в базу котиков" onClose={onClose}>
+      <Form />
+    </Modal>
+  );
 }
 
 function Form() {
+  const [items, setItems] = useState([newItemData]);
+
   return (
     <div className="column">
-      <form>
-        <div className="level add-cat-data">
-          <div className="level-left">
-            <div className="level-item">
-              <div className="control is-expanded">
-                <input
-                  className="input"
-                  type="text"
-                  placeholder="Введите имя"
-                  name="cat-name-0"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="level-right">
-            <div className="level-item">
-              <div className="control">
-                <span className="specify-gender">Укажите пол:</span>
-                <label className="radio">
-                  <input type="radio" name="cat-gender-0" value="female" /> Ж
-                </label>
-                <label className="radio">
-                  <input type="radio" name="cat-gender-0" value="male" /> М
-                </label>
-                <label className="radio">
-                  <input type="radio" name="cat-gender-0" value="unisex" />{' '}
-                  Универс.
-                </label>
-              </div>
-              <div className="control">
-                <button className="button is-light add-new-name">
-                  <span className="icon">
-                    <FontAwesomeIcon icon={faPlus} />
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button className="button is-warning submit-cats">Добавить</button>
+      <form onSubmit={onSubmit.bind(null, items)}>
+        {items.map((state, i) => (
+          <Item
+            key={i}
+            index={i}
+            state={state}
+            isAdd={i === items.length - 1}
+            onChange={onChange.bind(null, items, setItems, i)}
+            onAdd={_ => setItems([...items, newItemData])}
+            onRemove={onRemove.bind(null, items, setItems, i)}
+          />
+        ))}
+        <button className="button is-warning">Добавить</button>
       </form>
     </div>
   );
+}
+
+function onClose() {
+  history.push('/');
+}
+
+function onRemove(items, setItems, index) {
+  const newItems = items.slice();
+
+  newItems.splice(index, 1);
+
+  setItems(newItems);
+}
+
+function onChange(items, setItems, index, newState) {
+  const newItems = items.slice();
+
+  newItems[index] = newState;
+  setItems(newItems);
+}
+
+function onSubmit(state, event) {
+  event.preventDefault();
+
+  CatsApi.add(state).then(_ => {
+    onClose();
+  });
 }

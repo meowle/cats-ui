@@ -2,7 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-export function CatLogo({ size = 's', isRight = true, catType = 'default' }) {
+export function CatLogo({
+  size = 's',
+  isRight = true,
+  catType = 'default',
+  styles = [],
+}) {
   const sizeMap = {
     s: 'is-64x64',
     l: 'is-128x128',
@@ -10,6 +15,7 @@ export function CatLogo({ size = 's', isRight = true, catType = 'default' }) {
   const catImageMap = {
     default: 'cat',
     weary: 'weary-cat',
+    modal: 'cat-modal',
   };
 
   return (
@@ -17,7 +23,8 @@ export function CatLogo({ size = 's', isRight = true, catType = 'default' }) {
       className={classNames(
         'image',
         { 'is-pulled-right': isRight },
-        sizeMap[size]
+        sizeMap[size],
+        ...styles
       )}
     >
       <img src={`/img/${catImageMap[catType]}.png`} alt="" />
@@ -27,5 +34,6 @@ export function CatLogo({ size = 's', isRight = true, catType = 'default' }) {
 CatLogo.propTypes = {
   size: PropTypes.oneOf(['s', 'l']),
   isRight: PropTypes.bool,
-  catType: PropTypes.oneOf(['default', 'weary']),
+  catType: PropTypes.oneOf(['default', 'weary', 'modal']),
+  styles: PropTypes.arrayOf(PropTypes.string),
 };
