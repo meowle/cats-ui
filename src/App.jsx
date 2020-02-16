@@ -30,7 +30,7 @@ function App() {
             <Route path="/search/:query">
               <SearchPage />
             </Route>
-            <Route path="/cats/add">
+            <Route path="/cats/add/:name">
               <MainPage />
               <AddPopup />
             </Route>

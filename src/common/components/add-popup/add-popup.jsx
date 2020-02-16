@@ -7,6 +7,7 @@ import { Item } from './item';
 import { ValidationsContext } from '../../contexts/validations';
 import { getErrorValidation } from '../../../utils/validation';
 import { notify } from '../../../utils/notifications/notifications';
+import { useParams } from 'react-router-dom';
 
 const newItemData = {
   name: '',
@@ -24,7 +25,9 @@ export function AddPopup() {
 }
 
 function Form({ validations }) {
-  const [items, setItems] = useState([newItemData]);
+  const { name } = useParams() || '';
+
+  const [items, setItems] = useState([{ ...newItemData, name }]);
 
   return (
     <div className="column">
