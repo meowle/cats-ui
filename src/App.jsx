@@ -4,6 +4,7 @@ import history from './utils/history';
 import { MainPage } from './pages/main/main';
 import { SearchPage } from './pages/search/search';
 import { ProfilePage } from './pages/profile/profile';
+import { AllNamesPage } from './pages/all-names/all-names';
 import style from './App.module.css';
 import { AddPopup } from './common/components/add-popup/add-popup';
 import { ValidationsContext } from './common/contexts/validations';
@@ -41,6 +42,9 @@ function App() {
               </Route>
             </Route>
             <Route path="/cats/:catId" component={ProfilePage} />
+            <Route path="/all-names">
+              <AllNamesPage />
+            </Route>
             <Route path="*">
               <Redirect to="/" />
             </Route>

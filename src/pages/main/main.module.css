@@ -6,6 +6,10 @@
   font-size: 6rem;
 }
 
+.button, .button:not(:first-child) {
+  margin-left: 1rem;
+}
+
 @media screen and (min-width: 769px) {
   .header {
     margin-bottom: -1.5rem !important;
