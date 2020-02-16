@@ -30,9 +30,15 @@ function App() {
             <Route path="/search/:query">
               <SearchPage />
             </Route>
-            <Route path="/cats/add/:name">
-              <MainPage />
-              <AddPopup />
+            <Route path="/cats/add/">
+              <Route path="/cats/add/" exact={true}>
+                <MainPage />
+                <AddPopup />
+              </Route>
+              <Route path="/cats/add/:name">
+                <MainPage />
+                <AddPopup />
+              </Route>
             </Route>
             <Route path="/cats/:catId" component={ProfilePage} />
             <Route path="*">
