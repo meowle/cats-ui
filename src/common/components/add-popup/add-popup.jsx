@@ -62,7 +62,7 @@ function onRemove(items, setItems, index) {
 }
 
 function onChange(items, setItems, index, validations, newState) {
-  const error = newState.name && getErrorValidation(newState.name, validations);
+  const error = getErrorValidation(newState.name, validations);
 
   if (error) {
     notify.warning(error);

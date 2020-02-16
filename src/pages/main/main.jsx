@@ -29,7 +29,7 @@ class MainPageWithoutRoute extends React.Component {
 
   onChange = event => {
     const newValue = event.target.value;
-    const error = newValue && getErrorValidation(newValue, this.context);
+    const error = getErrorValidation(newValue, this.context);
 
     if (error) {
       notify.warning(error);
