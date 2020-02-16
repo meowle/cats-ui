@@ -46,7 +46,7 @@ function Form({ validations }) {
   );
 }
 Form.propTypes = {
-  validations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  validations: PropTypes.arrayOf(PropTypes.object),
 };
 
 function onClose() {
@@ -62,7 +62,7 @@ function onRemove(items, setItems, index) {
 }
 
 function onChange(items, setItems, index, validations, newState) {
-  const error = getErrorValidation(newState.name, validations);
+  const error = newState.name && getErrorValidation(newState.name, validations);
 
   if (error) {
     notify.warning(error);
@@ -83,9 +83,13 @@ function onSubmit(state, event) {
     return;
   }
 
-  CatsApi.add(state).then(_ => {
-    onClose();
-  });
+  CatsApi.add(state)
+    .then(_ => {
+      onClose();
+    })
+    .catch(message => {
+      notify.error(message || 'Что-то пошло не так');
+    });
 }
 
 function isValidState(state) {

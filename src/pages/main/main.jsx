@@ -42,8 +42,6 @@ class MainPageWithoutRoute extends React.Component {
   onSubmit = event => {
     event.preventDefault();
 
-    console.log('submit1');
-
     this._search();
   };
 
