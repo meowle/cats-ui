@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from '../modal';
 import history from '../../../utils/history';
 import { CatsApi } from '../../../api/cats';
 import { Item } from './item';
+import { ValidationsContext } from '../../contexts/validations';
+import { getErrorValidation } from '../../../utils/validation';
+import { notify } from '../../../utils/notifications/notifications';
 
 const newItemData = {
   name: '',
@@ -12,12 +16,14 @@ const newItemData = {
 export function AddPopup() {
   return (
     <Modal title="Добавить имена в базу котиков" onClose={onClose}>
-      <Form />
+      <ValidationsContext.Consumer>
+        {validations => <Form validations={validations} />}
+      </ValidationsContext.Consumer>
     </Modal>
   );
 }
 
-function Form() {
+function Form({ validations }) {
   const [items, setItems] = useState([newItemData]);
 
   return (
@@ -29,7 +35,7 @@ function Form() {
             index={i}
             state={state}
             isAdd={i === items.length - 1}
-            onChange={onChange.bind(null, items, setItems, i)}
+            onChange={onChange.bind(null, items, setItems, i, validations)}
             onAdd={_ => setItems([...items, newItemData])}
             onRemove={onRemove.bind(null, items, setItems, i)}
           />
@@ -39,6 +45,9 @@ function Form() {
     </div>
   );
 }
+Form.propTypes = {
+  validations: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 function onClose() {
   history.push('/');
@@ -52,7 +61,14 @@ function onRemove(items, setItems, index) {
   setItems(newItems);
 }
 
-function onChange(items, setItems, index, newState) {
+function onChange(items, setItems, index, validations, newState) {
+  const error = getErrorValidation(newState.name, validations);
+
+  if (error) {
+    notify.warning(error);
+    return;
+  }
+
   const newItems = items.slice();
 
   newItems[index] = newState;
@@ -62,7 +78,16 @@ function onChange(items, setItems, index, newState) {
 function onSubmit(state, event) {
   event.preventDefault();
 
+  if (!isValidState(state)) {
+    notify.warning('Заполните всю форму');
+    return;
+  }
+
   CatsApi.add(state).then(_ => {
     onClose();
   });
+}
+
+function isValidState(state) {
+  return state.every(item => item.name && item.gender);
 }
