@@ -80,11 +80,8 @@ Info.propTypes = {
 };
 
 function Title({ catInfo, updateInfo }) {
-  return (
-    <div className="title is-3">
-      Значение имени {catInfo.name}
-      &nbsp;
-      <GenderIcon gender={catInfo.gender} />
+  const likes = updateInfo ? (
+    <>
       <ReactionButton
         catInfo={catInfo}
         type="like"
@@ -95,12 +92,20 @@ function Title({ catInfo, updateInfo }) {
         type="dislike"
         updateCatInfo={updateInfo}
       />
+    </>
+  ) : null;
+  return (
+    <div className="title is-3">
+      Значение имени {catInfo.name}
+      &nbsp;
+      <GenderIcon gender={catInfo.gender} />
+      {likes}
     </div>
   );
 }
 Title.propTypes = {
   catInfo: PropTypes.object.isRequired,
-  updateInfo: PropTypes.func.isRequired,
+  updateInfo: PropTypes.func,
 };
 
 function onChangeDescription(updateInfoHandler, newDescription) {

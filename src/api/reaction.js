@@ -58,7 +58,7 @@ export class ReactionApi {
    * http://meowle.testops.ru:3001/api-docs-ui/#/default/get_cats_dislikes_rating
    * @returns {Promise<array>} Массив объектов с именем и количеством дизлайков
    */
-  static ratingLikes() {
+  static ratingDislikes() {
     return api.get(`/cats/dislikes-rating`);
   }
 }
