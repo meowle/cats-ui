@@ -12,9 +12,11 @@ export class CatsApi {
    * @returns {Promise<Cat>} Промис с объектом кота
    */
   static add(cats) {
-    return axios.post(`${urls.catsApi}/cats/add`, {
-      cats,
-    });
+    return axios
+      .post(`${urls.catsApi}/cats/add`, {
+        cats,
+      })
+      .then(returnResponseData);
   }
 
   /**
@@ -25,10 +27,12 @@ export class CatsApi {
    * @returns {Promise<Groups>} Промис с группировкой имен котов
    */
   static search(name, gender) {
-    return axios.post(`${urls.catsApi}/cats/search`, {
-      name,
-      gender,
-    });
+    return axios
+      .post(`${urls.catsApi}/cats/search`, {
+        name,
+        gender,
+      })
+      .then(returnResponseData);
   }
 
   /**
@@ -38,9 +42,11 @@ export class CatsApi {
    * @returns {Promise<Cat>} Промис с объектом кота
    */
   static getById(id) {
-    return axios.get(`${urls.catsApi}/cats/get-by-id`, {
-      params: { id },
-    });
+    return axios
+      .get(`${urls.catsApi}/cats/get-by-id`, {
+        params: { id },
+      })
+      .then(returnResponseData);
   }
 
   /**
@@ -50,9 +56,11 @@ export class CatsApi {
    * @param {?number=} limit Ограничение количества выходного списка
    */
   static getSuggestions(name, limit) {
-    return axios.get(`${urls.catsApi}/cats/search-pattern`, {
-      params: { name, limit },
-    });
+    return axios
+      .get(`${urls.catsApi}/cats/search-pattern`, {
+        params: { name, limit },
+      })
+      .then(returnResponseData);
   }
 
   /**
@@ -60,7 +68,9 @@ export class CatsApi {
    * @returns {Promise<Validation[]>} Промис со списком с регулярными выражениями
    */
   static getValidations() {
-    return axios.get(`${urls.catsApi}/cats/validation`);
+    return axios
+      .get(`${urls.catsApi}/cats/validation`)
+      .then(returnResponseData);
   }
 
   /**
@@ -71,10 +81,12 @@ export class CatsApi {
    * @returns {Promise<Cat>} Промис с объектом кота
    */
   static saveDescription(catId, description) {
-    return axios.post(`${urls.catsApi}/cats/save-description`, {
-      catId,
-      catDescription: description,
-    });
+    return axios
+      .post(`${urls.catsApi}/cats/save-description`, {
+        catId,
+        catDescription: description,
+      })
+      .then(returnResponseData);
   }
 
   /**
@@ -85,9 +97,15 @@ export class CatsApi {
    * @returns {Promise<Groups>} Промис с группировкой имен котов
    */
   static getAll(order, gender) {
-    return axios.get(`${urls.catsApi}/cats/all`, {
-      order,
-      gender,
-    });
+    return axios
+      .get(`${urls.catsApi}/cats/all`, {
+        order,
+        gender,
+      })
+      .then(returnResponseData);
   }
+}
+
+function returnResponseData({ data }) {
+  return data;
 }

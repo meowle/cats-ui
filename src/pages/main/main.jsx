@@ -7,6 +7,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { withRouter, Link } from 'react-router-dom';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Icon } from '../../common/components/icon/icon';
+import { ValidationsContext } from '../../common/contexts/validations';
+import { getErrorValidation } from '../../utils/validation';
+import { notify } from '../../utils/notifications/notifications';
 
 class MainPageWithoutRoute extends React.Component {
   constructor(props) {
@@ -24,16 +27,24 @@ class MainPageWithoutRoute extends React.Component {
     return !this.state.searchName;
   }
 
-  onSearchButtonClick = () => {
-    this._search();
+  onChange = event => {
+    const newValue = event.target.value;
+    const error = newValue && getErrorValidation(newValue, this.context);
+
+    if (error) {
+      notify.warning(error);
+
+      return;
+    }
+    this.setState({ searchName: newValue });
   };
 
-  onKeyUp = event => {
-    this.setState({ searchName: event.target.value });
+  onSubmit = event => {
+    event.preventDefault();
 
-    if (event.key === 'Enter') {
-      this._search();
-    }
+    console.log('submit1');
+
+    this._search();
   };
 
   // Private methods
@@ -58,7 +69,7 @@ class MainPageWithoutRoute extends React.Component {
                 'full-size'
               )}
             >
-              <div className="column is-8">
+              <form onSubmit={this.onSubmit} className="column is-8">
                 <div className={this.style('columns', 'is-mobile', 'header')}>
                   <div className="column">
                     <h1
@@ -83,7 +94,9 @@ class MainPageWithoutRoute extends React.Component {
                         className="input"
                         placeholder="Введите часть имени"
                         autoComplete="off"
-                        onKeyUp={this.onKeyUp}
+                        disabled={!this.context}
+                        value={this.state.searchName}
+                        onChange={this.onChange}
                       />
                     </div>
                   </div>
@@ -93,7 +106,6 @@ class MainPageWithoutRoute extends React.Component {
                         className="button is-light"
                         type="submit"
                         disabled={this.isSearchButtonDisabled}
-                        onClick={this.onSearchButtonClick}
                       >
                         <Icon icon={faSearch} />
                         <span>Найти имя коту</span>
@@ -101,7 +113,7 @@ class MainPageWithoutRoute extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </section>
@@ -110,6 +122,7 @@ class MainPageWithoutRoute extends React.Component {
     );
   }
 }
+MainPageWithoutRoute.contextType = ValidationsContext;
 
 export const MainPage = withRouter(MainPageWithoutRoute);
 

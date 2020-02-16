@@ -14,7 +14,7 @@ export function CatsList(props) {
   useEffect(() => {
     setLoading(true);
     CatsApi.search(props.searchValue)
-      .then(({ data }) => {
+      .then(data => {
         setGroups(data);
         setError(null);
       })
