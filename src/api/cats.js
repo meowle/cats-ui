@@ -1,5 +1,7 @@
-import axios from 'axios';
 import { urls } from '../config';
+import { getApiInstance } from '../utils/api';
+
+const api = getApiInstance(urls.catsApi);
 
 export class CatsApi {
   /**
@@ -12,7 +14,7 @@ export class CatsApi {
    * @returns {Promise<Cat>} Промис с объектом кота
    */
   static add(cats) {
-    return axios.post(`${urls.catsApi}/cats/add`, {
+    return api.post('/cats/add', {
       cats,
     });
   }
@@ -25,7 +27,7 @@ export class CatsApi {
    * @returns {Promise<Groups>} Промис с группировкой имен котов
    */
   static search(name, gender) {
-    return axios.post(`${urls.catsApi}/cats/search`, {
+    return api.post('/cats/search', {
       name,
       gender,
     });
@@ -38,7 +40,7 @@ export class CatsApi {
    * @returns {Promise<Cat>} Промис с объектом кота
    */
   static getById(id) {
-    return axios.get(`${urls.catsApi}/cats/get-by-id`, {
+    return api.get('/cats/get-by-id', {
       params: { id },
     });
   }
@@ -50,7 +52,7 @@ export class CatsApi {
    * @param {?number=} limit Ограничение количества выходного списка
    */
   static getSuggestions(name, limit) {
-    return axios.get(`${urls.catsApi}/cats/search-pattern`, {
+    return api.get('/cats/search-pattern', {
       params: { name, limit },
     });
   }
@@ -60,7 +62,7 @@ export class CatsApi {
    * @returns {Promise<Validation[]>} Промис со списком с регулярными выражениями
    */
   static getValidations() {
-    return axios.get(`${urls.catsApi}/cats/validation`);
+    return api.get('/cats/validation');
   }
 
   /**
@@ -71,7 +73,7 @@ export class CatsApi {
    * @returns {Promise<Cat>} Промис с объектом кота
    */
   static saveDescription(catId, description) {
-    return axios.post(`${urls.catsApi}/cats/save-description`, {
+    return api.post('/cats/save-description', {
       catId,
       catDescription: description,
     });
@@ -85,7 +87,7 @@ export class CatsApi {
    * @returns {Promise<Groups>} Промис с группировкой имен котов
    */
   static getAll(order, gender) {
-    return axios.get(`${urls.catsApi}/cats/all`, {
+    return api.get('/cats/all', {
       order,
       gender,
     });

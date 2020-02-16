@@ -32,7 +32,7 @@ export function ProfilePage() {
 }
 
 function loadCatProfile(id, updateHandler) {
-  return CatsApi.getById(id).then(({ data }) => updateHandler(data.cat));
+  return CatsApi.getById(id).then(({ cat }) => updateHandler(cat));
 }
 
 function Info({ catInfo, path, updateInfo }) {

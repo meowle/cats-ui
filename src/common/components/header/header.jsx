@@ -6,12 +6,22 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import style from './header.module.css';
 import history from '../../../utils/history';
 import { Icon } from '../icon/icon';
+import { getErrorValidation } from '../../../utils/validation';
+import { notify } from '../../../utils/notifications/notifications';
 
-export function Header({ searchValue }) {
+export function Header({ searchValue, validations }) {
   const [searchQuery, setSearchQuery] = useState(searchValue || '');
   const [isButtonDisabled, setButtonDisabled] = useState(!searchQuery);
 
   function onChangeSearch({ target: { value } }) {
+    const error = getErrorValidation(value, validations);
+
+    if (error) {
+      notify.warning(error);
+
+      return;
+    }
+
     setSearchQuery(value);
     setButtonDisabled(!value);
   }
@@ -58,4 +68,5 @@ export function Header({ searchValue }) {
 }
 Header.propTypes = {
   searchValue: PropTypes.string,
+  validations: PropTypes.arrayOf(PropTypes.object),
 };
