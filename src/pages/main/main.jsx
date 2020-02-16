@@ -27,6 +27,26 @@ class MainPageWithoutRoute extends React.Component {
     return !this.state.searchName;
   }
 
+  get buttons() {
+    const className = classNames('button', 'is-light', css.button);
+    return (
+      <>
+        <button
+          className={className}
+          type="submit"
+          disabled={this.isSearchButtonDisabled}
+        >
+          <Icon icon={faSearch} />
+          <span>Найти имя коту</span>
+        </button>
+        <Link to="/all-names" className={className}>
+          <Icon icon={faSearch} />
+          <span>Все имена</span>
+        </Link>
+      </>
+    );
+  }
+
   onChange = event => {
     const newValue = event.target.value;
     const error = getErrorValidation(newValue, this.context);
@@ -100,14 +120,7 @@ class MainPageWithoutRoute extends React.Component {
                   </div>
                   <div className="field">
                     <div className="control has-text-centered">
-                      <button
-                        className="button is-light"
-                        type="submit"
-                        disabled={this.isSearchButtonDisabled}
-                      >
-                        <Icon icon={faSearch} />
-                        <span>Найти имя коту</span>
-                      </button>
+                      {this.buttons}
                     </div>
                   </div>
                 </div>

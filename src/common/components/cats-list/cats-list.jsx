@@ -12,8 +12,12 @@ export function CatsList({ searchValue }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const apiMethod = searchValue
+      ? CatsApi.search(searchValue)
+      : CatsApi.getAll();
+
     setLoading(true);
-    CatsApi.search(searchValue)
+    apiMethod
       .then(data => {
         setGroups(data);
         setError(null);
@@ -26,20 +30,16 @@ export function CatsList({ searchValue }) {
       });
   }, [searchValue]);
 
-  return isLoading ? (
-    <></>
-  ) : error ? (
+  return isLoading ? null : error ? (
     <Error />
   ) : data.count ? (
     <Results data={data} />
-  ) : (
-    <>
-      <NoResults text="Упс! Ничего не нашли" name={searchValue} />
-    </>
-  );
+  ) : searchValue ? (
+    <NoResults text="Упс! Ничего не нашли" name={searchValue} />
+  ) : null;
 }
 CatsList.propTypes = {
-  searchValue: PropTypes.string.isRequired,
+  searchValue: PropTypes.string,
 };
 
 function Error() {
