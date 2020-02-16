@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import style from './header.module.css';
 import history from '../../../utils/history';
+import { Icon } from '../icon/icon';
 
 export function Header({ searchValue }) {
   const [searchQuery, setSearchQuery] = useState(searchValue || '');
@@ -46,9 +46,7 @@ export function Header({ searchValue }) {
               </div>
               <div className="control">
                 <button className="button" disabled={isButtonDisabled}>
-                  <span className="icon">
-                    <FontAwesomeIcon icon={faSearch} />
-                  </span>
+                  <Icon icon={faSearch} />
                 </button>
               </div>
             </form>

@@ -5,6 +5,7 @@ import { MainPage } from './pages/main/main';
 import { SearchPage } from './pages/search/search';
 import { ProfilePage } from './pages/profile/profile';
 import style from './App.module.css';
+import { AddPopup } from './common/components/add-popup/add-popup';
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
           </Route>
           <Route path="/search/:query">
             <SearchPage />
+          </Route>
+          <Route path="/cats/add">
+            <MainPage />
+            <AddPopup />
           </Route>
           <Route path="/cats/:catId" component={ProfilePage} />
           <Route path="*">
