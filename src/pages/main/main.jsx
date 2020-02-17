@@ -3,7 +3,11 @@ import history from '../../utils/history';
 import { CatLogo } from '../../common/components/cat-logo';
 import css from './main.module.css';
 import classNames from 'classnames/bind';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faHeart,
+  faHeartBroken,
+} from '@fortawesome/free-solid-svg-icons';
 import { withRouter, Link } from 'react-router-dom';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Icon } from '../../common/components/icon/icon';
@@ -42,6 +46,14 @@ class MainPageWithoutRoute extends React.Component {
         <Link to="/all-names" className={className}>
           <Icon icon={faSearch} />
           <span>Все имена</span>
+        </Link>
+        <Link to="/top-names" className={className}>
+          <Icon icon={faHeart} />
+          <span>ТОП-10 имён</span>
+        </Link>
+        <Link to="/anti-top-names" className={className}>
+          <Icon icon={faHeartBroken} />
+          <span>АнтиТОП-10 имён</span>
         </Link>
       </>
     );

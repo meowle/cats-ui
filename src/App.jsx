@@ -5,6 +5,7 @@ import { MainPage } from './pages/main/main';
 import { SearchPage } from './pages/search/search';
 import { ProfilePage } from './pages/profile/profile';
 import { AllNamesPage } from './pages/all-names/all-names';
+import { RatingNamesPage } from './pages/rating-names/rating-names';
 import style from './App.module.css';
 import { AddPopup } from './common/components/add-popup/add-popup';
 import { ValidationsContext } from './common/contexts/validations';
@@ -44,6 +45,12 @@ function App() {
             <Route path="/cats/:catId" component={ProfilePage} />
             <Route path="/all-names">
               <AllNamesPage />
+            </Route>
+            <Route path="/top-names">
+              <RatingNamesPage type="top" />
+            </Route>
+            <Route path="/anti-top-names">
+              <RatingNamesPage type="anti-top" />
             </Route>
             <Route path="*">
               <Redirect to="/" />

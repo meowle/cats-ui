@@ -8,6 +8,7 @@
 
 .button, .button:not(:first-child) {
   margin-left: 1rem;
+  margin-bottom: 1rem;
 }
 
 @media screen and (min-width: 769px) {

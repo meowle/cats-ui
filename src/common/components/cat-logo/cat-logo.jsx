@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import style from './cat-logo.module.css';
 
 export function CatLogo({
   size = 's',
@@ -9,8 +10,8 @@ export function CatLogo({
   styles = [],
 }) {
   const sizeMap = {
-    s: 'is-64x64',
-    l: 'is-128x128',
+    s: style.small,
+    l: style.large,
   };
   const catImageMap = {
     default: 'cat',
