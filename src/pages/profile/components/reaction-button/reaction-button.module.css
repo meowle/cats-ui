@@ -2,6 +2,6 @@ button.is-reacted {
     background-color: #dbdbdb;
 }
 
-.reaction-button {
+.reaction-button, .reaction-button:active {
     margin-left: 10px;
 }

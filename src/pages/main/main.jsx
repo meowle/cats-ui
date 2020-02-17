@@ -7,9 +7,9 @@ import {
   faSearch,
   faHeart,
   faHeartBroken,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { withRouter, Link } from 'react-router-dom';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Icon } from '../../common/components/icon/icon';
 import { ValidationsContext } from '../../common/contexts/validations';
 import { getErrorValidation } from '../../utils/validation';

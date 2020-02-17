@@ -50,7 +50,7 @@ function App() {
               <RatingNamesPage type="top" />
             </Route>
             <Route path="/anti-top-names">
-              <RatingNamesPage type="anti-top" />
+              <RatingNamesPage type="antiTop" />
             </Route>
             <Route path="*">
               <Redirect to="/" />

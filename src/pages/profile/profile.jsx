@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Switch, Route, useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Header } from '../../common/components/header';
 import { CatLogo } from '../../common/components/cat-logo';
 import { GenderIcon } from '../../common/components/gender-icon';
 import { CatsApi } from '../../api/cats';
 import { Description } from './components/description';
 import { ReactionButton } from './components/reaction-button/reaction-button';
+import style from './profile.module.css';
 
 export function ProfilePage() {
   const match = useRouteMatch();
@@ -95,7 +97,7 @@ function Title({ catInfo, updateInfo }) {
     </>
   ) : null;
   return (
-    <div className="title is-3">
+    <div className={classNames('title', 'is-3', style.title)}>
       Значение имени {catInfo.name}
       &nbsp;
       <GenderIcon gender={catInfo.gender} />

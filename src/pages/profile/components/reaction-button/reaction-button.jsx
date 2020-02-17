@@ -5,10 +5,12 @@ import { ReactionApi } from '../../../../api/reaction';
 import { storage } from '../../../../utils/storage';
 import { notify } from '../../../../utils/notifications/notifications';
 import styles from './reaction-button.module.css';
+import { Icon } from '../../../../common/components/icon/icon';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 
 const emojiMap = {
-  like: '👍',
-  dislike: '👎',
+  like: faThumbsUp,
+  dislike: faThumbsDown,
 };
 const titleMap = {
   like: 'Лайкнуть',
@@ -50,14 +52,21 @@ export function ReactionButton({ catInfo, type = 'like', updateCatInfo }) {
 
   return (
     <button
-      className={classNames('button', styles['reaction-button'], styleReacted, {
-        'is-loading': isLoading,
-      })}
+      className={classNames(
+        'button',
+        'is-small',
+        styles['reaction-button'],
+        styleReacted,
+        {
+          'is-loading': isLoading,
+        }
+      )}
       type="button"
       title={titleMap[type]}
       onClick={onClick}
     >
-      {emojiMap[type]}&nbsp;<span>{catInfo[countField[type]]}</span>
+      <Icon icon={emojiMap[type]} />
+      &nbsp;<span>{catInfo[countField[type]]}</span>
     </button>
   );
 }
