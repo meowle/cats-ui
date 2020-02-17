@@ -4,7 +4,6 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { ReactionApi } from '../../api/reaction';
 import { notify } from '../../utils/notifications/notifications';
 import { Header } from '../../common/components/header';
-import { ValidationsContext } from '../../common/contexts/validations';
 import { CatLogo } from '../../common/components/cat-logo';
 import { Icon } from '../../common/components/icon/icon';
 import style from './rating-names.module.css';
@@ -30,9 +29,7 @@ export function RatingNamesPage({ type }) {
 
   return (
     <>
-      <ValidationsContext.Consumer>
-        {validations => <Header validations={validations}></Header>}
-      </ValidationsContext.Consumer>
+      <Header />
       <NamesList type={type} items={items} />
     </>
   );
@@ -98,6 +95,6 @@ function Item({ type, number, name, count }) {
 Item.propTypes = {
   type: PropTypes.oneOf(['top', 'antiTop']).isRequired,
   number: PropTypes.number.isRequired,
-  name: PropTypes.name.isRequired,
+  name: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
 };

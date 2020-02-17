@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -8,8 +8,10 @@ import history from '../../../utils/history';
 import { Icon } from '../icon/icon';
 import { getErrorValidation } from '../../../utils/validation';
 import { notify } from '../../../utils/notifications/notifications';
+import { ValidationsContext } from '../../contexts/validations';
 
-export function Header({ searchValue, validations }) {
+export function Header({ searchValue }) {
+  const validations = useContext(ValidationsContext);
   const [searchQuery, setSearchQuery] = useState(searchValue || '');
   const [isButtonDisabled, setButtonDisabled] = useState(!searchQuery);
 
@@ -68,5 +70,4 @@ export function Header({ searchValue, validations }) {
 }
 Header.propTypes = {
   searchValue: PropTypes.string,
-  validations: PropTypes.arrayOf(PropTypes.object),
 };
