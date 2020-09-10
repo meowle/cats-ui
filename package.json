@@ -25,7 +25,7 @@
     "escape-regex-string": "^1.0.6",
     "express": "^4.16.3",
     "express-pino-logger": "^4.0.0",
-    "http-proxy": "^1.17.0",
+    "http-proxy": "^1.18.1",
     "node-fetch": "^2.2.0",
     "pino": "^5.13.4",
     "pug": "^2.0.3",
