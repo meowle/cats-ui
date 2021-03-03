@@ -28,7 +28,7 @@
     "http-proxy": "^1.17.0",
     "node-fetch": "^2.2.0",
     "pino": "^5.13.4",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
